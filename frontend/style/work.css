@@ -1,20 +1,16 @@
 body {
-    display: flex;
     justify-content: center;
-    align-items: center;
-    background-color: silver;
-    background-image:
-        radial-gradient(circle at 100% 150%, silver 24%, white 24%, white 28%, silver 28%, silver 36%, white 36%, white 40%, transparent 40%, transparent),
-        radial-gradient(circle at 0 150%, silver 24%, white 24%, white 28%, silver 28%, silver 36%, white 36%, white 40%, transparent 40%, transparent),
-        radial-gradient(circle at 50% 100%, white 10%, silver 10%, silver 23%, white 23%, white 30%, silver 30%, silver 43%, white 43%, white 50%, silver 50%, silver 63%, white 63%, white 71%, transparent 71%, transparent),
-        radial-gradient(circle at 100% 50%, white 5%, silver 5%, silver 15%, white 15%, white 20%, silver 20%, silver 29%, white 29%, white 34%, silver 34%, silver 44%, white 44%, white 49%, transparent 49%, transparent),
-        radial-gradient(circle at 0 50%, white 5%, silver 5%, silver 15%, white 15%, white 20%, silver 20%, silver 29%, white 29%, white 34%, silver 34%, silver 44%, white 44%, white 49%, transparent 49%, transparent);
-    background-size: 200px 100px;
+    background:
+        linear-gradient(teal, transparent),
+        linear-gradient(to top left, purple, transparent),
+        linear-gradient(to top right, blue, transparent);
+    background-blend-mode: screen;
 }
 
 #panel {
+    min-width: 400px;
     padding: 30px;
-    background: #FEFEFE;
+    background: #FDFDFD;
     box-shadow: 0px 2px 4px rgba(10, 10, 10, 0.3);
     font-family: Inter, Helvetica, Arial, sans-serif;
     border-radius: 15px;
@@ -24,20 +20,20 @@ body {
     display: block;
 }
 
-#title {
-    text-align: center;
-    font-weight: lighter;
+label {
+    font-size: larger;
 }
 
-label {
-    font-size: large;
+input[name="f-name"],
+input[name="l-name"] {
+    width: 70%;
 }
 
 input {
-    font-size: larger;
-    width: 300px;
+    font-size: large;
+    width: 90%;
     border-radius: 5px;
-    padding: 5px;
+    padding: 7px;
     margin: 10px 0px 10px 0px;
     background: #FAFAFA;
 }

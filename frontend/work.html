@@ -8,10 +8,11 @@
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap&text=Supplend" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet">
 
+        <link rel="stylesheet" href="style/default.css">
         <link rel="stylesheet" href="style/work.css">
-        <link rel="stylesheet" href="style/reset.css">
         <script src="script/work.js"></script>
 
         <meta name="description"
@@ -46,12 +47,18 @@
             <!--Logo goes here-->
             <h1 id="title">Supplend</h1>
             <h2>Sign up</h2>
+            <label for="f-name">First name:</label>
+            <input type="text" id="f-name" name="f-name" placeholder="e.g. Amelia" />
+            <label for="l-name">Last name:</label>
+            <input type="text" id="l-name" name="l-name" placeholder="e.g. Wilson" />
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" />
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" />
+            <input type="email" id="email" name="email" placeholder="e.g. amelia.wilson@gmail.com" />
+            <label for="pwd">Password:</label>
+            <input type="password" id="pwd" name="pwd" placeholder="Alphanumeric, case-sensitive, symbols" />
+            <label for="pwd">Password repeat:</label>
+            <input type="password" id="pwd-rep" name="pwd-rep" />
             <div id="pwd-strength">
-                <p>Password strength.</p>
+                <p>Password strength: Good</p>
             </div>
         </div>
         <div id="footer-wrapper">
