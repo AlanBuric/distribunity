@@ -1,52 +1,66 @@
 <script setup>
-  // function getLanguage() {
-  //   let result = new Set(navigator?.languages)
-  //               .union(new Set(navigator ? [navigator.language, navigator.browserLanguage, 
-  //               navigator.userLanguage, navigator.systemLanguage] : []));
+  import { navigate } from '@/shared';
+  import { ref } from 'vue'
 
-  //   result.delete(undefined);
+  const theme = ref("light");
 
-  //   if (result.size == 0) {
-  //     result.add("en");
-  //   }
-
-  //   return result;
-  // }
-
-  const availableLocales = {
-    "en": "English",
-    "hr": "Hrvatski"
-  };
-
+  function isThemeDark() {
+    return theme.value === "dark";
+  }
 </script>
 
 <template>
-  <nav>
-    <button @click="$router.push('/')">Home</button>
-    <button @click="$router.push('/news')">News</button>
-    <button @click="$router.push('/support')">Support</button>
-    <!-- <input id="search-bar" type="text" placeholder="Search.."> -->
-    <button @click="$router.push('/login')">Log in</button>
-    <button @click="$router.push('/signup')">Sign up for free</button>
-    <select @v-model="locale" name="locale" id="locale-sel">
+  <nav class="page-inner">
+    <button @click="navigate('/')" :class="{ active: $route.path === '/' }">Home</button>
+    <button @click="navigate('/news')" :class="{ active: $route.path === '/news' }">News</button>
+    <button @click="navigate('/resources')" :class="{ active: $route.path === '/resources' }">Resources</button>
+    <button @click="navigate('/login')" :class="{ active: $route.path === '/login' }">Log in</button>
+    <button @click="navigate('/signup')" :class="{ active: $route.path === '/signup' }">Sign up</button>
+    <!-- <select @v-model="locale" name="locale" id="locale-sel">
       <option value={{locale}}>{{ localeDisplay }}</option>
       <option value="hr">Hrvatski (HR)</option>
-    </select>
-    <button id="btn-theme">Theme</button>
+    </select> -->
+    <!-- <button id="btn-theme">Theme</button> -->
+    <button id="lang-btn">EN</button>
+    <label class="theme-switch">
+      <input type="checkbox" :checked="isThemeDark">
+      <span class="slider"></span>
+    </label>
   </nav>
 </template>
 
 <style scoped>
+  nav {
+    display: flex;
+    place-content: center;
+  }
+
   nav > * {
     height: 100%;
     border: none;
     border-bottom: 5px solid rgb(133, 236, 250);
     font-size: 1.2em;
     padding: 10px;
+    flex: 1;
   }
 
-  button:hover {
-    background-color: #20a7dd;
-    color: #f9fdff;
+  button {
+    background: #0091bd;
+    background: linear-gradient(0deg, #0091bd 0%, #00b7bd 100%);
+    color: #FBFBFB;
+  }
+
+  @media (hover: hover) {
+    button:hover {
+      background: #0091bd;
+      color: #f9fdff;
+    }
+  }
+
+  .active {
+    /* background: #017bac; */
+    background: #0091bd;
+    background: linear-gradient(0deg, #0040bd 0%, #0091bd 100%);
+    color: #fdfeff;
   }
 </style>

@@ -37,20 +37,22 @@
 </script>
 
 <template>
-    <div id="panel">
-        <h2>Create an account</h2>
-        <label for="f-name">First name:</label>
-        <input type="text" id="f-name" name="f-name" placeholder="e.g. Amelia" />
-        <label for="l-name">Last name:</label>
-        <input type="text" id="l-name" name="l-name" placeholder="e.g. Wilson" />
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="e.g. amelia.wilson@gmail.com" />
-        <label for="pwd">Password:</label>
-        <input type="password" id="pwd" name="pwd" placeholder="Alphanumeric, case-sensitive, symbols" />
-        <label for="pwd">Password repeat:</label>
-        <input type="password" id="pwd-rep" name="pwd-rep" />
-        <div id="pwd-strength">
-            <p>Password strength: Good</p>
+    <div id="signup">
+        <div id="panel">
+            <h2>Create an account</h2>
+            <label for="f-name">First name:</label>
+            <input type="text" id="f-name" name="f-name" placeholder="e.g. Amelia" />
+            <label for="l-name">Last name:</label>
+            <input type="text" id="l-name" name="l-name" placeholder="e.g. Wilson" />
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="e.g. amelia.wilson@gmail.com" />
+            <label for="pwd">Password:</label>
+            <input type="password" id="pwd" name="pwd" placeholder="Alphanumeric, case-sensitive, symbols" />
+            <label for="pwd">Password repeat:</label>
+            <input type="password" id="pwd-rep" name="pwd-rep" />
+            <div id="pwd-strength">
+                <p>Password strength: Good</p>
+            </div>
         </div>
     </div>
 </template>
@@ -64,6 +66,14 @@
         border-radius: 15px;
         display: flex;
         flex-direction: column;
+        margin: 30px;
+    }
+
+    #signup {
+        display: flex;
+        place-content: center;
+        place-items: center;
+        flex: 1
     }
 
     h2 {
@@ -87,5 +97,6 @@
     input:focus {
         background: #EDEDED;
         border-style: solid;
+        transition: 0.1s;
     }
 </style>

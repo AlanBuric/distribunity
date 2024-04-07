@@ -16,9 +16,9 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/support',
-      name: 'support',
-      component: () => import('../views/SupportView.vue')
+      path: '/resources',
+      name: 'resources',
+      component: () => import('../views/ResourcesView.vue')
     },
     {
       path: '/news',
@@ -36,6 +36,6 @@ const router = createRouter({
       component: () => import('../views/SignupView.vue')
     }
   ]
-})
+});
 
 export default router

@@ -6,7 +6,7 @@
 
 <template>
   <TopBar />
-  <main>
+  <main class="page-inner">
     <RouterView />
   </main>
   <MainFooter />
@@ -14,10 +14,12 @@
 
 <style scoped>
   main {
-    grid-area: main;
     display: flex;
     flex-direction: column;
-    place-items: center;
-    place-content: center;
+    /* place-items: center; */
+    flex-grow: 1;
+    /*border-left: 1px solid #9e9e9e;
+    border-right: 1px solid #9e9e9e;*/
+    background: var(--color-background-mute);
   }
 </style>

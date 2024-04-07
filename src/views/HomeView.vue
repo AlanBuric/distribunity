@@ -1,7 +1,13 @@
 <script setup>
-  import TheHome from '../components/main/TheHome.vue'
+  import HomeIntro from '@/components/main/home/HomeIntro.vue';
+  import ComingSoon from '@/components/main/home/ComingSoon.vue';
+  // import HomeItem from '@/components/main/HomeItem.vue';
+  // import PanelButton from '@/components/main/PanelButton.vue';
 </script>
 
 <template>
-  <TheHome />
+  <HomeIntro />
+  <ComingSoon />
 </template>
+
+<style scoped></style>
