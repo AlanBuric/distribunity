@@ -1,19 +1,31 @@
 <script setup>
-    import { ref } from 'vue'
+    import { ref } from 'vue';
+    import { navigate } from '@/shared';
+    import { useRoute } from "vue-router";
+    const route = useRoute();
 
+    var postsPerPage = 10;
     const posts = ref([
         { id: 1, date: new Date(2024, 3, 7, 12, 0), title: 'Welcome to Supplend!' },
         { id: 2, date: new Date(2024, 3, 14, 14, 23), title: 'Supplend planned as a Mobile and Desktop application' }
     ]);
+
+    function isPrevOK() {
+        return route.params.page > 1;
+    }
+
+    function isNextOK() {
+        return route.params.page < Math.ceil(posts.value.length / postsPerPage);
+    }
 </script>
 
 <template>
     <div id="news">
         <h3>You've arrived at the beginning of history!</h3>
         <div id="page-controls">
-            <button>Previous</button>
-            <button>Back to top</button>
-            <button>Next</button>
+            <button v-if="isPrevOK()" @click="navigate(`/news/${parseInt($route.params.page) - 1}`)">Previous</button>
+            <button onClick="document.getElementById('#top-bar')?.focus()">Back to top</button>
+            <button v-if="isNextOK()" @click="navigate(`/news/${parseInt($route.params.page) + 1}`)">Next</button>
         </div>
     </div>
 </template>

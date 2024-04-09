@@ -1,5 +1,5 @@
 <script setup>
-    import HomeItem from '../HomeItem.vue';
+    import HomeItem from './HomeItem.vue';
     import PanelButton from '@/components/main/PanelButton.vue';
 </script>
 
@@ -21,5 +21,11 @@
         justify-content: space-evenly;
         align-items: center;
         padding: 20px;
+    }
+
+    @media (max-width: 992px) {
+        #coming-soon {
+            flex-direction: column-reverse;
+        }
     }
 </style>

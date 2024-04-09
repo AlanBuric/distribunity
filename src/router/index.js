@@ -21,7 +21,7 @@ const router = createRouter({
       component: () => import('../views/ResourcesView.vue')
     },
     {
-      path: '/news',
+      path: '/news/:page',
       name: 'news',
       component: () => import('../views/NewsView.vue')
     },

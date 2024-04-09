@@ -7,3 +7,5 @@ import router from './router'
 const app = createApp(App)
 
 app.use(router).mount('#app')
+
+console.log("Snooping around, are we?");

@@ -1,18 +1,12 @@
 <script setup>
   import { navigate } from '@/shared';
-  import { ref } from 'vue'
-
-  const theme = ref("light");
-
-  function isThemeDark() {
-    return theme.value === "dark";
-  }
+  import NavAccessibility from './NavAccessibility.vue';
 </script>
 
 <template>
-  <nav class="page-inner">
+  <nav>
     <button @click="navigate('/')" :class="{ active: $route.path === '/' }">Home</button>
-    <button @click="navigate('/news')" :class="{ active: $route.path === '/news' }">News</button>
+    <button @click="navigate('/news/1')" :class="{ active: $route.path === '/news' }">News</button>
     <button @click="navigate('/resources')" :class="{ active: $route.path === '/resources' }">Resources</button>
     <button @click="navigate('/login')" :class="{ active: $route.path === '/login' }">Log in</button>
     <button @click="navigate('/signup')" :class="{ active: $route.path === '/signup' }">Sign up</button>
@@ -21,15 +15,11 @@
       <option value="hr">Hrvatski (HR)</option>
     </select> -->
     <!-- <button id="btn-theme">Theme</button> -->
-    <button id="lang-btn">EN</button>
-    <label class="theme-switch">
-      <input type="checkbox" :checked="isThemeDark">
-      <span class="slider"></span>
-    </label>
+    <NavAccessibility />
   </nav>
 </template>
 
-<style scoped>
+<style>
   nav {
     display: flex;
     place-content: center;
@@ -40,7 +30,7 @@
     border: none;
     border-bottom: 5px solid rgb(133, 236, 250);
     font-size: 1.2em;
-    padding: 10px;
+    padding: 0.7em 0.1em;
     flex: 1;
   }
 

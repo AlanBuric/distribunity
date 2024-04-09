@@ -10,11 +10,11 @@
                 <SupplendLogo width="100px" />
                 <div id="title-block">
                     <h1 id="title">Supplend</h1>
-                    <h4 id="title-quote">Inventory management done right.</h4>
+                    <p id="title-quote">Inventory management done right.</p>
                 </div>
             </header>
         </div>
-        <NavigationBar />
+        <NavigationBar class="page-inner"/>
     </div>
 </template>
 
@@ -33,13 +33,14 @@
         flex-wrap: wrap;
         box-shadow: 0px 2px 5px rgba(40, 40, 40, 0.2);
         background: var(--color-background-soft);
+        z-index: 100;
     }
 
     header,
     #title-block {
         display: flex;
         place-content: center;
-        padding: 10px;
+        padding: 1em;
     }
 
     header {
@@ -59,5 +60,6 @@
 
     #title-block > * {
         user-select: none;
+        margin: 0;
     }
 </style>

@@ -3,7 +3,6 @@ import router from '@/router/index';
 export function navigate(route) {
     router.push(route);
 }
-
 // <!-- <script setup>
 //   function getLanguage() {
 //     let result = new Set(navigator.languages)
