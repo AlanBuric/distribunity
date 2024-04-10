@@ -1,0 +1,21 @@
+<template>
+    <main>
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <td>Paper</td>
+                <td>100</td>
+                <td>$0.01</td>
+                <td>
+                    <button>+</button>
+                </td>
+            </tr>
+        </table>
+    </main>
+</template>

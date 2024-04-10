@@ -19,13 +19,13 @@
   </nav>
 </template>
 
-<style>
+<style scoped>
   nav {
     display: flex;
     place-content: center;
   }
 
-  nav > * {
+  nav button {
     height: 100%;
     border: none;
     border-bottom: 5px solid rgb(133, 236, 250);
@@ -34,7 +34,7 @@
     flex: 1;
   }
 
-  button {
+  nav button {
     background: #0091bd;
     background: linear-gradient(0deg, #0091bd 0%, #00b7bd 100%);
     color: #FBFBFB;

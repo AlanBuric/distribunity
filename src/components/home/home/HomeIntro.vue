@@ -1,7 +1,7 @@
 <script setup>
     import { navigate } from '@/shared';
     import HomeItem from './HomeItem.vue';
-    import PanelButton from '@/components/main/PanelButton.vue';
+    import PanelButton from '@/components/home/PanelButton.vue';
 </script>
 
 <template>

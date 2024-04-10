@@ -1,7 +1,7 @@
 <script setup>
-  import HomeIntro from '@/components/main/home/HomeIntro.vue';
-  import ComingSoon from '@/components/main/home/ComingSoon.vue';
-  import FAQOffer from '@/components/main/home/FAQOffer.vue';
+  import HomeIntro from '@/components/home/home/HomeIntro.vue';
+  import ComingSoon from '@/components/home/home/ComingSoon.vue';
+  import FAQOffer from '@/components/home/home/FAQOffer.vue';
   // import HomeItem from '@/components/main/HomeItem.vue';
   // import PanelButton from '@/components/main/PanelButton.vue';
 </script>

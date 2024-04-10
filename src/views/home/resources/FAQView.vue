@@ -1,6 +1,6 @@
 <script setup>
   // import { navigate } from '@/shared';
-  import PanelButton from '@/components/main/PanelButton.vue';
+  import PanelButton from '@/components/home/PanelButton.vue';
 </script>
 
 <template>
@@ -8,7 +8,7 @@
     <h2>FAQ</h2>
     <div>
       <h3><i class="arrow right"></i> What is Supplend?</h3>
-      <p>Supplend is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software">inventory management
+      <p>Supplend is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software" target="_blank">inventory management
           software</a>
         web application intended for inventory administrators and their employees, providing features such as tracking
         item

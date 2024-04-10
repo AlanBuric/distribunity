@@ -8,6 +8,8 @@
     //     return theme.value === "dark";
     // }
 
+    // e.g. :checked="isThemeDark">
+
     // function isBig() {
     //     return getComputedStyle(document.body).getPropertyValue('--width-breakpoint') > 992;
     // }
@@ -17,7 +19,7 @@
 <template>
     <button id="lang-btn">EN</button>
     <label class="switch">
-        <input type="checkbox" :checked="isThemeDark">
+        <input type="checkbox" checked>
         <span class="slider round"></span>
     </label>
     <button>
