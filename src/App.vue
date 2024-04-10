@@ -12,7 +12,7 @@
   <MainFooter />
 </template>
 
-<style scoped>
+<style>
   main {
     display: flex;
     flex-direction: column;
@@ -21,5 +21,15 @@
     /*border-left: 1px solid #9e9e9e;
     border-right: 1px solid #9e9e9e;*/
     background: var(--color-background-mute);
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    src: url(@/assets/fonts/Inter-variable.woff2) format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Pattaya';
+    src: url(@/assets/fonts/Pattaya-minified.woff2) format('woff2');
   }
 </style>
