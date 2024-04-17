@@ -11,10 +11,10 @@
         },
         "home": {
             "title1": "Vrijeme je da se riješite proračunskih tablica i papira.",
-            "par1": "Supplend se brine za sve promjene u skladištu, detaljima and praćenju robe.",
+            "par1": "Distribunity se brine za sve promjene u skladištu, detaljima and praćenju robe.",
             "btn1": "Besplatno napravite novi račun",
             "title2": "Uskoro stiže na vaša računala i pametne telefone!",
-            "par2": "Planiramo razviti Supplend kao zasebnu instaliranu aplikaciju za vaše uređaje.",
+            "par2": "Planiramo razviti Distribunity kao zasebnu instaliranu aplikaciju za vaše uređaje.",
             "btn2": "Obavijestite me o tome"
         },
         "news": {
@@ -23,7 +23,5 @@
             "next": "Slijedeća"
         }
     },
-    "app": {
-
-    }
+    "app": {}
 }

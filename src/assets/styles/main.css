@@ -93,17 +93,6 @@ button {
   padding: 7px;
 }
 
-body::-webkit-scrollbar {
-  background: #e7e7e7;
-  width: 15px;
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: #00b7bd;
-  border-radius: 10px;
-  box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.5), inset -1px -1px 1px 0 rgba(0, 0, 0, 0.5);
-}
-
 @media (hover: hover) {
   a:hover {
     background-color: rgba(0, 145, 189, 0.2);
@@ -113,5 +102,23 @@ body::-webkit-scrollbar-thumb {
 @media (max-width: var(--width-breakpoint)) {
   html {
     font-size: 9pt;
+  }
+}
+
+/* @supports (scrollbar-color: auto) {
+  body {
+    scrollbar-color: #e7e7e7 #00b7bd;
+  }
+} */
+
+@supports selector(::-webkit-scrollbar) {
+  body::-webkit-scrollbar {
+    background: #e7e7e7;
+    width: 15px;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background-color: #00b7bd;
+    border-radius: 10px;
   }
 }

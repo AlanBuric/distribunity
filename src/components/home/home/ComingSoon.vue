@@ -8,7 +8,7 @@
         <img src="@/assets/phone-example.png">
         <div>
             <h2>Coming soon to your Desktop and Mobile platforms!</h2>
-            <p>We're planning to port Supplend as a standalone installed app for your devices.</p>
+            <p>We're planning to port Distribunity as a standalone installed app for your devices.</p>
             <PanelButton>Notify me when it happens</PanelButton>
         </div>
     </HomeItem>

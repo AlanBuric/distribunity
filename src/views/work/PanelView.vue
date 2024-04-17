@@ -23,8 +23,8 @@
     #app {
         display: grid;
         grid-template-columns: 0.5fr 1.5fr 0.7fr 1.3fr;
-        grid-template-rows: 0.5fr 1.5fr 1fr 1fr;
-        gap: 0px 0px;
+        grid-template-rows: 0.3fr 1.5fr 1fr 1fr;
+        gap: 10px 10px;
         grid-template-areas:
             "navbar navbar navbar navbar"
             "other inventory inventory editor"
@@ -37,21 +37,26 @@
     #app > * {
         padding: 10px;
         border: 1px solid #dadada;
+        background: #fdfdfd;
     }
 
     #other {
         grid-area: other;
+        border-radius: 12px 12px 0px 0px;
     }
 
     #navbar {
         grid-area: navbar;
+        border-radius: 0px 0px 12px 12px;
     }
 
     #editor {
         grid-area: editor;
+        border-radius: 12px 12px 0px 0px;
     }
 
     #inventory {
         grid-area: inventory;
+        border-radius: 12px 12px 0px 0px;
     }
 </style>

@@ -1,5 +1,5 @@
 <script setup>
-    import SupplendLogo from '../icons/SupplendLogo.vue';
+    import Logo from '../icons/Logo.vue';
     import NavigationBar from './NavigationBar.vue';
 </script>
 
@@ -7,14 +7,14 @@
     <div id="top-bar">
         <div id="first-line" class="page-inner">
             <header>
-                <SupplendLogo width="100px" />
+                <Logo width="100px" />
                 <div id="title-block">
-                    <h1 id="title">Supplend</h1>
+                    <h1 id="title">Distribunity</h1>
                     <p id="title-quote">Inventory management done right.</p>
                 </div>
             </header>
         </div>
-        <NavigationBar class="page-inner"/>
+        <NavigationBar class="page-inner" />
     </div>
 </template>
 

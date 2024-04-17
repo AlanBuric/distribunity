@@ -8,7 +8,7 @@
     <HomeItem id="intro">
         <div id="intro-overtext">
             <h2 style="font-size: 2.2rem">It's time do ditch the spreadsheets and pen & paper.</h2>
-            <p style="font-size: 1.3rem;"><b>Supplend</b> takes care of all the inventory changes,
+            <p style="font-size: 1.3rem;"><b>Distribunity</b> takes care of all the inventory changes,
                 details and item tracking in one place.</p>
             <PanelButton @click="navigate('/signup')" style="font-size: 1.5rem;">Sign up for free
             </PanelButton>
@@ -18,7 +18,7 @@
 
 <style scoped>
     #intro {
-        background-image: url('@/assets/inventory-background.jpg');
+        background-image: url('@/assets/inventory-background.webp');
         background-position: center;
     }
 

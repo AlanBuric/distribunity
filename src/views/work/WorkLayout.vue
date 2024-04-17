@@ -9,6 +9,10 @@
 </template>
 
 <style>
+    body {
+        background: #2c7d8b;
+    }
+
     * {
         font-weight: normal;
     }

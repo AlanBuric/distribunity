@@ -7,8 +7,8 @@
   <div id="resources">
     <h2>FAQ</h2>
     <div>
-      <h3><i class="arrow right"></i> What is Supplend?</h3>
-      <p>Supplend is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software" target="_blank">inventory management
+      <h3><i class="arrow right"></i> What is Distribunity?</h3>
+      <p>Distribunity is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software" target="_blank">inventory management
           software</a>
         web application intended for inventory administrators and their employees, providing features such as tracking
         item
@@ -16,7 +16,7 @@
         etc.</p>
     </div>
     <div>
-      <h3><i class="arrow right"></i> Is Supplend paid for?</h3>
+      <h3><i class="arrow right"></i> Is Distribunity paid for?</h3>
       <p></p>
     </div>
     <h2>Still having trouble?</h2>

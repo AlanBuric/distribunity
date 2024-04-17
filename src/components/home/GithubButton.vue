@@ -4,7 +4,7 @@
 </script>
 
 <template>
-    <button onclick="window.open('https://github.com/AlanBuric/supplend', '_blank').focus()">
+    <button onclick="window.open('https://github.com/AlanBuric/distribunity', '_blank').focus()">
         <GithubIcon />
     </button>
 </template>
