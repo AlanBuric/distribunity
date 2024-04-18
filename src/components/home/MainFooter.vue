@@ -1,11 +1,13 @@
 <template>
     <div id="footer-wrapper">
+        <hr>
         <footer class="page-inner">
             <div>
-                <h4>Sitemap</h4>
+                <h4>Legal</h4>
                 <ul>
                     <li><a href="">Terms of Service</a></li>
                     <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">Cookie Policy</a></li>
                     <li><a href="">Impressum</a></li>
                 </ul>
             </div>
@@ -18,6 +20,9 @@
         background: #1F1F1F;
         min-height: 200px;
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        place-items: center;
     }
 
     footer {
@@ -35,5 +40,9 @@
     h4,
     li {
         color: #a0a0a0;
+    }
+
+    hr {
+        border: 2px solid #888;
     }
 </style>

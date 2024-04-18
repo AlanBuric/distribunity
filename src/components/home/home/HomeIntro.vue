@@ -1,19 +1,15 @@
 <script setup>
-    import { navigate } from '@/shared';
-    import HomeItem from './HomeItem.vue';
-    import PanelButton from '@/components/home/PanelButton.vue';
 </script>
 
 <template>
-    <HomeItem id="intro">
+    <div id="intro">
         <div id="intro-overtext">
-            <h2 style="font-size: 2.2rem">It's time do ditch the spreadsheets and pen & paper.</h2>
+            <h2 style="font-size: 2.2rem; margin-top: 0;">It's time do ditch the spreadsheets and pen & paper.</h2>
             <p style="font-size: 1.3rem;"><b>Distribunity</b> takes care of all the inventory changes,
                 details and item tracking in one place.</p>
-            <PanelButton @click="navigate('/signup')" style="font-size: 1.5rem;">Sign up for free
-            </PanelButton>
+            <RouterLink class="home-btn" to="/signup" style="margin-top: 5em">Sign up for free</RouterLink>
         </div>
-    </HomeItem>
+    </div>
 </template>
 
 <style scoped>

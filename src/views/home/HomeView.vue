@@ -3,18 +3,16 @@
   import ComingSoon from '@/components/home/home/ComingSoon.vue';
   import SolutionInfo from '@/components/home/home/SolutionInfo.vue';
   import FAQOffer from '@/components/home/home/FAQOffer.vue';
-  // import HomeItem from '@/components/main/HomeItem.vue';
-  // import PanelButton from '@/components/main/PanelButton.vue';
 </script>
 
 <template>
-  <HomeIntro />
+  <HomeIntro></HomeIntro>
   <hr>
   <SolutionInfo></SolutionInfo>
   <hr>
-  <ComingSoon />
+  <ComingSoon></ComingSoon>
   <hr>
-  <FAQOffer />
+  <FAQOffer></FAQOffer>
 </template>
 
 <style scoped>

@@ -1,3 +1,4 @@
+
 <script>
     /**
      * const input = document.querySelector("input");
@@ -14,7 +15,7 @@
     const numberRegEx = /[0-9]/;
     const symbolRegEx = /[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/;
     const minPasswordLength = 8;
-
+    // TODO: see input tag pattern attribute
     function getStrength(password = "") {
         if (password.length < minPasswordLength) {
             return 0;
@@ -38,22 +39,30 @@
 
 <template>
     <div id="signup">
-        <div id="panel">
+        <form id="panel">
             <h2>Create an account</h2>
+
             <label for="f-name">First name:</label>
-            <input type="text" id="f-name" name="f-name" placeholder="e.g. Amelia" />
+            <input @keydown="nextInput" type="text" id="f-name" name="f-name" placeholder="e.g. Amelia" required>
+
             <label for="l-name">Last name:</label>
-            <input type="text" id="l-name" name="l-name" placeholder="e.g. Wilson" />
+            <input @keydown="nextInput" type="text" id="l-name" name="l-name" placeholder="e.g. Wilson">
+
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="e.g. amelia.wilson@gmail.com" />
+            <input @keydown="nextInput" type="email" id="email" name="email" placeholder="e.g. amelia.wilson@gmail.com"
+                required>
+
             <label for="pwd">Password:</label>
-            <input type="password" id="pwd" name="pwd" placeholder="Alphanumeric, case-sensitive, symbols" />
-            <label for="pwd">Password repeat:</label>
-            <input type="password" id="pwd-rep" name="pwd-rep" />
-            <div id="pwd-strength">
-                <p>Password strength: Good</p>
-            </div>
-        </div>
+            <input @keydown="nextInput" type="new-password" id="pwd" name="pwd" placeholder="New password" required>
+
+            <label for="pwd">Confirm password:</label>
+            <input @keydown="nextInput" type="new-password" id="pwd-rep" name="pwd-rep" placeholder="Repeat password"
+                required>
+
+            <span id="pwd-strength">Password strength: Good</span>
+
+            <input type="submit" value="Sign up">
+        </form>
     </div>
 </template>
 

@@ -32,7 +32,7 @@
         place-items: center;
         flex-wrap: wrap;
         box-shadow: 0px 2px 5px rgba(40, 40, 40, 0.2);
-        background: var(--color-background-soft);
+        background: var(--color-background);
         z-index: 100;
     }
 
@@ -46,6 +46,7 @@
     header {
         flex-wrap: wrap;
         flex-grow: 1;
+        align-items: center;
     }
 
     #title-block {

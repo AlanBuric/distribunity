@@ -1,14 +1,12 @@
 <script setup>
-    import PanelButton from '../PanelButton.vue';
-    import { navigate } from '@/shared';
 </script>
 
 <template>
     <div>
         <h2>Looking for something else?</h2>
-        <PanelButton @click="navigate('/resources')">
+        <RouterLink class="home-btn" to="/resources">
             Visit FAQ ➝
-        </PanelButton>
+        </RouterLink>
     </div>
 </template>
 

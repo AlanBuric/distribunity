@@ -1,6 +1,4 @@
 <script setup>
-  // import { navigate } from '@/shared';
-  import PanelButton from '@/components/home/PanelButton.vue';
 </script>
 
 <template>
@@ -8,7 +6,8 @@
     <h2>FAQ</h2>
     <div>
       <h3><i class="arrow right"></i> What is Distribunity?</h3>
-      <p>Distribunity is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software" target="_blank">inventory management
+      <p>Distribunity is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software"
+          target="_blank">inventory management
           software</a>
         web application intended for inventory administrators and their employees, providing features such as tracking
         item
@@ -20,9 +19,9 @@
       <p></p>
     </div>
     <h2>Still having trouble?</h2>
-    <PanelButton onclick="window.open('mailto:aburic1@unipu.student.hr');" style="margin-left: 0px;">
+    <button class="home-btn" onclick="window.open('mailto:aburic1@unipu.student.hr');" style="margin-left: 0px;">
       Contact us
-    </PanelButton>
+    </button>
   </div>
 </template>
 

@@ -29,6 +29,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      alias: ['/home'],
       name: 'home-view',
       component: () => import('@/views/home/HomeLayout.vue'),
       children: [
@@ -62,7 +63,7 @@ const router = createRouter({
           ]
         },
         {
-          path: 'news/:page',
+          path: 'news',
           name: 'news',
           component: () => import('@/views/home/NewsView.vue')
         },
@@ -77,6 +78,10 @@ const router = createRouter({
           component: () => import('@/views/home/SignupView.vue')
         },
       ],
+    },
+    {
+      path: '/news',
+      redirect: '/news?page=1'
     },
     {
       path: '/work',

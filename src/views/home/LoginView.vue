@@ -19,29 +19,35 @@
 
 <template>
     <div id="login">
-        <form id="panel">
-            <h2>Welcome back! Log in.</h2>
+        <form>
+            <h2>Welcome back!</h2>
+
             <label for="f-name">First name:</label>
-            <input @keydown="nextInput" type="text" id="f-name" name="f-name" placeholder="e.g. Amelia" />
+            <input @keydown="nextInput" type="text" id="f-name" name="f-name" placeholder="e.g. Amelia" required autocapitalize>
+
             <label for="l-name">Last name:</label>
-            <input @keydown="nextInput" type="text" id="l-name" name="l-name" placeholder="e.g. Wilson" />
+            <input @keydown="nextInput" type="text" id="l-name" name="l-name" placeholder="e.g. Wilson" required autocapitalize>
+
             <label for="email">Email:</label>
-            <input @keydown="nextInput" type="email" id="email" name="email"
-                placeholder="e.g. amelia.wilson@gmail.com" />
+            <input @keydown="nextInput" type="email" id="email" name="email" placeholder="e.g. amelia.wilson@gmail.com"
+                required>
+
             <label for="pwd">Password:</label>
-            <input @keydown="nextInput" type="password" id="pwd" name="pwd"
-                placeholder="Alphanumeric, case-sensitive, symbols" />
-            <label for="pwd">Password repeat:</label>
-            <input @keydown="nextInput" type="password" id="pwd-rep" name="pwd-rep"
-                placeholder="For security, repeat the previous." />
+            <input @keydown="nextInput" type="new-password" id="pwd" name="pwd" placeholder="New password" required>
+
+            <label for="pwd-rep">Confirm password:</label>
+            <input @keydown="nextInput" type="new-password" id="pwd-rep" name="pwd-rep" placeholder="Repeat password"
+                required>
+
             <span id="pwd-strength">Password strength: Good</span>
-            <input type="submit" value="">
+
+            <input type="submit" value="Log in">
         </form>
     </div>
 </template>
 
 <style scoped>
-    #panel {
+    form {
         width: 500px;
         padding: 30px;
         background: #FDFDFD;

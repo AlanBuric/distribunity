@@ -1,16 +1,15 @@
 <script setup>
     import Logo from '@/components/icons/Logo.vue';
-    import { navigate } from '@/shared';
 </script>
 
 <template>
     <nav>
         <a>Accessibility</a>
-        <a href="/resources">Help</a>
-        <button id="profile-btn" @click="navigate('/settings')">
+        <RouterLink href="/resources">Help</RouterLink>
+        <RouterLink id="profile-btn" to="/settings">
             <Logo width="100px" />
             <span style="margin: 5px; font-size: 0.8rem; text-align: center; display: block;">Name Surname</span>
-        </button>
+        </RouterLink>
     </nav>
 </template>
 
