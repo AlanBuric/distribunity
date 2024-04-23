@@ -20,7 +20,7 @@
 </script>
 
 <template>
-    <div id="news">
+    <main class="page-inner main-style">
         <h3>You've arrived at the beginning of history!</h3>
         <div id="page-controls">
             <RouterLink class="home-btn" v-if="prevPageExists()"
@@ -31,11 +31,11 @@
                 :to="{ name: 'news', query: { page: parseInt($route.query.page) + 1 } }">Next
             </RouterLink>
         </div>
-    </div>
+    </main>
 </template>
 
 <style scoped>
-    #news {
+    main {
         display: flex;
         flex-direction: column;
         place-items: center;
@@ -51,5 +51,6 @@
     #page-controls * {
         font-size: 1.2em;
         padding: 0.6em 0.7em;
+        margin: 0;
     }
 </style>

@@ -2,16 +2,16 @@
 </script>
 
 <template>
-    <div>
+    <section>
         <h2>Looking for something else?</h2>
         <RouterLink class="home-btn" to="/resources">
             Visit FAQ ➝
         </RouterLink>
-    </div>
+    </section>
 </template>
 
 <style scoped>
-    div {
+    section {
         padding: 20px;
         display: flex;
         flex-direction: column;

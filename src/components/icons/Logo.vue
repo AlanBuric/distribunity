@@ -1,7 +1,7 @@
 <!-- Note: both width and height properties need to be overriden when necessary. -->
 <!-- Functional header: alt="Distribunity logo, white letter S inside an aquamarine hexagon" viewBox="0 -8 125 150" -->
 <template>
-    <svg width="100%" height="100%" viewBox="0 0 81.172 81.172" xmlns:xlink="http://www.w3.org/1999/xlink"
+    <svg width="100%" viewBox="0 0 81.172 81.172" xmlns:xlink="http://www.w3.org/1999/xlink"
         xmlns="http://www.w3.org/2000/svg">
         <defs>
             <radialGradient xlink:href="#a" id="b" cx="-105.352" cy="-53.014" fx="-105.352" fy="-53.014" r="132.164"

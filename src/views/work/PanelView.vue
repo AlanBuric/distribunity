@@ -1,7 +1,7 @@
 <script setup>
     import ItemEditor from '@/components/work/ItemEditor.vue';
     import ItemList from '@/components/work/ItemList.vue';
-    import Navbar from './panel/Navbar.vue';
+    import Navbar from '../../components/work/Navbar.vue';
 </script>
 
 <template>
@@ -24,7 +24,7 @@
         display: grid;
         grid-template-columns: 0.5fr 1.5fr 0.7fr 1.3fr;
         grid-template-rows: 0.3fr 1.5fr 1fr 1fr;
-        gap: 10px 10px;
+        gap: 30px 10px;
         grid-template-areas:
             "navbar navbar navbar navbar"
             "other inventory inventory editor"
@@ -38,6 +38,7 @@
         padding: 10px;
         border: 1px solid #dadada;
         background: #fdfdfd;
+        box-shadow: -2px 2px 4px rgba(10, 10, 10, 0.5);
     }
 
     #other {
@@ -58,5 +59,10 @@
     #inventory {
         grid-area: inventory;
         border-radius: 12px 12px 0px 0px;
+    }
+
+    #inventory, #editor, #other {
+        border: 1px solid #c4c4c4;
+        background: #f1f1f1;
     }
 </style>

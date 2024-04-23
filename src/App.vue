@@ -7,7 +7,7 @@
 </template>
 
 <style>
-  /* latin-ext */
+  /* Latin-ext */
   @font-face {
     font-family: 'Inter';
     font-style: normal;
@@ -17,7 +17,7 @@
     unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
   }
 
-  /* latin */
+  /* Latin */
   @font-face {
     font-family: 'Inter';
     font-style: normal;

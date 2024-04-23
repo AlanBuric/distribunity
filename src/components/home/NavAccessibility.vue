@@ -18,7 +18,7 @@
 
 <template>
     <button id="lang-btn">EN</button>
-    <label class="switch">
+    <label role="switch" class="switch">
         <input type="checkbox" checked>
         <span class="slider round"></span>
     </label>

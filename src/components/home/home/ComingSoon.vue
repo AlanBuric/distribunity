@@ -1,20 +1,21 @@
 <script setup>
     import NewsletterButton from './NewsletterButton.vue';
+    // See: addEventListener(..., {once: true})
 </script>
 
 <template>
-    <div id="coming-soon">
+    <section>
         <img src="@/assets/phone-example.png">
         <div>
             <h2>Coming soon to your Desktop and Mobile platforms!</h2>
             <p>We're planning to port Distribunity as a standalone installed app for your devices.</p>
             <NewsletterButton>Notify me when it happens</NewsletterButton>
         </div>
-    </div>
+    </section>
 </template>
 
 <style scoped>
-    #coming-soon {
+    section {
         display: flex;
         width: 100%;
         justify-content: space-evenly;
@@ -26,8 +27,13 @@
         font-size: 1.1em;
     }
 
-    @media (max-width: 992px) {
-        #coming-soon {
+    img {
+        width: 25%;
+        max-width: 300px;
+    }
+
+    @media screen and (max-width: 992px) {
+        section {
             flex-direction: column-reverse;
         }
     }

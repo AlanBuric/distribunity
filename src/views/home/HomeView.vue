@@ -6,17 +6,10 @@
 </script>
 
 <template>
-  <HomeIntro></HomeIntro>
-  <hr>
-  <SolutionInfo></SolutionInfo>
-  <hr>
-  <ComingSoon></ComingSoon>
-  <hr>
-  <FAQOffer></FAQOffer>
+  <main class="page-inner">
+    <HomeIntro class="main-style"></HomeIntro>
+    <SolutionInfo class="main-style"></SolutionInfo>
+    <ComingSoon class="main-style"></ComingSoon>
+    <FAQOffer class="main-style"></FAQOffer>
+  </main>
 </template>
-
-<style scoped>
-  hr {
-    border: 2px solid #CCC;
-  }
-</style>

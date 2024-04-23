@@ -2,6 +2,10 @@
     export default {
         methods: {
             nextInput(event) {
+                if (event.key !== "Enter" && event.key !== "ArrowRight") {
+                    return;
+                }
+
                 let el = event.target.nextSibling;
 
                 while (el && el.nodeName !== "INPUT") {
@@ -18,32 +22,21 @@
 </script>
 
 <template>
-    <div id="login">
+    <main>
         <form>
             <h2>Welcome back!</h2>
 
-            <label for="f-name">First name:</label>
-            <input @keydown="nextInput" type="text" id="f-name" name="f-name" placeholder="e.g. Amelia" required autocapitalize>
-
-            <label for="l-name">Last name:</label>
-            <input @keydown="nextInput" type="text" id="l-name" name="l-name" placeholder="e.g. Wilson" required autocapitalize>
-
             <label for="email">Email:</label>
             <input @keydown="nextInput" type="email" id="email" name="email" placeholder="e.g. amelia.wilson@gmail.com"
-                required>
+                autocomplete="email" required>
 
             <label for="pwd">Password:</label>
-            <input @keydown="nextInput" type="new-password" id="pwd" name="pwd" placeholder="New password" required>
-
-            <label for="pwd-rep">Confirm password:</label>
-            <input @keydown="nextInput" type="new-password" id="pwd-rep" name="pwd-rep" placeholder="Repeat password"
-                required>
-
-            <span id="pwd-strength">Password strength: Good</span>
+            <input @keydown="nextInput" type="password" id="pwd" name="pwd" placeholder="New password"
+                autocomplete="current-password" required>
 
             <input type="submit" value="Log in">
         </form>
-    </div>
+    </main>
 </template>
 
 <style scoped>
