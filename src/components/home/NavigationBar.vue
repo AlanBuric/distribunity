@@ -7,7 +7,8 @@
     <RouterLink class="nav-link" to="/signup">Sign up</RouterLink>
     <div class="vr"></div>
     <form>
-      <input placeholder="Search..." type="text">
+      <input name="search" placeholder="Search..." type="text">
+      <input type="submit">
     </form>
   </nav>
 </template>
@@ -29,29 +30,14 @@
   }
 
   .vr {
-    height: 50%;
+    height: 80px;
     border-left: 1px solid #888;
-  }
-
-  input {
-    padding: 7px 4px;
-    border: 1px solid #AAA;
-    font-size: 1em;
-    width: 100%;
-  }
-
-  input:hover {
-    outline: 1px solid #6b6b6b;
-  }
-
-  input:focus {
-    outline: 1px solid #1a1a1a;
   }
 
   .nav-link {
     text-align: center;
-    padding: 0.8em 0.4em;
-    font-size: 1.1em;
+    padding: 0.8rem 0.4rem;
+    font-size: 1.1rem;
     border-radius: 20px;
   }
 

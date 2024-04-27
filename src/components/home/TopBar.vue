@@ -5,10 +5,8 @@
 
 <template>
     <div role="banner">
-        <div class="page-inner" id="bar-inner">
-            <NavHeader></NavHeader>
-            <NavigationBar></NavigationBar>
-        </div>
+        <NavHeader></NavHeader>
+        <NavigationBar></NavigationBar>
     </div>
 </template>
 
@@ -16,18 +14,20 @@
     [role="banner"] {
         width: 100%;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         box-shadow: 0px 2px 5px rgba(40, 40, 40, 0.2);
         background: var(--color-background);
         z-index: 100;
-        padding: 8px 0;
+        padding: 8px 10px;
         margin-bottom: 40px;
+        flex-wrap: wrap;
     }
 
     #bar-inner {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
+        align-items: center;
     }
 
     @media screen and (max-width: 1200px) {

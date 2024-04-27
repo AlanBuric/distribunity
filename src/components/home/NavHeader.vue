@@ -5,7 +5,7 @@
 <template>
     <RouterLink to="/" style="width: fit-content">
         <header title="Take me back home">
-            <Logo width="6.2em" />
+            <Logo width="5em" />
             <div>
                 <h1>Distribunity</h1>
                 <p id="title-quote">Inventory management done right.</p>
@@ -25,7 +25,7 @@
         display: flex;
         place-content: center;
         flex-direction: column;
-        padding: 1em;
+        padding: 0.6em 1em;
     }
 
     h1 {
