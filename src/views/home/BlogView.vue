@@ -23,12 +23,12 @@
     <main class="page-inner main-style">
         <h3>You've arrived at the beginning of history!</h3>
         <div id="page-controls">
-            <RouterLink class="home-btn" v-if="prevPageExists()"
-                :to="{ name: 'news', query: { page: parseInt($route.query.page) - 1 } }">
+            <RouterLink class="primary-btn" v-if="prevPageExists()"
+                :to="{ name: 'blog', query: { page: parseInt($route.query.page) - 1 } }">
                 Previous</RouterLink>
-            <button class="home-btn" onClick="document.getElementById('#top-bar')?.focus()">Back to top</button>
-            <RouterLink class="home-btn" v-if="nextPageExists()"
-                :to="{ name: 'news', query: { page: parseInt($route.query.page) + 1 } }">Next
+            <button class="primary-btn" onClick="document.getElementById('#top-bar')?.focus()">Back to top</button>
+            <RouterLink class="primary-btn" v-if="nextPageExists()"
+                :to="{ name: 'blog', query: { page: parseInt($route.query.page) + 1 } }">Next
             </RouterLink>
         </div>
     </main>

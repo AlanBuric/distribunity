@@ -58,54 +58,45 @@
 </script>
 
 <template>
-    <div id="signup">
-        <form id="panel">
+    <main class="home-style">
+        <form>
             <h2>Create an account</h2>
 
             <label for="f-name">First name:</label>
-            <input @keydown="nextInput" type="text" id="f-name" name="f-name" placeholder="e.g. Amelia"
+            <input class="custom-input" @keydown="nextInput" type="text" id="f-name" name="f-name" placeholder="e.g. Amelia"
                 autocomplete="given-name" required>
 
             <label for="l-name">Last name:</label>
-            <input @keydown="nextInput" type="text" id="l-name" name="l-name" placeholder="e.g. Wilson"
+            <input class="custom-input" @keydown="nextInput" type="text" id="l-name" name="l-name" placeholder="e.g. Wilson"
                 autocomplete="family-name">
 
             <label for="email">Email:</label>
-            <input @keydown="nextInput" type="email" id="email" name="email" placeholder="e.g. amelia.wilson@gmail.com"
+            <input class="custom-input" @keydown="nextInput" type="email" id="email" name="email" placeholder="e.g. amelia.wilson@gmail.com"
                 autocomplete="email" required>
 
             <label for="pwd">Password:</label>
-            <input @keydown="nextInput" type="password" id="pwd" name="pwd" placeholder="New password"
+            <input class="custom-input" @keydown="nextInput" type="password" id="pwd" name="pwd" placeholder="New password"
                 autocomplete="new-password" required>
 
             <label for="pwd">Confirm password:</label>
-            <input @keydown="nextInput" type="password" id="pwd-rep" name="pwd-rep" placeholder="Repeat password"
+            <input class="custom-input" @keydown="nextInput" type="password" id="pwd-rep" name="pwd-rep" placeholder="Repeat password"
                 autocomplete="off" required>
 
             <span id="pwd-strength">Password strength: Good</span>
 
-            <input type="submit" value="Sign up">
+            <input type="submit" value="Sign up" class="primary-btn">
         </form>
-    </div>
+    </main>
 </template>
 
 <style scoped>
-    #panel {
-        width: 500px;
+    form {
         padding: 30px;
         background: #FDFDFD;
         box-shadow: 0px 2px 4px rgba(10, 10, 10, 0.3);
         border-radius: 15px;
         display: flex;
         flex-direction: column;
-        margin: 30px;
-    }
-
-    #signup {
-        display: flex;
-        place-content: center;
-        place-items: center;
-        flex: 1
     }
 
     h2 {
@@ -116,19 +107,23 @@
         font-size: larger;
     }
 
-    input {
+    input:not([type=submit]) {
+        min-width: 400px;
         border-style: solid;
         border-radius: 5px;
         background: #FAFAFA;
-        font-size: large;
         padding: 7px;
         margin: 10px 0px 10px 0px;
     }
 
-    input:hover,
-    input:focus {
+    input:not([type=submit]):hover,
+    input:not([type=submit]):focus {
         background: #EDEDED;
         border-style: solid;
         transition: 0.1s;
+    }
+
+    .primary-btn {
+        font-size: normal;
     }
 </style>

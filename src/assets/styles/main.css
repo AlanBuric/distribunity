@@ -98,7 +98,7 @@ button {
 
 a,
 button {
-  transition: 0.2s ease-in-out;
+  transition: 0.1s ease-out;
 }
 
 a {
@@ -106,14 +106,12 @@ a {
 }
 
 input {
+  box-sizing: border-box;
   padding: 7px 4px;
   border-radius: 4px;
+  background: #FAFAFA;
   border: 1px solid #AAA;
   font-size: 1rem;
-}
-
-input[type=submit] {
-  width: fit-content;
 }
 
 input[name=search] {
@@ -121,12 +119,24 @@ input[name=search] {
   padding-left: 34px;
 }
 
-input:hover {
-  outline: 1px solid #6b6b6b;
+input[name=search]:focus {
+  background-color: #EDEDED;
+  outline: 1px auto #0099ff;
 }
 
-input:focus {
-  outline: 1px solid #1a1a1a;
+.custom-input {
+  margin: 8px 0px;
+}
+
+.custom-input:hover {
+  background-color: #EDEDED;
+  border: 1px auto #4c5961;
+}
+
+.custom-input:focus {
+  background-color: #EDEDED;
+  outline: 1px auto #0099ff;
+  border-color: transparent;
 }
 
 /* @supports (scrollbar-color: auto) {

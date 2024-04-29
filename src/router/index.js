@@ -11,7 +11,7 @@ import { createRouter, createWebHistory } from 'vue-router'
  * Website structure:
  * .
  * └── website.com/
- *     ├── news/
+ *     ├── blog/
  *     │   ├── 1
  *     │   ├── 2
  *     │   └── ...
@@ -63,9 +63,9 @@ const router = createRouter({
           ]
         },
         {
-          path: 'news',
-          name: 'news',
-          component: () => import('@/views/home/NewsView.vue')
+          path: 'blog',
+          name: 'blog',
+          component: () => import('@/views/home/BlogView.vue')
         },
         {
           path: 'login',
@@ -80,8 +80,8 @@ const router = createRouter({
       ],
     },
     {
-      path: '/news',
-      redirect: '/news?page=1'
+      path: '/blog',
+      redirect: '/blog?page=1'
     },
     {
       path: '/work',
@@ -105,5 +105,14 @@ const router = createRouter({
     },
   ]
 });
+
+// router.beforeEach(to => {
+//   if (to.meta.requiresAuth) {
+//     return {
+//       path: '/login',
+//       query: { redirect: to.fullPath },
+//     }
+//   }
+// });
 
 export default router

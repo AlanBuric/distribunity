@@ -85,7 +85,7 @@
     </section> -->
 
       <h2>Still having trouble?</h2>
-      <button class="home-btn" onclick="window.open('mailto:aburic1@unipu.student.hr');" style="margin-left: 0px;">
+      <button class="primary-btn" onclick="window.open('mailto:aburic1@unipu.student.hr');" style="margin-left: 0px;">
         Contact us
       </button>
     </article>

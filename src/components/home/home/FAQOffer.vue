@@ -4,7 +4,7 @@
 <template>
     <section>
         <h2>Looking for something else?</h2>
-        <RouterLink class="home-btn" to="/resources">
+        <RouterLink class="primary-btn" to="/resources">
             Visit FAQ ➝
         </RouterLink>
     </section>

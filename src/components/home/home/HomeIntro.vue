@@ -7,7 +7,7 @@
             <h2 style="font-size: 2.2rem; margin-top: 0;">It's time do ditch the spreadsheets and pen & paper.</h2>
             <p style="font-size: 1.3rem;"><b>Distribunity</b> takes care of all the inventory changes,
                 details and item tracking in one place.</p>
-            <RouterLink class="home-btn" to="/signup" style="margin-top: 5em">Sign up for free</RouterLink>
+            <RouterLink class="primary-btn" to="/signup" style="margin-top: 5em">Sign up for free</RouterLink>
         </div>
     </section>
 </template>

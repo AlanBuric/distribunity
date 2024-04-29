@@ -4,7 +4,7 @@
     "main": {
         "nav": {
             "home": "Home",
-            "news": "News",
+            "blog": "News",
             "res": "Resources",
             "logIn": "Log in",
             "signUp": "Sign up"
@@ -17,7 +17,7 @@
             "par2": "We're planning to port Distribunity as a standalone installed application for your devices.",
             "btn2": "Notify me when it happens"
         },
-        "news": {
+        "blog": {
             "previous": "Previous",
             "backToTop": "Back to top",
             "next": "Next"

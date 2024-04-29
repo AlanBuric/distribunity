@@ -1,5 +1,4 @@
 <script setup>
-    import NewsletterButton from './NewsletterButton.vue';
     // See: addEventListener(..., {once: true})
 </script>
 
@@ -9,7 +8,7 @@
         <div>
             <h2>Coming soon to your Desktop and Mobile platforms!</h2>
             <p>We're planning to port Distribunity as a standalone installed app for your devices.</p>
-            <NewsletterButton>Notify me when it happens</NewsletterButton>
+            <a class="secondary-btn" title="Sign up for our newsletter">Notify me when it happens</a>
         </div>
     </section>
 </template>

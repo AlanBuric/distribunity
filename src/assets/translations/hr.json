@@ -4,7 +4,7 @@
     "main": {
         "nav": {
             "home": "Početna",
-            "news": "Novosti",
+            "blog": "Novosti",
             "res": "Podrška",
             "logIn": "Prijava",
             "signUp": "Novi račun"
@@ -17,7 +17,7 @@
             "par2": "Planiramo razviti Distribunity kao zasebnu instaliranu aplikaciju za vaše uređaje.",
             "btn2": "Obavijestite me o tome"
         },
-        "news": {
+        "blog": {
             "previous": "Prijašnja",
             "backToTop": "Vrati me na vrh",
             "next": "Slijedeća"

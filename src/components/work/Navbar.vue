@@ -4,10 +4,11 @@
 
 <template>
     <nav>
-        <a href="">Accessibility</a>
+        <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/resources">Help</RouterLink>
+        <a href="">Accessibility</a>
         <RouterLink id="profile-btn" to="/work/settings">
-            <Logo width="70px"></Logo>
+            <Logo width="3.5rem"></Logo>
         </RouterLink>
     </nav>
 </template>
@@ -24,11 +25,11 @@
         border-radius: 100%;
         box-shadow: -2px 2px 4px rgba(10, 10, 10, 0.5);
         margin: 5px;
-        transition: box-shadow 0.2s ease-in;
+        transition: box-shadow 0.1s, outline 0.1s;
     }
 
     #profile-btn > svg:hover {
-        box-shadow: -2px 2px 4px rgba(10, 10, 10, 0.8);
+        outline: 1px solid gray;
     }
 
     nav {

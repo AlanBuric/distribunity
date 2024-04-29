@@ -1,24 +1,35 @@
+<script setup>
+  import MenuIcon from '../icons/MenuIcon.vue';
+</script>
+
 <template>
   <nav>
-    <RouterLink class="nav-link" to="/" exact>Home</RouterLink>
-    <RouterLink class="nav-link" :to="{ name: 'news', query: { page: 1 } }">News</RouterLink>
-    <RouterLink class="nav-link" to="/resources">Resources</RouterLink>
-    <RouterLink class="nav-link" to="/login">Log in</RouterLink>
-    <RouterLink class="nav-link" to="/signup">Sign up</RouterLink>
-    <div class="vr"></div>
-    <form>
+    <RouterLink class="nav-link show-past-1200" to="/" exact>Home</RouterLink>
+    <RouterLink class="nav-link show-past-1200" :to="{ name: 'blog', query: { page: 1 } }">Blog</RouterLink>
+    <RouterLink class="nav-link show-past-1200" to="/resources">Resources</RouterLink>
+    <RouterLink class="nav-link show-past-1200" to="/login">Log in</RouterLink>
+    <RouterLink class="nav-link show-past-1200" to="/signup">Sign up</RouterLink>
+    <div class="vr show-past-1200"></div>
+    <form class="show-past-1200">
       <input name="search" placeholder="Search..." type="text">
       <input type="submit">
     </form>
+    <button id="hidden-menu">
+      <MenuIcon width="6em" height="6em"></MenuIcon>
+    </button>
   </nav>
 </template>
 
 <style scoped>
+  #hidden-menu {
+    display: none;
+  }
+
   nav {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    width: fit-content;
+    width: auto;
   }
 
   nav > * {
@@ -30,7 +41,7 @@
   }
 
   .vr {
-    height: 80px;
+    height: 60px;
     border-left: 1px solid #888;
   }
 
@@ -38,18 +49,27 @@
     text-align: center;
     padding: 0.8rem 0.4rem;
     font-size: 1.1rem;
-    border-radius: 20px;
+
   }
 
   .nav-link:hover {
-    background-color: rgba(71, 226, 213, 0.5);
-    color: var(--color-text);
-    /* border-bottom: 4px solid #47e2d5; */
+    color: #0099ff;
   }
 
-  @media screen and (max-width: 1200px) {
-    #bar-inner {
-      flex-direction: column;
+  @media screen and (max-width: 1100px) {
+    #hidden-menu {
+      display: initial;
+      border: none;
+      border-radius: 5px;
+      background: none;
+    }
+
+    #hidden-menu:hover {
+      background: #DDD;
+    }
+
+    .show-past-1200 {
+      display: none;
     }
   }
 

@@ -16,9 +16,8 @@
 </template>
 
 <style>
-
     /*
-    * Issue: DOM divs should be flattened somehow to have more control over the parent divs (#app).
+    * TODO: DOM divs should be flattened somehow to have more control over the parent divs (#app).
     */
     #app {
         display: grid;
@@ -26,7 +25,7 @@
         grid-template-rows: 0.3fr 1.5fr 1fr 1fr;
         gap: 30px 10px;
         grid-template-areas:
-            "navbar navbar navbar navbar"
+            "other navbar navbar navbar"
             "other inventory inventory editor"
             "other inventory inventory editor"
             "other inventory inventory editor";
@@ -36,14 +35,20 @@
 
     #app > * {
         padding: 10px;
-        border: 1px solid #dadada;
-        background: #fdfdfd;
         box-shadow: -2px 2px 4px rgba(10, 10, 10, 0.5);
+    }
+
+    #inventory,
+    #editor,
+    #navbar {
+        border: 1px solid #c4c4c4;
+        background: #f1f1f1;
     }
 
     #other {
         grid-area: other;
-        border-radius: 12px 12px 0px 0px;
+        background: #1e1e20;
+        color: #DDD;
     }
 
     #navbar {
@@ -59,10 +64,5 @@
     #inventory {
         grid-area: inventory;
         border-radius: 12px 12px 0px 0px;
-    }
-
-    #inventory, #editor, #other {
-        border: 1px solid #c4c4c4;
-        background: #f1f1f1;
     }
 </style>
