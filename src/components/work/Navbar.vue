@@ -4,9 +4,9 @@
 
 <template>
     <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/resources">Help</RouterLink>
-        <a href="">Accessibility</a>
+        <RouterLink to="/" class="nav-link">Home</RouterLink>
+        <RouterLink to="/resources" class="nav-link">Help</RouterLink>
+        <a href="" class="nav-link">Accessibility</a>
         <RouterLink id="profile-btn" to="/work/settings">
             <Logo width="3.5rem"></Logo>
         </RouterLink>

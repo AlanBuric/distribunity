@@ -45,17 +45,6 @@
     border-left: 1px solid #888;
   }
 
-  .nav-link {
-    text-align: center;
-    padding: 0.8rem 0.4rem;
-    font-size: 1.1rem;
-
-  }
-
-  .nav-link:hover {
-    color: #0099ff;
-  }
-
   @media screen and (max-width: 1100px) {
     #hidden-menu {
       display: initial;
