@@ -14,6 +14,7 @@
 
 <style scoped>
     [role="banner"] {
+        position: fixed;
         width: 100%;
         display: flex;
         justify-content: center;
@@ -21,7 +22,6 @@
         background: var(--color-background);
         z-index: 100;
         padding: 8px 10px;
-        margin-bottom: 40px;
         font-size: 0.9rem;
     }
 

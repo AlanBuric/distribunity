@@ -39,7 +39,6 @@
         display: flex;
         flex-direction: column;
         place-items: center;
-        margin: 20px 0px 20px 0px;
     }
 
     #page-controls {

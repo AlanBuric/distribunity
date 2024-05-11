@@ -44,7 +44,6 @@
         place-items: center;
         color: #dfdfdf;
         flex: 1;
-        margin-top: 40px;
     }
 
     footer {

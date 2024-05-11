@@ -6,14 +6,24 @@
 
 <template>
   <TopBar />
+  <div id="separator"></div>
   <RouterView />
   <MainFooter />
 </template>
 
 <style>
+
+  /*
+   * Manual offset from the top for the sticky navbar.
+   */
+  #separator {
+    margin-bottom: 99px;
+  }
+
   main {
     display: flex;
     flex-direction: column;
+    margin: 20px 0px;
     gap: 20px;
   }
 
