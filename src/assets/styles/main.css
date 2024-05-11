@@ -11,6 +11,7 @@
   --page-width-max: 1600px;
   --page-width: min(var(--page-width-max), 100%);
   --width-breakpoint: 992px;
+  --active-color: #0099ff;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -121,7 +122,7 @@ input[name=search] {
 
 input[name=search]:focus {
   background-color: #EDEDED;
-  outline: 1px auto #0099ff;
+  outline: 1px auto var(--active-color);
 }
 
 .custom-input {
@@ -135,7 +136,7 @@ input[name=search]:focus {
 
 .custom-input:focus {
   background-color: #EDEDED;
-  outline: 1px auto #0099ff;
+  outline: 1px auto var(--active-color);
   border-color: transparent;
 }
 

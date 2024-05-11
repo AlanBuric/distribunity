@@ -36,6 +36,6 @@
   }
 
   .nav-link:hover {
-    color: #0099ff;
+    color: var(--active-color);
   }
 </style>

@@ -45,6 +45,10 @@
     border-left: 1px solid #888;
   }
 
+  .router-link-exact-active {
+    color: var(--active-color);
+  }
+
   @media screen and (max-width: 1100px) {
     #hidden-menu {
       display: initial;

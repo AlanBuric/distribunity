@@ -62,9 +62,9 @@
     border-radius: 25px;
     border: none;
     box-shadow: none;
-    color: #0099ff;
+    color: var(--active-color);
     display: block;
-    outline: 1px solid #0099ff;
+    outline: 1px solid var(--active-color);
     background: transparent;
     padding: 15px 20px;
     margin: 20px 0;
@@ -74,8 +74,8 @@
     .primary-btn:hover {
       background: transparent;
       box-shadow: none;
-      color: #0099ff;
-      outline: 1px solid #0099ff;
+      color: var(--active-color);
+      outline: 1px solid var(--active-color);
     }
   }
 </style>
