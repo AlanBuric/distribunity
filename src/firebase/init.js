@@ -18,4 +18,4 @@ const db = getFirestore(app);
 
 export const todosRef = collection(db, 'todos');
 
-export { app as firebaseApp };
+export { app as firebaseApp, db };
