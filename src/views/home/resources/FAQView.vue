@@ -1,9 +1,9 @@
 <script setup>
-  import { reactive, ref } from 'vue';
+  import { ref } from 'vue';
 
   const content = [
     {
-      question: 'What is Distribunity?', answer: `<p class="hidden">Distribunity is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software"
+      question: 'What is Distribunity?', answer: `<p>Distribunity is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software"
           target="_blank">inventory management
           software</a> and digital <a href="https://en.wikipedia.org/wiki/Information_system"
           target="_blank">information system</a> web application intended for inventory administrators and their
@@ -19,71 +19,26 @@
           permissions can also be restricted to each of these</li>
         <li><b></b></li>
       </ul>`},
-    { question: 'Is Distribunity paid for?', answer: '<p class="hidden">Unfortunately for us, no. However, please do consider leaving a donation on our PayPal to keep this open-source and free software going.</p>' }
+    { question: 'Is Distribunity paid for?', answer: '<p>Unfortunately for us, no. However, please do consider leaving a donation on our PayPal to keep this open-source and free software going.</p>' }
   ];
 
-  const visible = Array.from({ length: content.length }, () => ref(false));
+  const visible = ref(Array.from({ length: content.length }, () => false));
 
   function toggleAccordion(index) {
-    visible[index].value = !visible[index].value;
+    visible.value[index] = !visible.value[index];
   }
-
-  // onMounted(() => {
-  //   let acc = document.getElementsByClassName("accordion");
-
-  //   for (let i = 0; i < acc.length; i++) {
-  //     acc[i].addEventListener("click", function () {
-  //       this.classList.toggle("active");
-
-  //       let panel = this.nextElementSibling;
-  //       if (panel.style.display === "block") {
-  //         panel.style.display = "none";
-  //       } else {
-  //         panel.style.display = "block";
-  //       }
-  //     });
-  //   }
-  // });
 </script>
 
 <template>
   <main class="page-inner main-style">
     <article>
-      <h2>FAQ</h2>
-      <section v-for="(item, index) in content" :key="index">
+      <h2>Frequently Asked Questions</h2>
+      <section v-for="(item, index) in content" :key="index" class="expand-container">
         <button class="accordion" @click="toggleAccordion(index)">
-          <h3><span class="arrow">❯</span> {{ item.question }}</h3>
+          <h3><span :class="{ 'arrow': true, 'open': visible[index] }">❯</span> {{ item.question }}</h3>
         </button>
-        <div v-if="visible[index]" v-html="item.answer"></div>
+        <div :class="{ 'expand-contract': true, 'expanded': visible[index] }" v-html="item.answer"></div>
       </section>
-      <!-- <section>
-      <button class="accordion">
-        <h3><span class="arrow">❯</span> What is Distribunity?</h3>
-      </button>
-      <p class="hidden">Distribunity is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software"
-          target="_blank">inventory management
-          software</a> and digital <a href="https://en.wikipedia.org/wiki/Information_system"
-          target="_blank">information system</a> web application intended for inventory administrators and their
-        employees, providing features such as tracking
-        item counts, orders and sales of a real life inventory, statistics, update history, other format imports and
-        exports etc.
-        Its main features are:
-      </p>
-      <ul>
-        <li><b>role administration:</b> a main administrator of the business can invite other employees and grant them
-          limited and scoped permissions, which provides an excellent way of keeping the system secure</li>
-        <li><b>multiple inventories:</b> a business may have multiple locations where inventory is stored, and user
-          permissions can also be restricted to each of these</li>
-        <li><b></b></li>
-      </ul>
-    </section>
-    <section>
-      <button class="accordion">
-        <h3><span class="arrow">❯</span> Is Distribunity paid for?</h3>
-      </button>
-      <p class="hidden"></p>
-    </section> -->
-
       <h2>Still having trouble?</h2>
       <button class="primary-btn" onclick="window.open('mailto:aburic1@unipu.student.hr');" style="margin-left: 0px;">
         Contact us
@@ -93,6 +48,12 @@
 </template>
 
 <style scoped>
+  section {
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.27);
+    border-radius: 10px;
+    margin: 10px;
+  }
+
   main {
     background-color: white;
     padding: 30px;
@@ -106,6 +67,11 @@
 
   .arrow {
     user-select: none;
+    transition: writing-mode 1s ease-out;
+  }
+
+  .open {
+    writing-mode: vertical-rl;
   }
 
   .dropdown {
@@ -120,20 +86,33 @@
     text-align: left;
     border: none;
     outline: none;
-    transition: 0.4s;
+    transition: 1s;
     padding: 0px 15px;
   }
 
-  .active,
   .accordion:hover {
     background-color: #ccc;
   }
 
-  .hidden {
-    padding: 0 18px;
-    background-color: white;
-    max-height: 0;
+  .expand-container {
     overflow: hidden;
-    transition: max-height 0.2s ease-out;
+  }
+
+  .expand-contract {
+    height: 0;
+    transition: all 1s;
+  }
+
+  .expand-contract > * {
+    margin: 0;
+  }
+
+  .expand-contract.expanded {
+    height: auto;
+    margin-top: 0;
+  }
+
+  .expand-contract.expanded > * {
+    margin: 10px;
   }
 </style>

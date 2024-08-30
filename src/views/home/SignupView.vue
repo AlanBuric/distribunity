@@ -1,90 +1,116 @@
-<script>
-    /**
-     * const input = document.querySelector("input");
-    const log = document.getElementById("values");
-    
-    input.addEventListener("input", updateValue);
-    
-    function updateValue(e) {
-      log.textContent = e.target.value;
+<script setup>
+    import { ref, watch } from 'vue';
+    import { getPasswordStrength } from '@/scripts/signup';
+    import { createUserWithEmailAndPassword } from 'firebase/auth';
+    import { auth, database } from '@/firebase/init';
+    import { setDoc, doc } from 'firebase/firestore';
+    import router from '@/router';
+
+    const PASSWORDS_MATCH = {
+        message: 'Passwords match.',
+        className: 'passwords-match'
+    };
+
+    const PASSWORDS_DONT_MATCH = {
+        message: "Confirmation password doesn't match the password.",
+        className: 'invalid-input'
     }
-     */
-    // const lowercaseRegEx = /[a-z]/;
-    // const uppercaseRegEx = /[A-Z]/;
-    // const numberRegEx = /[0-9]/;
-    // const symbolRegEx = /[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/;
-    // const minPasswordLength = 8;
-    // // TODO: see input tag pattern attribute
-    // function getStrength(password = "") {
-    //     if (password.length < minPasswordLength) {
-    //         return 0;
-    //     }
 
-    //     return lowercaseRegEx.test(password)
-    //         + uppercaseRegEx.test(password)
-    //         + numberRegEx.test(password)
-    //         + symbolRegEx.test(password);
-    // }
+    const firstName = ref('');
+    const lastName = ref('');
+    const email = ref('');
+    const password = ref('');
+    const confirmPassword = ref('');
+    const passwordStrength = ref({ title: 'Weak' });
+    const passwordsMatch = ref(null);
 
-    // function updateStrength(password = "", matching = true) {
-    //     // Uses getStrength as evaluation metric
-    // }
+    watch(password, (newPassword) => {
+        passwordStrength.value = getPasswordStrength(newPassword ?? "")
+    });
 
-    // function updatePasswordsState() {
-    //     // Calls updateStrength
+    watch([password, confirmPassword], ([newPassword, newConfirmPassword]) => {
+        passwordsMatch.value = newPassword != newConfirmPassword ? PASSWORDS_DONT_MATCH : PASSWORDS_MATCH;
+    });
 
-    // }
+    function getFormValidityFeedback() {
+        const issues = [];
 
-    export default {
-        methods: {
-            nextInput(event) {
-                if (event.key !== "Enter" && event.key !== "ArrowRight") {
-                    return;
-                }
+        if (passwordStrength.value.strength == 2) {
+            issues.push("Your password is too weak. Use lowercase and uppercase letters, numbers and symbols");
+        }
 
-                let el = event.target.nextSibling;
+        if (password.value.length < 6) {
+            issues.push("Your password is too short, it needs to be at least 6 characters long");
+        }
 
-                while (el && el.nodeName !== "INPUT") {
-                    el = el.nextSibling;
-                }
+        if (confirmPassword.value != password.value) {
+            issues.push("Your passwords don't match");
+        }
 
-                if (el?.nodeName === "INPUT") {
-                    el.focus();
-                    event.preventDefault();
-                }
-            }
+        return issues;
+    }
+
+    const formIssues = ref([]);
+
+    function handleSubmit() {
+        formIssues.value = getFormValidityFeedback();
+
+        if (formIssues.value.length == 0) {
+            createUserWithEmailAndPassword(auth, email.value, password.value)
+                .then((userCredential) => {
+                    formIssues.value = ["Firebase Auth user creation succeeded."];
+
+                    setDoc(doc(database, "users", userCredential.user.uid), {
+                        firstName: firstName.value,
+                        lastName: lastName.value,
+                        joined: Date.now()
+                    }).then(() => {
+                        formIssues.value = ["User fully created."];
+                        router.push("/work");
+                    }).catch(() => {
+                        formIssues.value = ["Sorry, but we failed to create your user profile in our database. Please contact us for support."];
+                    });
+                })
+                .catch((error) => {
+                    formIssues.value = [error.code, error.message];
+                });
         }
     }
 </script>
 
 <template>
     <main class="home-style">
-        <form>
+        <form @submit.prevent="handleSubmit">
             <h2>Create an account</h2>
 
-            <label for="f-name">First name:</label>
-            <input class="custom-input" @keydown="nextInput" type="text" id="f-name" name="f-name" placeholder="e.g. Amelia"
+            <label for="firstName">First name:</label>
+            <input class="custom-input" type="text" name="firstName" v-model="firstName" placeholder="e.g. Amelia"
                 autocomplete="given-name" required>
 
-            <label for="l-name">Last name:</label>
-            <input class="custom-input" @keydown="nextInput" type="text" id="l-name" name="l-name" placeholder="e.g. Wilson"
+            <label for="lastName">Last name:</label>
+            <input class="custom-input" type="text" name="lastName" v-model="lastName" placeholder="e.g. Wilson"
                 autocomplete="family-name">
 
             <label for="email">Email:</label>
-            <input class="custom-input" @keydown="nextInput" type="email" id="email" name="email" placeholder="e.g. amelia.wilson@gmail.com"
-                autocomplete="email" required>
+            <input class="custom-input" type="email" v-model="email" name="email"
+                placeholder="e.g. amelia.wilson@gmail.com" autocomplete="email" required>
 
-            <label for="pwd">Password:</label>
-            <input class="custom-input" @keydown="nextInput" type="password" id="pwd" name="pwd" placeholder="New password"
+            <label for="password">Password:</label>
+            <input class="custom-input" v-model="password" type="password" name="password" placeholder="New password"
                 autocomplete="new-password" required>
 
-            <label for="pwd">Confirm password:</label>
-            <input class="custom-input" @keydown="nextInput" type="password" id="pwd-rep" name="pwd-rep" placeholder="Repeat password"
-                autocomplete="off" required>
+            <p id="password-strength">Password strength: {{ passwordStrength.title }}</p>
 
-            <span id="pwd-strength">Password strength: Good</span>
+            <label for="password-confirm">Confirm password:</label>
+            <input class="custom-input" v-model="confirmPassword" type="password" id="password-confirm"
+                name="password-confirm" placeholder="Confirm password" autocomplete="off" required>
+            <p v-if="passwordsMatch" :class="[passwordsMatch.className]">
+                {{ passwordsMatch.message }}</p>
 
             <input type="submit" value="Sign up" class="primary-btn">
+            <ul v-if="formIssues.length > 0" class="invalid-input">
+                <li v-for="(issue, index) in formIssues" :key="index">{{ issue }}</li>
+            </ul>
         </form>
     </main>
 </template>
@@ -95,8 +121,10 @@
         background: #FDFDFD;
         box-shadow: 0px 2px 4px rgba(10, 10, 10, 0.3);
         border-radius: 15px;
-        display: flex;
-        flex-direction: column;
+    }
+
+    form > * {
+        display: block;
     }
 
     h2 {
@@ -107,23 +135,25 @@
         font-size: larger;
     }
 
-    input:not([type=submit]) {
+    .custom-input {
+        box-sizing: content-box;
         min-width: 400px;
-        border-style: solid;
-        border-radius: 5px;
-        background: #FAFAFA;
-        padding: 7px;
-        margin: 10px 0px 10px 0px;
-    }
-
-    input:not([type=submit]):hover,
-    input:not([type=submit]):focus {
-        background: #EDEDED;
-        border-style: solid;
-        transition: 0.1s;
     }
 
     .primary-btn {
         font-size: normal;
+    }
+
+    .passwords-match {
+        color: rgb(20, 170, 6);
+    }
+
+    .invalid-input {
+        color: red;
+    }
+
+    input:disabled {
+        background-color: rgba(150, 150, 150, 0.5);
+        pointer-events: none;
     }
 </style>

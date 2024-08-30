@@ -5,7 +5,7 @@
 
 <template>
     <div role="banner">
-        <div class="page-inner">
+        <div class="page-inner page-inner-nav">
             <NavHeader></NavHeader>
             <NavigationBar></NavigationBar>
         </div>
@@ -25,7 +25,7 @@
         font-size: 0.9rem;
     }
 
-    .page-inner {
+    .page-inner-nav {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;

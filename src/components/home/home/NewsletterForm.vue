@@ -1,17 +1,53 @@
+<script setup>
+    import { database } from '@/firebase/init';
+    import { doc, setDoc } from 'firebase/firestore';
+    import { ref } from 'vue';
+
+    const submitted = ref(false);
+    const email = ref('');
+
+    function signupForNewsLetter() {
+        setDoc(doc(database, "email-subscriptions", email.value), {}).then((value) => console.log("Success!", value)).catch(error => console.error(error));
+        submitted.value = true;
+    }
+</script>
+
 <template>
     <section>
-        <h2>Sign up for our newsletter</h2>
-        <p>Subscribe to our journey on becoming a popular choice for businesses.</p>
-        <form>
-            <label for="name">Name</label>
-            <input name="name" autocomplete="name" placeholder="Call me...">
-            <label>E-mail</label>
-            <input placeholder="Your e-mail">
-            <input type="submit" value="Subscribe" class="primary-btn">
-            <label for="agreement">I allow Distribunity to save my e-mail for sending me promotions and educational
-                content,
-                and have the right to cancel my subscription any time.</label>
-            <input type="checkbox" name="agreement">
-        </form>
+        <h2 v-if="submitted">Thank you for subscribing to our newsletter!</h2>
+        <template v-else>
+            <div style="text-align: center">
+                <h2>Sign up for our newsletter</h2>
+                <p>Subscribe to our journey on becoming a favored choice for businesses.</p>
+            </div>
+            <form @submit.prevent="signupForNewsLetter">
+                <input class="custom-input" name="email" autocomplete="email" placeholder="Your e-mail"
+                    v-model.lazy="email" required>
+                <button type="submit" class="primary-btn">Subscribe</button>
+                <input type="checkbox" name="agreement" required>
+                <label for="agreement">
+                    I allow Distribunity to save my e-mail for sending me promotions and educational
+                    content, and have the right to cancel my subscription any time.
+                </label>
+            </form>
+        </template>
     </section>
 </template>
+
+<style scoped>
+    section {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    form {
+        width: fit-content;
+    }
+
+    label[for=agreement] {
+        display: inline-block;
+        max-width: 800px;
+    }
+</style>

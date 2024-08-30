@@ -1,36 +1,31 @@
 <script setup>
     import { ref } from 'vue';
-    import { navigate } from '@/shared';
     import { useRoute } from "vue-router";
+    import BlogError from '@/components/blog/BlogError.vue';
+    import BlogPage from '@/components/blog/BlogPage.vue';
+
     const route = useRoute();
 
     var postsPerPage = 10;
     const posts = ref([
         { id: 1, date: new Date(2024, 3, 7, 12, 0), title: 'Welcome to Distribunity!' },
-        { id: 2, date: new Date(2024, 3, 14, 14, 23), title: 'Distribunity planned as a Mobile and Desktop application' }
+        { id: 2, date: new Date(2024, 3, 14, 14, 23), title: 'Distribunity planned as a Mobile and Desktop application' },
     ]);
 
-    function prevPageExists() {
-        return route.query.page > 1;
+    function getPageCount() {
+        return Math.ceil(posts.value.length / postsPerPage);
     }
 
-    function nextPageExists() {
-        return route.query.page < Math.ceil(posts.value.length / postsPerPage);
+    function doesPageExist() {
+        return route.query.page > 0 && route.query.page <= getPageCount();
     }
 </script>
 
 <template>
     <main class="page-inner main-style">
-        <h3>You've arrived at the beginning of history!</h3>
-        <div id="page-controls">
-            <RouterLink class="primary-btn" v-if="prevPageExists()"
-                :to="{ name: 'blog', query: { page: parseInt($route.query.page) - 1 } }">
-                Previous</RouterLink>
-            <button class="primary-btn" onClick="document.getElementById('#top-bar')?.focus()">Back to top</button>
-            <RouterLink class="primary-btn" v-if="nextPageExists()"
-                :to="{ name: 'blog', query: { page: parseInt($route.query.page) + 1 } }">Next
-            </RouterLink>
-        </div>
+        <BlogError v-if="!doesPageExist()" errorMessage="Oops! This page doesn't exist." redirectHref="/blog?page=1"
+            subtitle="Let's take you back to the beginning."></BlogError>
+        <BlogPage v-else :posts="posts" :getPageCount="getPageCount" :route="route"></BlogPage>
     </main>
 </template>
 

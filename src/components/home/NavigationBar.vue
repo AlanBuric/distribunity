@@ -1,5 +1,10 @@
 <script setup>
+  import { auth } from '@/firebase/init';
   import MenuIcon from '../icons/MenuIcon.vue';
+
+  function signOut() {
+    auth.signOut();
+  }
 </script>
 
 <template>
@@ -7,15 +12,21 @@
     <RouterLink class="nav-link show-past-1200" to="/" exact>Home</RouterLink>
     <RouterLink class="nav-link show-past-1200" :to="{ name: 'blog', query: { page: 1 } }">Blog</RouterLink>
     <RouterLink class="nav-link show-past-1200" to="/resources">Resources</RouterLink>
-    <RouterLink class="nav-link show-past-1200" to="/login">Log in</RouterLink>
-    <RouterLink class="nav-link show-past-1200" to="/signup">Sign up</RouterLink>
+    <template v-if="!auth.currentUser">
+      <RouterLink class="nav-link show-past-1200" to="/login">Log in</RouterLink>
+      <RouterLink class="nav-link show-past-1200" to="/signup">Sign up</RouterLink>
+    </template>
+    <template v-else>
+      <RouterLink class="nav-link show-past-1200" to="/work">Work</RouterLink>
+      <a href="" class="nav-link show-past-1200" @click.prevent="signOut">Sign out</a>
+    </template>
     <div class="vr show-past-1200"></div>
     <form class="show-past-1200">
       <input name="search" placeholder="Search..." type="text">
       <input type="submit">
     </form>
     <button id="hidden-menu">
-      <MenuIcon width="6em" height="6em"></MenuIcon>
+      <MenuIcon width="4em" height="4em"></MenuIcon>
     </button>
   </nav>
 </template>
@@ -49,7 +60,7 @@
     color: var(--active-color);
   }
 
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 1000px) {
     #hidden-menu {
       display: initial;
       border: none;

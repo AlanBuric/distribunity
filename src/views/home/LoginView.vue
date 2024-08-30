@@ -1,38 +1,37 @@
-<script>
-    export default {
-        methods: {
-            nextInput(event) {
-                if (event.key !== "Enter" && event.key !== "ArrowRight") {
-                    return;
-                }
+<script setup>
+    import { auth } from '@/firebase/init';
+    import router from '@/router';
+    import { signInWithEmailAndPassword } from 'firebase/auth';
+    import { ref } from 'vue';
 
-                let el = event.target.nextSibling;
+    const email = ref('');
+    const password = ref('');
 
-                while (el && el.nodeName !== "INPUT") {
-                    el = el.nextSibling;
-                }
-
-                if (el?.nodeName === "INPUT") {
-                    el.focus();
-                    event.preventDefault();
-                }
-            }
-        }
+    function handleSubmit() {
+        signInWithEmailAndPassword(auth, email.value, password.value)
+            .then(() => {
+                router.push("/work");
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error(errorCode, errorMessage);
+            });
     }
 </script>
 
 <template>
     <main class="home-style">
-        <form>
+        <form @submit.prevent="handleSubmit">
             <h2>Welcome back!</h2>
 
             <label for="email">Email:</label>
-            <input class="custom-input" @keydown="nextInput" type="email" id="email" name="email"
+            <input class="custom-input" type="email" name="email" v-model="email"
                 placeholder="e.g. amelia.wilson@gmail.com" autocomplete="email" required>
 
             <label for="pwd">Password:</label>
-            <input class="custom-input" @keydown="nextInput" type="password" id="pwd" name="pwd"
-                placeholder="New password" autocomplete="current-password" required>
+            <input class="custom-input" type="password" name="pwd" v-model="password" placeholder="New password"
+                autocomplete="current-password" required>
 
             <input type="submit" value="Log in" class="primary-btn">
         </form>
@@ -65,7 +64,6 @@
     .custom-input {
         box-sizing: content-box;
         min-width: 400px;
-        border-radius: 5px;
     }
 
     .primary-btn {

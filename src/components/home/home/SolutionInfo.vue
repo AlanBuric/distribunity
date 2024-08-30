@@ -13,7 +13,7 @@
 
 <style scoped>
     section {
-        padding: 10px 20px;
+        padding: 20px;
     }
 
     p {
