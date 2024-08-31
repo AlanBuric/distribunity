@@ -27,13 +27,15 @@
 
       <label for="email">Email:</label>
       <input
-v-model="email" class="custom-input" type="email" name="email" placeholder="e.g. amelia.wilson@gmail.com"
-        autocomplete="email" required>
+        v-model="email" class="custom-input" type="email" name="email" placeholder="e.g. amelia.wilson@gmail.com"
+        autocomplete="email" required
+      >
 
       <label for="pwd">Password:</label>
       <input
-v-model="password" class="custom-input" type="password" name="pwd" placeholder="New password"
-        autocomplete="current-password" required>
+        v-model="password" class="custom-input" type="password" name="pwd" placeholder="New password"
+        autocomplete="current-password" required
+      >
 
       <input type="submit" value="Log in" class="primary-btn">
     </form>

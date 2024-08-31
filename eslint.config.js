@@ -1,9 +1,8 @@
 import eslintPluginVue from 'eslint-plugin-vue'
 import jseslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import eslintConfigPrettier from "eslint-config-prettier"
 
-export default tseslint.config(jseslint.configs.recommended, ...tseslint.configs.recommended, ...eslintPluginVue.configs['flat/recommended'], eslintConfigPrettier, {
+export default tseslint.config(jseslint.configs.recommended, ...tseslint.configs.recommended, ...eslintPluginVue.configs['flat/recommended'], {
   ignores: ['**/*.d.ts', 'node_modules/', 'dist/'],
   files: ['*.vue', '**/*.vue'],
   languageOptions: {

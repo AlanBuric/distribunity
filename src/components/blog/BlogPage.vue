@@ -23,16 +23,18 @@
   </h3>
   <div id="page-controls">
     <RouterLink
-v-if="prevPageExists()" class="primary-btn"
-      :to="{ name: 'blog', query: { page: parseInt($route.query.page) - 1 } }">
+      v-if="prevPageExists()" class="primary-btn"
+      :to="{ name: 'blog', query: { page: parseInt($route.query.page) - 1 } }"
+    >
       Previous
     </RouterLink>
     <button class="primary-btn" @click="focusTopBar">
       Back to top
     </button>
     <RouterLink
-v-if="nextPageExists()" class="primary-btn"
-      :to="{ name: 'blog', query: { page: parseInt($route.query.page) + 1 } }">
+      v-if="nextPageExists()" class="primary-btn"
+      :to="{ name: 'blog', query: { page: parseInt($route.query.page) + 1 } }"
+    >
       Next
     </RouterLink>
   </div>

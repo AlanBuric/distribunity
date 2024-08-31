@@ -91,23 +91,27 @@
 
       <label for="firstName">First name:</label>
       <input
-v-model="firstName" class="custom-input" type="text" name="firstName" placeholder="e.g. Amelia"
-        autocomplete="given-name" required>
+        v-model="firstName" class="custom-input" type="text" name="firstName" placeholder="e.g. Amelia"
+        autocomplete="given-name" required
+      >
 
       <label for="lastName">Last name:</label>
       <input
-v-model="lastName" class="custom-input" type="text" name="lastName" placeholder="e.g. Wilson"
-        autocomplete="family-name">
+        v-model="lastName" class="custom-input" type="text" name="lastName" placeholder="e.g. Wilson"
+        autocomplete="family-name"
+      >
 
       <label for="email">Email:</label>
       <input
-v-model="email" class="custom-input" type="email" name="email" placeholder="e.g. amelia.wilson@gmail.com"
-        autocomplete="email" required>
+        v-model="email" class="custom-input" type="email" name="email" placeholder="e.g. amelia.wilson@gmail.com"
+        autocomplete="email" required
+      >
 
       <label for="password">Password:</label>
       <input
-v-model="password" class="custom-input" type="password" name="password" placeholder="New password"
-        autocomplete="new-password" required>
+        v-model="password" class="custom-input" type="password" name="password" placeholder="New password"
+        autocomplete="new-password" required
+      >
 
       <p id="password-strength">
         Password strength: {{ passwordStrength.title }}
@@ -115,8 +119,9 @@ v-model="password" class="custom-input" type="password" name="password" placehol
 
       <label for="password-confirm">Confirm password:</label>
       <input
-id="password-confirm" v-model="confirmPassword" class="custom-input" type="password"
-        name="password-confirm" placeholder="Confirm password" autocomplete="off" required>
+        id="password-confirm" v-model="confirmPassword" class="custom-input" type="password"
+        name="password-confirm" placeholder="Confirm password" autocomplete="off" required
+      >
       <p v-if="passwordsMatch" :class="[passwordsMatch.className]">
         {{ passwordsMatch.message }}
       </p>

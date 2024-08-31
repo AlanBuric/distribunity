@@ -6,6 +6,7 @@
   import { reactive, ref } from 'vue'
   import Toolbar from '@/components/work/WorkToolbar.vue'
   import { findFirstLeafInTree } from '@/scripts/trees'
+  import type { Inventory } from '@/types/types'
 
   const example = [
     {
@@ -141,11 +142,11 @@
   const selectedItem = ref({ ...(selectedInventory.value?.items[0] ?? NEW_ITEM) })
   const isSelectedItemModified = ref(false)
 
-  const selectInventory = (inventory) => {
+  const selectInventory = (inventory: Inventory) => {
     Object.assign(selectedInventory, inventory)
   }
 
-  selectInventory(findFirstLeafInTree(example, (inventory) => inventory.inventories))
+  selectInventory(findFirstLeafInTree(example, (inventory: Inventory) => inventory.inventories))
 
   const newItem = () => {
     if (selectedItem.value?.modified) {
@@ -166,27 +167,36 @@
 </script>
 
 <template>
-  <!--draggable="true"-->
-  <aside id="other" class="resizeable">
-    <Navbar id="navbar" />
-    <h2>Inventories</h2>
-    <hr>
-    <InventoryTree :inventories="example" :selected-inventory="selectedInventory" @select-inventory="selectInventory" />
-  </aside>
-  <div id="content">
-    <Toolbar id="toolbar" @new-item="newItem" />
-    <div id="content-2">
-      <ItemTable id="inventory" :inventory="selectedInventory" />
-      <ItemEditor id="editor" :selected-item="selectedItem" @add-quantity="addQuantity" />
+  <div class="layout">
+    <!--draggable="true"-->
+    <aside id="other" class="resizeable">
+      <Navbar id="navbar" />
+      <h2>Inventories</h2>
+      <hr>
+      <InventoryTree
+        :inventories="example" :selected-inventory="selectedInventory"
+        @select-inventory="selectInventory"
+      />
+    </aside>
+    <div id="content">
+      <Toolbar id="toolbar" @new-item="newItem" />
+      <div id="content-2">
+        <ItemTable id="inventory" :inventory="selectedInventory" />
+        <ItemEditor id="editor" :selected-item="selectedItem" @add-quantity="addQuantity" />
+      </div>
     </div>
   </div>
 </template>
 
 <style>
+
   /*.resizeable {
         cursor: e-resize;
         resize: horizontal;
     }*/
+  .layout {
+    flex-direction: row;
+  }
 
   #content {
     display: flex;

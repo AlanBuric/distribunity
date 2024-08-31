@@ -21,13 +21,15 @@
         <details open>
           <summary>{{ inventory.name }}</summary>
           <TreeNode
-:inventories="inventory.inventories" :selected-inventory="selectedInventory"
-            @select-inventory="(payload) => bubbleEvent('selectInventory', payload)" />
+            :inventories="inventory.inventories" :selected-inventory="selectedInventory"
+            @select-inventory="(payload) => bubbleEvent('selectInventory', payload)"
+          />
         </details>
       </li>
       <li
-v-else :class="{ underlined: isSelected(inventory) }" class="clickable"
-        @click="(mouseEvent) => handleInventoryClick(mouseEvent, inventory)">
+        v-else :class="{ underlined: isSelected(inventory) }" class="clickable"
+        @click="(mouseEvent) => handleInventoryClick(mouseEvent, inventory)"
+      >
         {{ inventory.name }}
       </li>
     </template>

@@ -28,8 +28,9 @@
 <template>
   <main class="page-inner main-style">
     <BlogError
-v-if="!doesPageExist()" error-message="Oops! This page doesn't exist." redirect-href="/blog?page=1"
-      subtitle="Let's take you back to the beginning." />
+      v-if="!doesPageExist()" error-message="Oops! This page doesn't exist." redirect-href="/blog?page=1"
+      subtitle="Let's take you back to the beginning."
+    />
     <BlogPage v-else :posts="posts" :get-page-count="getPageCount" :route="route" />
   </main>
 </template>

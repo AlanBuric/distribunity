@@ -26,8 +26,9 @@
       </div>
       <form @submit.prevent="signupForNewsLetter">
         <input
-v-model.lazy="email" class="custom-input" name="email" autocomplete="email" placeholder="Your e-mail"
-          required>
+          v-model.lazy="email" class="custom-input" name="email" autocomplete="email" placeholder="Your e-mail"
+          required
+        >
         <button type="submit" class="primary-btn">
           Subscribe
         </button>

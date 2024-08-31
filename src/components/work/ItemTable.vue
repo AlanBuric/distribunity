@@ -37,14 +37,16 @@
       <template v-else>
         <tr>
           <th
-v-for="(columnName, index) in columnNames" :key="index" class="clickable"
-            @click="sortBy(Object.keys(columnName)[0])">
+            v-for="(columnName, index) in columnNames" :key="index" class="clickable"
+            @click="sortBy(Object.keys(columnName)[0])"
+          >
             {{ Object.values(columnName)[0] }}
           </th>
         </tr>
         <tr
-v-for="item in props.inventory.items" :id="item.id == activeRow ? 'active-item-row' : null" :key="item.id"
-          @click="setActiveRow(item.id)">
+          v-for="item in props.inventory.items" :id="item.id == activeRow ? 'active-item-row' : null" :key="item.id"
+          @click="setActiveRow(item.id)"
+        >
           <td v-for="column in columnNames" :key="Object.keys(column)[0]">
             {{ getColumnValueForItem(column, item) }}
           </td>
