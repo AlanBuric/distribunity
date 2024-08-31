@@ -1,19 +1,18 @@
-<script setup>
-    import { RouterView } from 'vue-router'
-    import { useCurrentUser } from 'vuefire'
+<script lang="ts" setup>
+  import { RouterView } from 'vue-router'
+  import { useCurrentUser } from 'vuefire'
 
-    const user = useCurrentUser();
+  const user = useCurrentUser()
 </script>
 
 <template>
-    <div class="layout">
-        <RouterView v-if="user">
-        </RouterView>
-    </div>
+  <div class="layout">
+    <RouterView v-if="user" />
+  </div>
 </template>
 
 <style scoped>
-    .layout {
-        flex-direction: row;
-    }
+  .layout {
+    flex-direction: row;
+  }
 </style>

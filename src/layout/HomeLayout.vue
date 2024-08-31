@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
   import { RouterView } from 'vue-router'
   import TopBar from '@/components/home/TopBar.vue'
   import MainFooter from '@/components/home/MainFooter.vue'
@@ -7,7 +7,7 @@
 <template>
   <div class="layout">
     <TopBar />
-    <div id="separator"></div>
+    <div id="separator" />
     <RouterView />
     <MainFooter />
   </div>
@@ -69,7 +69,10 @@
     text-decoration: none;
     display: block;
     box-shadow: 0px 0px 4px 1px rgba(10, 10, 10, 0.2);
-    transition: background 0.3s, box-shadow 0.3s, color 0.3s;
+    transition:
+      background 0.3s,
+      box-shadow 0.3s,
+      color 0.3s;
   }
 
   :deep(.secondary-btn) {

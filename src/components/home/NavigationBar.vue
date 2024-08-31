@@ -1,32 +1,44 @@
-<script setup>
-  import { auth } from '@/firebase/init';
-  import MenuIcon from '../icons/MenuIcon.vue';
+<script lang="ts" setup>
+  import { auth } from '@/firebase/init'
+  import MenuIcon from '../icons/MenuIcon.vue'
 
   function signOut() {
-    auth.signOut();
+    auth.signOut()
   }
 </script>
 
 <template>
   <nav>
-    <RouterLink class="nav-link show-past-1200" to="/" exact>Home</RouterLink>
-    <RouterLink class="nav-link show-past-1200" :to="{ name: 'blog', query: { page: 1 } }">Blog</RouterLink>
-    <RouterLink class="nav-link show-past-1200" to="/resources">Resources</RouterLink>
+    <RouterLink class="nav-link show-past-1200" to="/" exact>
+      Home
+    </RouterLink>
+    <RouterLink class="nav-link show-past-1200" :to="{ name: 'blog', query: { page: 1 } }">
+      Blog
+    </RouterLink>
+    <RouterLink class="nav-link show-past-1200" to="/resources">
+      Resources
+    </RouterLink>
     <template v-if="!auth.currentUser">
-      <RouterLink class="nav-link show-past-1200" to="/login">Log in</RouterLink>
-      <RouterLink class="nav-link show-past-1200" to="/signup">Sign up</RouterLink>
+      <RouterLink class="nav-link show-past-1200" to="/login">
+        Log in
+      </RouterLink>
+      <RouterLink class="nav-link show-past-1200" to="/signup">
+        Sign up
+      </RouterLink>
     </template>
     <template v-else>
-      <RouterLink class="nav-link show-past-1200" to="/work">Work</RouterLink>
+      <RouterLink class="nav-link show-past-1200" to="/work">
+        Work
+      </RouterLink>
       <a href="" class="nav-link show-past-1200" @click.prevent="signOut">Sign out</a>
     </template>
-    <div class="vr show-past-1200"></div>
+    <div class="vr show-past-1200" />
     <form class="show-past-1200">
       <input name="search" placeholder="Search..." type="text">
       <input type="submit">
     </form>
     <button id="hidden-menu">
-      <MenuIcon width="4em" height="4em"></MenuIcon>
+      <MenuIcon width="4em" height="4em" />
     </button>
   </nav>
 </template>
@@ -69,7 +81,7 @@
     }
 
     #hidden-menu:hover {
-      background: #DDD;
+      background: #ddd;
     }
 
     .show-past-1200 {

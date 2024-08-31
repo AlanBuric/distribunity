@@ -1,9 +1,10 @@
-<script setup>
-  import { ref } from 'vue';
+<script lang="ts" setup>
+  import { ref } from 'vue'
 
   const content = [
     {
-      question: 'What is Distribunity?', answer: `<p>Distribunity is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software"
+      question: 'What is Distribunity?',
+      answer: `<p>Distribunity is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software"
           target="_blank">inventory management
           software</a> and digital <a href="https://en.wikipedia.org/wiki/Information_system"
           target="_blank">information system</a> web application intended for inventory administrators and their
@@ -18,14 +19,19 @@
         <li><b>multiple inventories:</b> a business may have multiple locations where inventory is stored, and user
           permissions can also be restricted to each of these</li>
         <li><b></b></li>
-      </ul>`},
-    { question: 'Is Distribunity paid for?', answer: '<p>Unfortunately for us, no. However, please do consider leaving a donation on our PayPal to keep this open-source and free software going.</p>' }
-  ];
+      </ul>`
+    },
+    {
+      question: 'Is Distribunity paid for?',
+      answer:
+        '<p>Unfortunately for us, no. However, please do consider leaving a donation on our PayPal to keep this open-source and free software going.</p>'
+    }
+  ]
 
-  const visible = ref(Array.from({ length: content.length }, () => false));
+  const visible = ref(Array.from({ length: content.length }, () => false))
 
-  function toggleAccordion(index) {
-    visible.value[index] = !visible.value[index];
+  function toggleAccordion(index: number) {
+    visible.value[index] = !visible.value[index]
   }
 </script>
 
@@ -35,12 +41,12 @@
       <h2>Frequently Asked Questions</h2>
       <section v-for="(item, index) in content" :key="index" class="expand-container">
         <button class="accordion" @click="toggleAccordion(index)">
-          <h3><span :class="{ 'arrow': true, 'open': visible[index] }">❯</span> {{ item.question }}</h3>
+          <h3><span :class="{ arrow: true, open: visible[index] }">❯</span> {{ item.question }}</h3>
         </button>
-        <div :class="{ 'expand-contract': true, 'expanded': visible[index] }" v-html="item.answer"></div>
+        <div :class="{ 'expand-contract': true, expanded: visible[index] }" v-html="item.answer" />
       </section>
       <h2>Still having trouble?</h2>
-      <button class="primary-btn" onclick="window.open('mailto:aburic1@unipu.student.hr');" style="margin-left: 0px;">
+      <button class="primary-btn" onclick="window.open('mailto:aburic1@unipu.student.hr');" style="margin-left: 0px">
         Contact us
       </button>
     </article>

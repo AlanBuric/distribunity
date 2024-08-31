@@ -45,7 +45,9 @@ body {
 
 body {
   color: var(--color-text);
-  transition: color 0.5s, background-color 0.5s;
+  transition:
+    color 0.5s,
+    background-color 0.5s;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -96,7 +98,7 @@ img {
 }
 
 .clickable,
-input[type=submit],
+input[type='submit'],
 button {
   user-select: none;
   cursor: pointer;
@@ -121,20 +123,20 @@ a,
 input {
   box-sizing: border-box;
   padding: 7px 4px;
-  background: #FAFAFA;
-  border: 1px solid #AAA;
+  background: #fafafa;
+  border: 1px solid #aaa;
   font-size: 1rem;
   border-radius: 5px;
   margin: 10px 0px 10px 0px;
 }
 
-input[name=search] {
+input[name='search'] {
   background: url(/src/assets/search.svg) white no-repeat 5px 5px;
   padding-left: 34px;
 }
 
-input[name=search]:focus {
-  background-color: #EDEDED;
+input[name='search']:focus {
+  background-color: #ededed;
   outline: 1px auto var(--active-color);
 }
 
@@ -143,12 +145,12 @@ input[name=search]:focus {
 }
 
 .custom-input:hover {
-  background-color: #EDEDED;
+  background-color: #ededed;
   border: 1px auto #4c5961;
 }
 
 .custom-input:focus {
-  background-color: #EDEDED;
+  background-color: #ededed;
   outline: 1px auto var(--active-color);
   border-color: transparent;
 }
