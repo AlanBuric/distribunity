@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "clean:dist": "rimraf dist",
     "build": "npm run lint && npm run build-only && npm run type-check",
-    "preview": "vite preview",
+    "rebuild": "npm run clean:dist && npm run build",
+    "start": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --project ./tsconfig.vitest.json",
-    "clean:dist": "rimraf dist",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --config ./eslint.config.js --ignore-pattern dist/",
+    "lint-fix": "npm run lint -- --fix"
   },
   "dependencies": {
     "firebase": "^10.13.1",
@@ -24,9 +26,10 @@
     "vuefire": "3.1.23"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.1",
+    "@eslint/js": "^9.10.0",
     "@rushstack/eslint-patch": "1.10.4",
     "@stylistic/eslint-plugin": "^2.7.2",
+    "@tailwindcss/typography": "^0.5.15",
     "@tsconfig/node22": "22.0.0",
     "@types/eslint": "9.6.1",
     "@types/eslint__js": "^8.42.3",
@@ -36,12 +39,15 @@
     "@vue/eslint-config-typescript": "13.0.0",
     "@vue/test-utils": "2.4.6",
     "@vue/tsconfig": "0.5.1",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
     "eslint-define-config": "2.1.0",
     "eslint-plugin-vue": "^9.27.0",
     "globals": "^15.9.0",
+    "postcss": "^8.4.42",
     "rimraf": "^6.0.1",
     "rollup-plugin-visualizer": "5.12.0",
+    "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.3.0",
     "vite": "5.3.1",

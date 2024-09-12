@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { ref } from 'vue'
+  import { ref } from 'vue';
 
   const content = [
     {
@@ -19,34 +19,40 @@
         <li><b>multiple inventories:</b> a business may have multiple locations where inventory is stored, and user
           permissions can also be restricted to each of these</li>
         <li><b></b></li>
-      </ul>`
+      </ul>`,
     },
     {
       question: 'Is Distribunity paid for?',
       answer:
-        '<p>Unfortunately for us, no. However, please do consider leaving a donation on our PayPal to keep this open-source and free software going.</p>'
-    }
-  ]
+        '<p>Unfortunately for us, no. However, please do consider leaving a donation on our PayPal to keep this open-source and free software going.</p>',
+    },
+  ];
 
-  const visible = ref(Array.from({ length: content.length }, () => false))
+  const visible = ref(Array.from({ length: content.length }, () => false));
 
   function toggleAccordion(index: number) {
-    visible.value[index] = !visible.value[index]
+    visible.value[index] = !visible.value[index];
   }
 </script>
 
 <template>
-  <main class="page-inner main-style">
+  <main class="max-w-screen-2xl w-full mx-auto p-8 flex flex-col items-center bg-gray-200 dark:bg-gray-800 rounded-lg">
     <article>
-      <h2>Frequently Asked Questions</h2>
+      <h2 class="text-xl font-thin text-gray-900 dark:text-gray-100 mb-2">
+        Frequently Asked Questions
+      </h2>
       <section v-for="(item, index) in content" :key="index" class="expand-container">
         <button class="accordion" @click="toggleAccordion(index)">
-          <h3><span :class="{ arrow: true, open: visible[index] }">❯</span> {{ item.question }}</h3>
+          <h3 class="text-lg font-thin text-gray-900 dark:text-gray-100 mb-2">
+            <span :class="{ arrow: true, open: visible[index] }">❯</span> {{ item.question }}
+          </h3>
         </button>
-        <div :class="{ 'expand-contract': true, expanded: visible[index] }" v-html="item.answer" />
+        <div :class="{ 'expand-contract': true, expanded: visible[index], 'text-gray-800 dark:text-gray-200 mb-2': true }" v-html="item.answer" />
       </section>
-      <h2>Still having trouble?</h2>
-      <button class="primary-btn" onclick="window.open('mailto:aburic1@unipu.student.hr');" style="margin-left: 0px">
+      <h2 class="text-xl font-thin text-gray-900 dark:text-gray-100 mb-2">
+        Still having trouble?
+      </h2>
+      <button class="fancy-button" onclick="window.open('mailto:aburic1@unipu.student.hr');" style="margin-left: 0px">
         Contact us
       </button>
     </article>
@@ -58,17 +64,6 @@
     box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.27);
     border-radius: 10px;
     margin: 10px;
-  }
-
-  main {
-    background-color: white;
-    padding: 30px;
-  }
-
-  h3 {
-    font-weight: bold;
-    max-width: calc(var(--page-width) / 2);
-    font-size: 1.6em;
   }
 
   .arrow {
@@ -85,8 +80,6 @@
   }
 
   .accordion {
-    background-color: #eee;
-    color: #444;
     cursor: pointer;
     width: 100%;
     text-align: left;

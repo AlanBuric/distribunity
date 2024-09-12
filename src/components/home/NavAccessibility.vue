@@ -1,30 +1,26 @@
 <script lang="ts" setup>
-  import TuningIcon from '../icons/TuningIcon.vue'
-  // import { ref } from 'vue'
-
-  // const theme = ref("light");
-
-  // function isThemeDark() {
-  //     return theme.value === "dark";
-  // }
-
-  // e.g. :checked="isThemeDark">
-
-  // function isBig() {
-  //     return getComputedStyle(document.body).getPropertyValue('--width-breakpoint') > 992;
-  // }
+  import TuningIcon from '../icons/TuningIcon.vue';
 </script>
 
 <template>
   <button id="lang-btn">
     EN
   </button>
-  <label role="switch" class="switch">
-    <input type="checkbox" checked>
+  <label
+    role="switch"
+    class="switch"
+  >
+    <input
+      type="checkbox"
+      checked
+    >
     <span class="slider round" />
   </label>
   <button>
-    <TuningIcon height="32px" width="32px" />
+    <TuningIcon
+      height="32px"
+      width="32px"
+    />
   </button>
 </template>
 

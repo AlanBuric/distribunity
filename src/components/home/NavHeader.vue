@@ -1,47 +1,28 @@
 <script lang="ts" setup>
-  import Logo from '../icons/BrandLogo.vue'
+  import Logo from '../icons/BrandLogo.vue';
 </script>
 
 <template>
-  <RouterLink to="/" style="width: fit-content">
-    <header title="Take me back home">
-      <Logo width="5em" />
-      <div>
-        <h1>Distribunity</h1>
-        <p id="title-quote">
+  <RouterLink
+    to="/"
+    class="w-fit"
+  >
+    <header
+      title="Take me back home"
+      class="flex pl-1 rounded hover:bg-gray-200 dark:hover:bg-gray-900"
+    >
+      <Logo width="4.5em" />
+      <div class="flex flex-col justify-center px-4 py-2">
+        <h1 class="text-4xl font-bold font-serif text-gray-900 dark:text-gray-100">
+          Distribunity
+        </h1>
+        <p
+          id="title-quote"
+          class="text-gray-700 dark:text-gray-300"
+        >
           Inventory management done right.
         </p>
       </div>
     </header>
   </RouterLink>
 </template>
-
-<style scoped>
-  header {
-    display: flex;
-    padding-left: 5px;
-    border-radius: 5px;
-  }
-
-  div {
-    display: flex;
-    place-content: center;
-    flex-direction: column;
-    padding: 0.6em 1em;
-  }
-
-  h1 {
-    font:
-      bold 3em 'Garamond',
-      serif;
-  }
-
-  * {
-    text-decoration: none;
-    margin: 0;
-  }
-
-  header:hover {
-    background-color: #ddd;
-  }
-</style>

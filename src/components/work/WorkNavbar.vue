@@ -1,18 +1,27 @@
 <script lang="ts" setup>
-  import Logo from '@/components/icons/BrandLogo.vue'
+  import Logo from '@/components/icons/BrandLogo.vue';
 </script>
 
 <template>
   <nav>
-    <RouterLink to="/" class="nav-link">
+    <RouterLink
+      to="/"
+      class="nav-link"
+    >
       Home
     </RouterLink>
-    <RouterLink to="/resources" class="nav-link">
+    <RouterLink
+      to="/resources"
+      class="nav-link"
+    >
       Help
     </RouterLink>
-    <a href="" class="nav-link">Accessibility</a>
-    <RouterLink id="profile-btn" to="/work/settings">
-      <Logo width="2.5rem" />
+    <RouterLink
+      id="profile-btn"
+      to="/settings"
+    >
+      Profile
+      <!--<Logo width="2.5rem" />-->
     </RouterLink>
   </nav>
 </template>

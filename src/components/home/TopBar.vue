@@ -1,11 +1,14 @@
 <script lang="ts" setup>
-  import NavHeader from './NavHeader.vue'
-  import NavigationBar from './NavigationBar.vue'
+  import NavHeader from './NavHeader.vue';
+  import NavigationBar from './NavigationBar.vue';
 </script>
 
 <template>
-  <div role="banner">
-    <div class="page-inner page-inner-nav">
+  <div
+    role="banner"
+    class="bg-white dark:bg-gray-800"
+  >
+    <div class="max-w-screen-2xl w-full page-inner-nav">
       <NavHeader />
       <NavigationBar />
     </div>
@@ -19,7 +22,6 @@
     display: flex;
     justify-content: center;
     box-shadow: 0px 2px 5px rgba(40, 40, 40, 0.2);
-    background: var(--color-background);
     z-index: 100;
     padding: 8px 10px;
     font-size: 0.9rem;

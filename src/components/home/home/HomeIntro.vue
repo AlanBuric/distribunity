@@ -1,16 +1,16 @@
-<script lang="ts" setup></script>
-
 <template>
-  <section>
-    <div id="intro-overtext">
-      <h2 style="font-size: 2.2rem; margin-top: 0">
-        It's time do ditch the spreadsheets and pen & paper.
+  <section class="bg-cover bg-center bg-no-repeat">
+    <div class="bg-white bg-opacity-80 backdrop-blur-sm px-5 py-6 max-w-lg md:pb-32 lg:pb-48 xl:pb-72 dark:bg-gray-800 dark:bg-opacity-80">
+      <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+        It's time to ditch the spreadsheets and pen & paper.
       </h2>
-      <p style="font-size: 1.3rem">
-        <b>Distribunity</b> takes care of all the inventory changes, details and item tracking in
-        one place.
+      <p class="text-xl mb-4 text-gray-700 dark:text-gray-300">
+        <b>Distribunity</b> takes care of all the inventory changes, details and item tracking in one place.
       </p>
-      <RouterLink class="primary-btn" to="/signup" style="margin-top: 5em">
+      <RouterLink
+        class="inline-block text-lg fancy-button"
+        to="/signup"
+      >
         Sign up for free
       </RouterLink>
     </div>
@@ -20,14 +20,5 @@
 <style scoped>
   section {
     background: center url('@/assets/inventory-background.webp');
-  }
-
-  #intro-overtext {
-    background: linear-gradient(110deg, white 30%, rgba(255, 255, 255, 0.5) 80%, transparent);
-    height: 100%;
-    padding: 20px;
-    max-width: 500px;
-    backdrop-filter: blur(5px);
-    /* box-shadow: 0px 0px 20px 2px rgba(255, 255, 255, 0.5); */
   }
 </style>

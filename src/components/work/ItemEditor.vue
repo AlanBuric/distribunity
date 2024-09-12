@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-  const props = defineProps(['selectedItem'])
+  import type { ExistingItem } from '@/types/types';
+
+  const props = defineProps < { selectedItem: ExistingItem }>();
 </script>
 
 <template>

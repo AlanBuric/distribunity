@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { RouterView } from 'vue-router'
+  import { RouterView } from 'vue-router';
 </script>
 
 <template>
@@ -35,9 +35,10 @@
     text-align: center;
     padding: 0.8rem 0.4rem;
     font-size: 1.1rem;
+    @apply text-gray-700 dark:text-gray-300;
   }
 
   .nav-link:hover {
-    color: var(--active-color);
+    color: var(--active-link);
   }
 </style>

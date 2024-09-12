@@ -1,18 +1,22 @@
-import '@/assets/styles/common.css'
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from '@/router/index'
-import { VueFire, VueFireAuth } from 'vuefire'
-import { firebaseApp } from './firebase/init'
+import '@/assets/styles/common.css';
 
-const app = createApp(App)
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from '@/router/index';
+import { VueFire, VueFireAuth } from 'vuefire';
+import { firebaseApp } from './firebase/init.js';
+import { createPinia } from 'pinia';
 
-app.use(router)
+const pinia = createPinia();
+const app = createApp(App);
+
+app.use(router);
 app.use(VueFire, {
   firebaseApp,
-  modules: [VueFireAuth()]
-})
+  modules: [VueFireAuth()],
+});
 
-app.mount('#app')
+app.use(pinia);
+app.mount('#app');
 
-console.log('Snooping around, are we?')
+console.log('Snooping around, are we?');

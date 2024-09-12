@@ -1,59 +1,46 @@
-<script lang="ts" setup>  import { ref } from 'vue'
+<script lang="ts" setup> import { getItemColumnValue } from '@/scripts/items';
+  import { getPrettyEnumName } from '@/scripts/shared';
+  import { ColumnType, type Inventory } from '@/types/types';
+  import { ref } from 'vue';
 
-  const props = defineProps(['inventory'])
+  const props = defineProps<{
+    inventory: Inventory
+  }>();
 
-  function calculateTotalItemPrice(item) {
-    return parseFloat((item.unitPrice * item.quantity).toPrecision(12))
-  }
+  const columns = [ColumnType.NAME, ColumnType.UNIT, ColumnType.QUANTITY, ColumnType.UNIT_PRICE, ColumnType.TOTAL_PRICE, ColumnType.ATTRIBUTES].map(enumName => ({
+    enumName: enumName,
+    name: getPrettyEnumName(enumName),
+  }));
 
-  const activeRow = ref(props.inventory?.items[0])
-  const columnNames = [
-    { name: 'Item' },
-    { quantity: 'Quantity' },
-    { unit: 'Unit' },
-    { unitPrice: 'Unit price' },
-    { total: 'Total price', compute: calculateTotalItemPrice },
-    { id: 'ID' }
-  ]
+  const activeRow = ref(props.inventory?.items[0]?.id);
 
   // const sortBy = (propertyKey) => props.inventory.items.sort((item) => item[propertyKey]);
-  const setActiveRow = (id: string) => (activeRow.value = id)
-
-  const getColumnValueForItem = (column, item) => {
-    if (column.compute != null) {
-      return column.compute(item)
-    }
-
-    return item[Object.keys(column)[0]]
-  }
+  const setActiveRow = (id: string) => (activeRow.value = id);
 </script>
 
 <template>
-  <main>
-    <table class="table-rounded">
-      <tr v-if="props.inventory.items.length == 0">
-        <td>This inventory is currently empty. Use the "New" button to create a new item!</td>
+  <table class="table-auto rounded-lg">
+    <tr>
+      <th v-for="(columnName, index) in columns" :key="index" class="clickable">
+        {{ columnName.name }}
+      </th>
+    </tr>
+    <template v-if="inventory.items.length > 0">
+      <tr
+        v-for="item in inventory.items" :key="item.id" :class="{ 'active-item-row': item.id == activeRow }"
+        @click="setActiveRow(item.id)"
+      >
+        <td v-for="column in columns" :key="column.enumName">
+          {{ getItemColumnValue(item, column.enumName) }}
+        </td>
       </tr>
-      <template v-else>
-        <tr>
-          <th
-            v-for="(columnName, index) in columnNames" :key="index" class="clickable"
-            @click="sortBy(Object.keys(columnName)[0])"
-          >
-            {{ Object.values(columnName)[0] }}
-          </th>
-        </tr>
-        <tr
-          v-for="item in props.inventory.items" :id="item.id == activeRow ? 'active-item-row' : null" :key="item.id"
-          @click="setActiveRow(item.id)"
-        >
-          <td v-for="column in columnNames" :key="Object.keys(column)[0]">
-            {{ getColumnValueForItem(column, item) }}
-          </td>
-        </tr>
-      </template>
-    </table>
-  </main>
+    </template>
+    <tr v-else>
+      <td colspan="6">
+        Your inventory is empty. Consider adding some items.
+      </td>
+    </tr>
+  </table>
 </template>
 
 <style scoped>
@@ -64,7 +51,6 @@
   table {
     width: 100%;
     background-color: #f5f5f5;
-    border-radius: 10px;
     /* This erases the excessive bottom border. */
     border-style: hidden;
     border-spacing: 0;
@@ -90,8 +76,8 @@
     background-color: rgb(230, 230, 230);
   }
 
-  #active-item-row {
-    background: rgb(161, 255, 216);
+  .active-item-row {
+    background-color: rgb(161, 255, 216) !important;
   }
 
   .pointer.desc:after {

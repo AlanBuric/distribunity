@@ -1,38 +1,51 @@
 <script lang="ts" setup>
-  import { ref } from 'vue'
+  import { ref } from 'vue';
 
-  const props = defineProps(['items'])
-  const emit = defineEmits(['itemSelected'])
+  const props = defineProps<{ items: any[] }>();
+  const emit = defineEmits(['itemSelected']);
 
-  const isOpen = ref(false)
-  const selected = ref(null)
+  const isOpen = ref(false);
+  const selected = ref(null);
 
   function toggleDropdown() {
-    isOpen.value = !isOpen.value
+    isOpen.value = !isOpen.value;
   }
 
   function handleClick(item) {
     if (item.type === 'button') {
-      item.props.onClick()
+      item.props.onClick();
     } else {
-      selected.value = item
+      selected.value = item;
     }
 
-    isOpen.value = false
+    isOpen.value = false;
 
-    emit('item-selected', item)
+    emit('itemSelected', item);
   }
 </script>
 
 <template>
-  <div class="dropdown" @click="toggleDropdown">
+  <div
+    class="dropdown"
+    @click="toggleDropdown"
+  >
     <button class="dropdown-button">
       {{ selected || 'Select an option' }}
     </button>
-    <div v-if="isOpen" class="dropdown-content">
+    <div
+      v-if="isOpen"
+      class="dropdown-content"
+    >
       <ul>
-        <li v-for="(item, index) in props.items" :key="index" @click="handleClick(item)">
-          <component :is="item.type" v-bind="item.props">
+        <li
+          v-for="(item, index) in props.items"
+          :key="index"
+          @click="handleClick(item)"
+        >
+          <component
+            :is="item.type"
+            v-bind="item.props"
+          >
             {{ item.label }}
           </component>
         </li>

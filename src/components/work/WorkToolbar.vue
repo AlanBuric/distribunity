@@ -1,10 +1,18 @@
 <template>
   <nav>
-    <button class="link-like" @click="$emit('newItem')">
+    <button
+      class="link-like"
+      @click="$emit('newItem')"
+    >
       New
     </button>
-    <form>
-      <input placeholder="Item name...">
+    <form class="show-past-1200">
+      <input
+        name="search"
+        placeholder="Search items..."
+        type="search"
+      >
+      <input type="submit">
     </form>
   </nav>
 </template>

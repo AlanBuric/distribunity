@@ -1,56 +1,52 @@
 <script lang="ts" setup>
-  import { ref } from 'vue'
-  import { useRoute } from 'vue-router'
-  import BlogError from '@/components/blog/BlogError.vue'
-  import BlogPage from '@/components/blog/BlogPage.vue'
+  import { ref } from 'vue';
+  import { useRoute } from 'vue-router';
+  import BlogError from '@/components/blog/BlogError.vue';
+  import BlogPage from '@/components/blog/BlogPage.vue';
+  import { type BlogPost } from '@/types/types';
 
-  const route = useRoute()
+  const route = useRoute();
 
-  var postsPerPage = 10
-  const posts = ref([
-    { id: 1, date: new Date(2024, 3, 7, 12, 0), title: 'Welcome to Distribunity!' },
+  var postsPerPage = 10;
+  const posts = ref<BlogPost[]>([
     {
-      id: 2,
+      id: '1',
+      title: 'Welcome to Distribunity!',
+      description: '',
+      date: new Date(2024, 3, 7, 12, 0),
+    },
+    {
+      id: '2',
+      title: 'Distribunity planned as a Mobile and Desktop application',
+      description: '',
       date: new Date(2024, 3, 14, 14, 23),
-      title: 'Distribunity planned as a Mobile and Desktop application'
-    }
-  ])
+    },
+  ]);
+
+  posts.value = posts.value.sort((obj2, obj1) => obj1.date.getTime() - obj2.date.getTime());
+  console.log(posts.value);
 
   function getPageCount() {
-    return Math.ceil(posts.value.length / postsPerPage)
+    return Math.ceil(posts.value.length / postsPerPage);
   }
 
   function doesPageExist() {
-    return route.query.page > 0 && route.query.page <= getPageCount()
+    const page = parseInt(route.query.page as string);
+    return page > 0 && page <= getPageCount();
   }
 </script>
 
 <template>
-  <main class="page-inner main-style">
+  <main class="max-w-screen-2xl w-full mx-auto p-8 flex flex-col items-center bg-gray-200 dark:bg-gray-800 rounded-lg">
     <BlogError
-      v-if="!doesPageExist()" error-message="Oops! This page doesn't exist." redirect-href="/blog?page=1"
+      v-if="!doesPageExist()" error-message="Oops! This page doesn't exist."
+      redirect-href="/blog?page=1"
       subtitle="Let's take you back to the beginning."
+      class="text-center mt-12"
     />
-    <BlogPage v-else :posts="posts" :get-page-count="getPageCount" :route="route" />
+    <BlogPage
+      v-else :posts="posts" :get-page-count="getPageCount"
+      :route="route"
+    />
   </main>
 </template>
-
-<style scoped>
-  main {
-    display: flex;
-    flex-direction: column;
-    place-items: center;
-  }
-
-  #page-controls {
-    display: flex;
-    margin: 20px;
-    gap: 10px;
-  }
-
-  #page-controls * {
-    font-size: 1.2em;
-    padding: 0.6em 0.7em;
-    margin: 0;
-  }
-</style>

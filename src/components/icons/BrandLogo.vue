@@ -2,25 +2,71 @@
 <!-- Functional header: alt="Distribunity logo, white letter S inside an aquamarine hexagon" viewBox="0 -8 125 150" -->
 <template>
   <svg
-    width="100px" viewBox="0 0 81.172 81.172" alt="Distribunity logo, white letter D inside aquamarine square"
-    xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
+    width="100px"
+    viewBox="0 0 81.172 81.172"
+    alt="Distribunity logo, white letter D inside aquamarine square"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns="http://www.w3.org/2000/svg"
   >
     <defs>
       <radialGradient
-        id="b" xlink:href="#a" cx="-105.352" cy="-53.014" fx="-105.352" fy="-53.014" r="132.164"
-        gradientTransform="matrix(1 0 0 1.15443 0 8.187)" gradientUnits="userSpaceOnUse"
+        id="b"
+        xlink:href="#a"
+        cx="-105.352"
+        cy="-53.014"
+        fx="-105.352"
+        fy="-53.014"
+        r="132.164"
+        gradientTransform="matrix(1 0 0 1.15443 0 8.187)"
+        gradientUnits="userSpaceOnUse"
       />
       <linearGradient id="a">
-        <stop style="stop-color: #00d4aa; stop-opacity: 1" offset="0" />
-        <stop style="stop-color: #00d3aa; stop-opacity: 1" offset=".387" />
-        <stop style="stop-color: #0094a8; stop-opacity: 1" offset="1" />
+        <stop
+          style="stop-color: #00d4aa; stop-opacity: 1"
+          offset="0"
+        />
+        <stop
+          style="stop-color: #00d3aa; stop-opacity: 1"
+          offset=".387"
+        />
+        <stop
+          style="stop-color: #0094a8; stop-opacity: 1"
+          offset="1"
+        />
       </linearGradient>
-      <filter id="c" style="color-interpolation-filters: sRGB" x="-.091" y="-.075" width="1.183" height="1.151">
-        <feFlood result="flood" flood-opacity="1" flood-color="#FFF" />
-        <feGaussianBlur result="blur" in="SourceGraphic" stdDeviation="2" />
-        <feOffset result="offset" in="blur" />
-        <feComposite result="comp1" operator="in" in="flood" in2="offset" />
-        <feComposite result="comp2" in="SourceGraphic" in2="comp1" />
+      <filter
+        id="c"
+        style="color-interpolation-filters: sRGB"
+        x="-.091"
+        y="-.075"
+        width="1.183"
+        height="1.151"
+      >
+        <feFlood
+          result="flood"
+          flood-opacity="1"
+          flood-color="#FFF"
+        />
+        <feGaussianBlur
+          result="blur"
+          in="SourceGraphic"
+          stdDeviation="2"
+        />
+        <feOffset
+          result="offset"
+          in="blur"
+        />
+        <feComposite
+          result="comp1"
+          operator="in"
+          in="flood"
+          in2="offset"
+        />
+        <feComposite
+          result="comp2"
+          in="SourceGraphic"
+          in2="comp1"
+        />
       </filter>
     </defs>
     <path
@@ -32,10 +78,14 @@
         stroke-linejoin: round;
         stroke-dasharray: none;
         paint-order: stroke markers fill;
-      " d="M26.652-129.216-29.139 79-237.357 23.21l55.792-208.217z"
+      "
+      d="M26.652-129.216-29.139 79-237.357 23.21l55.792-208.217z"
       transform="rotate(-14.999 225.287 -279.834) scale(.34219)"
     />
-    <g transform="translate(-54.138 -71.896) scale(.83494)" style="filter: url(#c)">
+    <g
+      transform="translate(-54.138 -71.896) scale(.83494)"
+      style="filter: url(#c)"
+    >
       <path
         style="
           fill: #fff;

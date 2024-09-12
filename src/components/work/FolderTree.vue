@@ -1,11 +1,23 @@
 <script setup lang="ts">
-  import TreeNode from './TreeNode.vue'
+  import type { Folder } from '@/types/types';
+  import TreeNode from './TreeNode.vue';
 
-  const props = defineProps(['inventories', 'selectedInventory'])
+  defineProps<{ folders: Folder[] }>();
+  defineEmits(['selectInventory']);
 </script>
 
 <template>
-  <TreeNode class="tree" :inventories="props.inventories" :selected-inventory="props.selectedInventory" />
+  <ul class="tree">
+    <li>
+      <details open>
+        <summary>Folders & inventories</summary>
+        <TreeNode
+          v-for="(folder, index) in folders" :key="index"
+          :folder="folder" @select-inventory="(payload) => $emit('selectInventory', payload)"
+        />
+      </details>
+    </li>
+  </ul>
 </template>
 
 <style>
@@ -15,8 +27,9 @@
 
   .tree {
     --spacing: 1.5rem;
-    --radius: 10px;
-    padding: 5px 0px;
+    --offset-x: 11px;
+    --offset-y: 13px;
+    padding: 0px;
     overflow-y: auto;
     scrollbar-color: rgb(95, 93, 93) #1e1e20;
   }
@@ -24,11 +37,11 @@
   .tree li {
     display: block;
     position: relative;
-    padding-left: calc(2 * var(--spacing) - var(--radius) - 2px);
+    padding-left: calc(2 * var(--spacing) - var(--offset-x) - 2px);
   }
 
   .tree ul {
-    margin-left: calc(var(--radius) - var(--spacing));
+    margin-left: calc(var(--offset-x) - var(--spacing));
     padding-left: 0;
   }
 
@@ -72,23 +85,23 @@
 
   .tree li::after,
   .tree summary::before {
-    content: '';
     display: block;
     position: absolute;
-    top: calc(var(--spacing) / 2 - var(--radius));
-    left: calc(var(--spacing) - var(--radius) - 1px);
-    width: calc(2 * var(--radius));
-    height: calc(2 * var(--radius));
-    border-radius: 50%;
-    background: #ddd;
+    top: calc(var(--spacing) / 2 - var(--offset-y));
+    left: calc(var(--spacing) - var(--offset-x) - 1px);
+  }
+
+  .tree li::after {
+    content: '📦';
   }
 
   .tree summary::before {
     z-index: 1;
-    background: #696 url('@/assets/expand-collapse.svg') 0 0;
+    content: '📁';
   }
 
   .tree details[open] > summary::before {
-    background-position: calc(-2 * var(--radius)) 0;
+    background-position: calc(-2 * var(--offset-x)) 0;
+    content: '📂'
   }
 </style>

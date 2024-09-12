@@ -1,7 +1,11 @@
 <script lang="ts" setup>
-  const props = defineProps(['errorMessage', 'redirectHref', 'subtitle'])
-  // Oops! This page doesn't exist.
-  // Let's take you back to the beginning.
+  const props = defineProps<{
+    errorMessage: string
+    redirectHref: string
+    subtitle: string
+  }>();
+// Oops! This page doesn't exist.
+// Let's take you back to the beginning.
 </script>
 
 <template>
