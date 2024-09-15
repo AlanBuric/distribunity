@@ -1,3 +1,5 @@
+import type { DocumentReference } from 'firebase/firestore';
+
 export type Named = {
   name: string
 };
@@ -43,7 +45,6 @@ export type User = {
   lastName: string
   theme: string
   language: string
-  profilePictureURL: string
   organizations: string[]
 };
 
@@ -98,14 +99,16 @@ export type Folder = Named & {
   organizationId?: string
 };
 
-export type Organization = Named & {
+export type CountryData = {
+  countryCode: string
   country: string
-  currencyFormat: string
-  percentageFormat: string
-  members: Member[]
+};
+
+export type Organization = Named & CountryData & {
+  owner: DocumentReference<User>
+  members: DocumentReference[]
   roles: OrganizationRole[]
-  folders: Folder[]
-  addresses?: Address[]
+  folders: string[]
 };
 
 export type SettingsSection = Named & {
@@ -128,4 +131,19 @@ export type BlogPost = {
   description: string
   date: Date
   title: string
+};
+
+export type RestCountriesCountryName = {
+  common: string
+  official: string
+  nativeName: Record<string, {
+    official: string
+    common: string
+  }>
+};
+
+export type RestCountriesCountry = {
+  name: RestCountriesCountryName
+  cca3: string
+  independent: boolean
 };

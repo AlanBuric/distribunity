@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import NavigationBar from '@/components/home/NavigationBar.vue';
   import type { SettingsSection } from '@/types/types';
-  import OrganizationSection from './OrganizationSection.vue';
   import { ref } from 'vue';
   import DisplaySection from './DisplaySection.vue';
 
@@ -21,11 +20,6 @@
       name: 'display',
       sidebarName: 'Display',
       displayName: 'Display Settings',
-    },
-    {
-      name: 'organization',
-      sidebarName: 'Organizations',
-      displayName: 'Organization Settings',
     },
   ];
 
@@ -87,8 +81,6 @@
         v-if="currentSection === 'display'" class="flex flex-col space-y-4"
         :save-settings="saveSettings"
       />
-
-      <OrganizationSection v-if="currentSection === 'organization'" />
     </main>
   </div>
 </template>
