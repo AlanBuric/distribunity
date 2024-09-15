@@ -23,6 +23,7 @@
   const confirmPassword = ref('');
   const passwordStrength = ref<PasswordStrength>({ title: 'Weak', strength: 1 });
   const passwordsMatch = ref();
+  const isWaitingForResponse = ref(false);
 
   watch(password, (newPassword) => {
     passwordStrength.value = getPasswordStrength(newPassword ?? '');
@@ -68,12 +69,12 @@
             joined: Date.now(),
           })
             .then(() => {
-              formIssues.value = ['User fully created.'];
-              router.push('/work');
+              formIssues.value = ['Your user profile is ready.'];
+              router.push('/dashboard');
             })
             .catch(() => {
               formIssues.value = [
-                'Sorry, but we failed to create your user profile in our database. Please contact us for support.',
+                'Sorry, but we failed to create your user profile in our database. Please contact us for support; you can find our contacts at the bottom of the page.',
               ];
             });
         })
@@ -157,6 +158,7 @@
       placeholder="Confirm password"
       autocomplete="off"
       required
+      :disabled="isWaitingForResponse"
     >
     <p v-if="passwordsMatch" :class="['mb-4', passwordsMatch.className]">
       {{ passwordsMatch.message }}

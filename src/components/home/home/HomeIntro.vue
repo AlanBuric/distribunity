@@ -5,7 +5,7 @@
         It's time to ditch the spreadsheets and pen & paper.
       </h2>
       <p class="text-xl mb-4 text-gray-700 dark:text-gray-300">
-        <b>Distribunity</b> takes care of all the inventory changes, details and item tracking in one place.
+        <b>Distribunity</b> takes care of all the inventory changes, details and item tracking of your business in one place.
       </p>
       <RouterLink
         class="inline-block text-lg fancy-button"

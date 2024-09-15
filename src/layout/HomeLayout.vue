@@ -5,10 +5,9 @@
 </script>
 
 <template>
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center h-full">
     <TopBar />
-    <div class="h-28" />
-    <RouterView />
-    <MainFooter />
+    <RouterView class="mt-28 max-sm:mt-40" />
+    <MainFooter class="flex-1 mt-4 w-full" />
   </div>
 </template>

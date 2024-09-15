@@ -6,16 +6,23 @@
 
   const email = ref('');
   const password = ref('');
+  const loginError = ref<string>();
+  const isWaitingForResponse = ref(false);
 
   function handleSubmit() {
     signInWithEmailAndPassword(auth, email.value, password.value)
       .then(() => {
-        router.push('/work');
+        router.push('/dashboard');
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
+        switch (error.code) {
+        case 'auth/invalid-credential':
+          loginError.value = 'Incorrect email.';
+          break;
+        default:
+          loginError.value = 'Wrong password.';
+          break;
+        }
       });
   }
 </script>
@@ -52,9 +59,13 @@
       type="submit"
       value="Log in"
       class="fancy-button"
+      :disabled="isWaitingForResponse"
     >
       Log in
     </button>
+    <p v-if="loginError" class="mt-4 text-red-600">
+      {{ loginError }}
+    </p>
   </form>
 </template>
 

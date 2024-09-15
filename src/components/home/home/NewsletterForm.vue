@@ -4,11 +4,11 @@
   import { ref } from 'vue';
 
   const submitted = ref(false);
-  const email = ref('');
+  const email = ref();
 
   function signupForNewsLetter() {
     setDoc(doc(database, 'email-subscriptions', email.value), {})
-      .then(value => console.log('Success!', value))
+      .then(() => submitted.value = true)
       .catch(error => console.error(error));
     submitted.value = true;
   }
@@ -31,8 +31,8 @@
       <form @submit.prevent="signupForNewsLetter" class="w-full max-w-md">
         <div class="mb-4">
           <input
-            v-model.lazy="email"
-            class="custom-input w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 dark:border-gray-700 dark:bg-gray-800 dark:focus:ring-teal-400"
+            v-model="email"
+            class="custom-input w-full p-3 border text-gray-700 dark:text-gray-300 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-teal-400"
             type="email"
             name="email"
             autocomplete="email"
@@ -56,12 +56,15 @@
             and have the right to cancel my subscription any time.
           </label>
         </div>
-        <button
-          type="submit"
-          class="text-lg fancy-button"
-        >
-          Subscribe
-        </button>
+        <div class="space-x-3">
+          <button
+            type="submit"
+            class="text-lg fancy-button"
+          >
+            Subscribe
+          </button>
+          <slot />
+        </div>
       </form>
     </template>
   </section>

@@ -24,7 +24,6 @@
   ]);
 
   posts.value = posts.value.sort((obj2, obj1) => obj1.date.getTime() - obj2.date.getTime());
-  console.log(posts.value);
 
   function getPageCount() {
     return Math.ceil(posts.value.length / postsPerPage);

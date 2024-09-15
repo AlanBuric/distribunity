@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <footer class="w-full bg-gray-900 text-gray-300 flex flex-col items-center p-8 mt-4">
+  <footer class="bg-gray-900 text-gray-300 flex flex-col items-center justify-between p-8">
     <div id="footer-links" class="max-w-screen-2xl w-full flex flex-col md:flex-row justify-between mb-16 space-y-8 md:space-y-0">
       <section>
         <h3 class="text-xl font-semibold text-gray-100 mb-4">
@@ -59,7 +59,7 @@
               class="group flex space-x-3 items-center"
             >
               <GithubIcon class="w-8 h-8 fill-white" />
-              <p class="text-gray-400 group-hover:text-teal-400 transition duration-300">GitHub</p>
+              <p class="text-gray-400 group-hover:text-teal-400 transition duration-300">Source code on GitHub</p>
             </a>
           </li>
         </ul>

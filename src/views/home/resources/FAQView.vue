@@ -41,7 +41,7 @@
       <h2 class="text-xl font-thin text-gray-900 dark:text-gray-100 mb-2">
         Frequently Asked Questions
       </h2>
-      <section v-for="(item, index) in content" :key="index" class="expand-container">
+      <section v-for="(item, index) in content" :key="index" class="expand-container bg-white dark:bg-gray-700">
         <button class="accordion" @click="toggleAccordion(index)">
           <h3 class="text-lg font-thin text-gray-900 dark:text-gray-100 mb-2">
             <span :class="{ arrow: true, open: visible[index] }">❯</span> {{ item.question }}
