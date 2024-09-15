@@ -1,6 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { auth } from '@/firebase/init.js';
 
+import 'vue-router';
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    title?: string
+    requiresAuth?: boolean
+    avoidIfAuthed?: RouteLocationRaw
+  }
+}
+
 const DEFAULT_TITLE = 'Distribunity';
 
 /**
@@ -82,6 +92,9 @@ const router = createRouter({
           component: () => import('@/views/home/LoginView.vue'),
           meta: {
             title: 'Distribunity: Login',
+            avoidIfAuthed: {
+              name: 'home',
+            },
           },
         },
         {
@@ -90,6 +103,9 @@ const router = createRouter({
           component: () => import('@/views/home/SignupView.vue'),
           meta: {
             title: 'Distribunity: Signup',
+            avoidIfAuthed: {
+              name: 'dashboard',
+            },
           },
         },
       ],
@@ -135,17 +151,22 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from, next) => {
-  auth.onAuthStateChanged((user) => {
-    if (to.meta.requiresAuth && !user) {
-      next({ name: 'login', query: { redirect: to.fullPath } });
-    } else {
-      next();
+router.beforeEach((to) => {
+  return auth.authStateReady().then(() => {
+    if (to.meta.requiresAuth && !auth.currentUser) {
+      return {
+        name: 'login',
+        query: {
+          redirect: to.fullPath,
+        },
+      };
+    } else if (to.meta.avoidIfAuthed && auth.currentUser) {
+      return to.meta.avoidIfAuthed;
     }
   });
 });
 
-router.afterEach((to) => {
+router.beforeResolve((to) => {
   document.title = to.meta.title && typeof to.meta.title === 'string' ? to.meta.title : DEFAULT_TITLE;
 });
 
