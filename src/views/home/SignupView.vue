@@ -66,11 +66,14 @@
           setDoc(doc(database, 'users', userCredential.user.uid), {
             firstName: firstName.value,
             lastName: lastName.value,
+            theme: 'dark',
+            language: 'en_us',
+            organizations: [],
             joined: Date.now(),
           })
             .then(() => {
               formIssues.value = ['Your user profile is ready.'];
-              router.push('/dashboard');
+              router.push({ path: '/dashboard' });
             })
             .catch(() => {
               formIssues.value = [

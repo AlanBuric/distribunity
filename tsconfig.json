@@ -21,6 +21,7 @@
     "verbatimModuleSyntax": true,
     "noImplicitAny": false,
     "allowJs": true,
+    "useUnknownInCatchVariables": false,
     "types": [
       "node"
     ],

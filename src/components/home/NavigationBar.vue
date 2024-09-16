@@ -71,6 +71,12 @@
         >
           Dashboard
         </RouterLink>
+        <RouterLink
+          class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
+          to="/settings"
+        >
+          Settings
+        </RouterLink>
         <button
           class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
           @click.prevent="logoutAndRefresh()"

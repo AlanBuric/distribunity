@@ -17,10 +17,10 @@
       .catch((error) => {
         switch (error.code) {
         case 'auth/invalid-credential':
-          loginError.value = 'Incorrect email.';
+          loginError.value = 'No account exists with that email.';
           break;
         default:
-          loginError.value = 'Wrong password.';
+          loginError.value = 'Incorrect password.';
           break;
         }
       });

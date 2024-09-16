@@ -1,9 +1,33 @@
 <script lang="ts" setup>
-  import { RouterView } from 'vue-router';
+  import { watch } from 'vue';
+  import { RouterView, useRoute, useRouter } from 'vue-router';
+  import { useCurrentUser } from 'vuefire';
+
+  const user = useCurrentUser();
+  const router = useRouter();
+  const route = useRoute();
+
+  watch(user, async (currentUser, previousUser) => {
+    if (!currentUser && previousUser && route.meta.requiresAuth) {
+      return router.push({ name: 'login' });
+    }
+
+    if (currentUser && typeof route.query.redirect === 'string') {
+      return router.push(route.query.redirect);
+    }
+  });
 </script>
 
 <template>
-  <RouterView />
+  <Suspense>
+    <RouterView />
+
+    <template #fallback>
+      <p class="text-white text-semibold text-center">
+        Loading...
+      </p>
+    </template>
+  </Suspense>
 </template>
 
 <style>

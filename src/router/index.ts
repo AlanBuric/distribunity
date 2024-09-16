@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { auth } from '@/firebase/init.js';
 
 import 'vue-router';
+import { getCurrentUser } from 'vuefire';
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -130,16 +131,17 @@ const router = createRouter({
       name: 'organization-inventories',
       component: () => import('@/pages/InventoryPage.vue'),
       meta: {
-        requiresAuth: true,
         title: 'Distribunity: Organization inventories',
+        requiresAuth: true,
       },
     },
     {
       path: '/settings',
-      name: 'user-settings',
+      name: 'settings',
       component: () => import('@/pages/UserSettingsPage.vue'),
       meta: {
         title: 'Distribunity: Settings',
+        requiresAuth: true,
       },
     },
     {
@@ -153,19 +155,27 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to) => {
-  return auth.authStateReady().then(() => {
-    if (to.meta.requiresAuth && !auth.currentUser) {
+router.beforeEach(async (to) => {
+  await auth.authStateReady();
+
+  if (to.meta.requiresAuth) {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
       return {
         name: 'login',
         query: {
           redirect: to.fullPath,
         },
       };
-    } else if (to.meta.avoidIfAuthed && auth.currentUser) {
+    }
+  } else if (to.meta.avoidIfAuthed) {
+    const currentUser = await getCurrentUser();
+
+    if (currentUser) {
       return to.meta.avoidIfAuthed;
     }
-  });
+  }
 });
 
 router.beforeResolve((to) => {
