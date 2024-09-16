@@ -114,7 +114,6 @@ img {
 }
 
 a,
-.clickable,
 input[type='submit'],
 button {
   cursor: pointer;

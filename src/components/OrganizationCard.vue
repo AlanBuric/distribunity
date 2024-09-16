@@ -16,6 +16,10 @@
   const organization: Organization & WithId = { ...orgData, id: orgSnapshot.id };
 
   async function leaveOrganization() {
+    if (!confirm(`Are you sure you want to leave the organization ${organization.name}?`)) {
+      return;
+    }
+
     const userProfileRef = useAuthStore().userProfileRef;
 
     if (userProfileRef) {
@@ -24,6 +28,10 @@
   };
 
   async function deleteOrganization() {
+    if (!confirm(`Are you sure you want to delete the organization ${organization.name}?`)) {
+      return;
+    }
+
     try {
       await runTransaction(database, async (transaction) => {
         const orgSnapshot = await transaction.get(orgRef);
@@ -55,21 +63,24 @@
       {{ organization.members.length }} members, {{ organization.roles.length }} roles
     </h6>
 
-    <div class="mt-4 flex space-x-4">
+    <div class="mt-4 flex space-x-2">
       <RouterLink :to="`/organization/${organization.id}/inventory`" class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105">
         Open
+      </RouterLink>
+      <RouterLink :to="`/organization/${organization.id}`" class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105">
+        Settings
       </RouterLink>
       <button
         v-if="organization.owner?.id === auth.currentUser?.uid"
         @click="deleteOrganization()"
-        class="text-red-600 hover:text-red-800 text-sm font-semibold hover:shadow-md transition-shadow transform hover:scale-105"
+        class="text-red-600 hover:text-red-800 text-sm font-semibold px-2 py-1 hover:shadow-md transition-shadow transform hover:scale-105"
       >
         Delete
       </button>
       <button
         v-else
         @click="leaveOrganization()"
-        class="text-red-600 hover:text-red-800 text-sm font-semibold hover:shadow-md transition-shadow transform hover:scale-105"
+        class="text-red-600 hover:text-red-800 text-sm font-semibold px-2 py-1 hover:shadow-md transition-shadow transform hover:scale-105"
       >
         Leave
       </button>

@@ -2,7 +2,8 @@
   import type { Folder } from '@/types/types';
   import TreeNode from './TreeNode.vue';
 
-  defineProps<{ folders: Folder[] }>();
+  const props = defineProps<{ folders: Folder[], organizationName: string }>();
+
   defineEmits(['selectInventory']);
 </script>
 
@@ -10,7 +11,17 @@
   <ul class="tree">
     <li>
       <details open>
-        <summary>Folders & inventories</summary>
+        <summary class="flex justify-between">
+          <span>{{ organizationName }}</span>
+          <div class="inline-block">
+            <button title="Create new folder">
+              ➕
+            </button>
+            <button title="Delete this inventory">
+              🗑️
+            </button>
+          </div>
+        </summary>
         <TreeNode
           v-for="(folder, index) in folders" :key="index"
           :folder="folder" @select-inventory="(payload) => $emit('selectInventory', payload)"
@@ -35,7 +46,6 @@
   }
 
   .tree li {
-    display: block;
     position: relative;
     padding-left: calc(2 * var(--spacing) - var(--offset-x) - 2px);
   }
@@ -66,7 +76,6 @@
   }
 
   .tree summary {
-    display: block;
     cursor: pointer;
   }
 

@@ -16,7 +16,7 @@ const DEFAULT_TITLE = 'Distribunity';
 /**
  * Website structure:
  * .
- * └── website.com/
+ * └── distribunity.com/
  *     ├── blog/
  *     │   ├── 1
  *     │   ├── 2
@@ -26,9 +26,11 @@ const DEFAULT_TITLE = 'Distribunity';
  *     │   ├── legal
  *     │   └── contact
  *     ├── login
- *     └── work/
- *         ├── panel
- *         └── settings
+ *     ├── signup
+ *     ├── dashboard
+ *     └── organization/:id
+ *         ├── .
+ *         └── inventory
  */
 
 const router = createRouter({
@@ -124,7 +126,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/organization/:organizationId/inventory',
+      path: '/organization/:id/inventory',
       name: 'organization-inventory',
       component: () => import('@/views/work/WorkPage.vue'),
       meta: {

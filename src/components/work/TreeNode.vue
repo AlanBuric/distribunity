@@ -12,24 +12,41 @@
   }
 
   function isSelected(inventory: Inventory) {
-    return selectedInventory?.name === inventory.name;
+    console.log(selectedInventory?.name, inventory.name);
+    return selectedInventory?.name == inventory.name;
+  }
+
+  function deleteInventory(index: number) {
+
   }
 </script>
 
 <template>
   <ul>
     <li v-for="(subfolder, index) in folder.folders" :key="index">
-      <details open>
-        <summary>{{ subfolder.name }}</summary>
+      <details open title="Click to open or collapse">
+        <summary class="flex justify-between">
+          <span>{{ subfolder.name }}</span>
+          <div class="inline-block">
+            <button title="Create new folder">
+              ➕
+            </button>
+            <button title="Delete this inventory">
+              🗑️
+            </button>
+          </div>
+        </summary>
         <TreeNode :folder="subfolder" @select-inventory="(payload) => $emit('selectInventory', payload)" />
       </details>
     </li>
-    <li
-      v-for="(inventory, index) in folder.inventories" :key="index" :class="{ underline: isSelected(inventory) }"
-      class="clickable"
-      @click="(mouseEvent) => handleInventoryClick(mouseEvent, inventory)"
-    >
-      {{ inventory.name }}
+    <li v-for="(inventory, index) in folder.inventories" :key="index" class="flex justify-between">
+      <span
+        @click="(mouseEvent) => handleInventoryClick(mouseEvent, inventory)" :class="{ underline: isSelected(inventory), 'hover:underline': true }"
+        class="cursor-pointer"
+      >{{ inventory.name }}</span>
+      <button title="Delete inventory">
+        🗑️
+      </button>
     </li>
   </ul>
 </template>

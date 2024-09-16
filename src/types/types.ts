@@ -90,10 +90,12 @@ export enum ColumnType {
 }
 
 export type Inventory = Named & {
+  id: string
   items: ExistingItem[]
 };
 
 export type Folder = Named & {
+  id: string
   inventories: Inventory[]
   folders: Folder[]
   organizationId?: string
