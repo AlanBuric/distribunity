@@ -126,12 +126,12 @@ const router = createRouter({
       },
     },
     {
-      path: '/organization/:id/inventory',
-      name: 'organization-inventory',
-      component: () => import('@/views/work/WorkPage.vue'),
+      path: '/organization/:id/inventories',
+      name: 'organization-inventories',
+      component: () => import('@/pages/InventoryPage.vue'),
       meta: {
         requiresAuth: true,
-        title: 'Organization inventory',
+        title: 'Distribunity: Organization inventories',
       },
     },
     {

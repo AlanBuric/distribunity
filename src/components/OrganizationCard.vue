@@ -60,11 +60,11 @@
       {{ organization.country }}
     </h6>
     <h6 class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-      {{ organization.members.length }} members, {{ organization.roles.length }} roles
+      {{ organization.inventories?.length ?? 0 }} inventories, {{ organization.members.length }} members, {{ organization.roles.length }} roles
     </h6>
 
     <div class="mt-4 flex space-x-2">
-      <RouterLink :to="`/organization/${organization.id}/inventory`" class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105">
+      <RouterLink :to="`/organization/${organization.id}/inventories`" class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105">
         Open
       </RouterLink>
       <RouterLink :to="`/organization/${organization.id}`" class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105">

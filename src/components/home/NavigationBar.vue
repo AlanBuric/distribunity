@@ -14,7 +14,7 @@
   <nav class="flex flex-1 flex-wrap items-center justify-between px-4 py-2 bg-transparent bg-white dark:bg-gray-800">
     <div class="flex items-center gap-3">
       <RouterLink
-        class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-active-link"
+        class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
         to="/"
         exact
       >
@@ -22,13 +22,13 @@
       </RouterLink>
       <RouterLink
         v-if="!hideBlog"
-        class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-active-link"
+        class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
         :to="{ name: 'blog', query: { page: 1 } }"
       >
         Blog
       </RouterLink>
       <RouterLink
-        class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-active-link"
+        class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
         to="/resources"
       >
         Resources
@@ -52,13 +52,13 @@
 
       <template v-if="!auth.currentUser">
         <RouterLink
-          class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-active-link"
+          class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
           to="/login"
         >
           Log in
         </RouterLink>
         <RouterLink
-          class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-active-link"
+          class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
           to="/signup"
         >
           Sign up
@@ -66,13 +66,13 @@
       </template>
       <template v-else>
         <RouterLink
-          class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-active-link"
+          class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
           to="/dashboard"
         >
           Dashboard
         </RouterLink>
         <button
-          class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-active-link"
+          class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
           @click.prevent="logoutAndRefresh()"
         >
           Sign out

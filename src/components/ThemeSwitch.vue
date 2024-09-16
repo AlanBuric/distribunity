@@ -7,7 +7,7 @@
 </script>
 
 <template>
-  <button @click="store.toggleTheme">
+  <button @click="store.toggleTheme" class="hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-1">
     <MoonIcon
       v-if="store.isDarkTheme()"
       width="1.4em"

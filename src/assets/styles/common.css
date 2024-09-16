@@ -97,11 +97,6 @@ body {
   text-underline-offset: 2px;
 }
 
-hr {
-  width: 100%;
-  margin: 0;
-}
-
 img {
   max-width: 100%;
   max-height: 100%;

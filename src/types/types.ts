@@ -53,34 +53,19 @@ export type Member = User & {
   roles: OrganizationRole[]
 };
 
-export type UnitAttributes = {
-  unit: string
-};
-
-export type Attributes<E> = {
-  name: string
-  values: E[]
-};
-
-export type StringAttributes = Attributes<string>;
-
-export type NumericAttributes = Attributes<number> & UnitAttributes;
-
 export type Item = Named & {
   unitPrice: number
   unit: string
+  attributes: (Record<string, string> | Record<string, number> | string)[]
+  iconURL: string
 };
 
 export type CountableItem = Item & {
   quantity: number
-  attributes: Attributes<unknown>[]
-};
-
-export type ExistingItem = CountableItem & {
-  id: string
 };
 
 export enum ColumnType {
+  ICON_URL = 'ICON',
   ATTRIBUTES = 'ATTRIBUTES',
   NAME = 'NAME',
   QUANTITY = 'QUANTITY',
@@ -89,16 +74,8 @@ export enum ColumnType {
   TOTAL_PRICE = 'TOTAL_PRICE',
 }
 
-export type Inventory = Named & {
-  id: string
-  items: ExistingItem[]
-};
-
-export type Folder = Named & {
-  id: string
-  inventories: Inventory[]
-  folders: Folder[]
-  organizationId?: string
+export type Inventory = Named & WithId & {
+  items: CountableItem[]
 };
 
 export type CountryData = {
@@ -110,7 +87,7 @@ export type Organization = Named & CountryData & {
   owner: DocumentReference<User>
   members: DocumentReference[]
   roles: OrganizationRole[]
-  folders: string[]
+  inventories: string[]
 };
 
 export type SettingsSection = Named & {

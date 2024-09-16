@@ -1,13 +1,16 @@
 <script setup lang="ts">
   import ThemeSwitch from '../ThemeSwitch.vue';
+
+  defineProps < { hasInventories: boolean }>();
 </script>
 
 <template>
   <nav class="flex items-center justify-between px-4 py-2 bg-transparent bg-white dark:bg-gray-800">
-    <div class="flex space-x-2">
+    <div class="flex space-x-3">
       <button
-        class="cursor-pointer bg-gray-300 font-semibold text-white rounded-md px-3 py-1 shadow-sm hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 dark:bg-gray-600 dark:hover:bg-teal-500"
-        @click="$emit('newItem')"
+        class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white rounded-md px-3 py-1 shadow-sm hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 dark:hover:bg-teal-500"
+        @click.prevent="hasInventories && $emit('newItem')"
+        :disabled="!hasInventories"
       >
         New item
       </button>

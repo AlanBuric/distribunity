@@ -18,5 +18,3 @@ app.use(VueFire, {
 
 app.use(pinia);
 app.mount('#app');
-
-console.log('Snooping around, are we?');
