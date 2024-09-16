@@ -1,60 +1,14 @@
 <script setup lang="ts">
   import NavigationBar from '@/components/home/NavigationBar.vue';
   import LoadingAnimation from '@/components/icons/LoadingAnimation.vue';
+  import JoinOrganizationForm from '@/components/JoinOrganizationForm.vue';
   import OrganizationCard from '@/components/OrganizationCard.vue';
   import NewOrganizationFormPopup from '@/components/popup/NewOrganizationFormPopup.vue';
-  import { auth, database } from '@/firebase/init';
   import useAuthStore from '@/store/auth';
-  import { doc, arrayRemove, arrayUnion, collection, getDocs, query, where, limit, writeBatch } from 'firebase/firestore';
   import { computed, ref } from 'vue';
 
   const organizations = computed(() => useAuthStore().userProfile?.organizations);
   const isOrganizationFormOpen = ref(false);
-  const invitationCode = ref<string>();
-  const invitationStatus = ref<{ text: string, status?: 'progress' | 'success' | 'not-found' }>({ text: '' });
-  const authStore = useAuthStore();
-
-  async function joinOrganization() {
-    invitationStatus.value = {
-      text: 'Searching for organizations...',
-      status: 'progress',
-    };
-
-    invitationCode.value = invitationCode.value?.toUpperCase();
-    const organizationsRef = collection(database, 'organizations');
-    const queryOrgsWithCode = query(organizationsRef, where('invites', 'array-contains', invitationCode.value), limit(1));
-
-    try {
-      const snapshot = await getDocs(queryOrgsWithCode);
-
-      if (snapshot.size == 0) {
-        setInvitationFailure();
-        return;
-      }
-
-      const targetOrganization = snapshot.docs[0];
-      const batch = writeBatch(database);
-
-      batch.update(targetOrganization.ref, { invites: arrayRemove(invitationCode.value), members: arrayUnion(doc(database, 'users', auth.currentUser!.uid)) });
-      batch.update(doc(database, 'users', auth.currentUser!.uid), { organizations: arrayUnion(targetOrganization.ref) });
-
-      await batch.commit();
-
-      invitationStatus.value = {
-        text: `You've joined ${targetOrganization.data().name}`,
-        status: 'success',
-      };
-    } catch (ignored) {
-      setInvitationFailure();
-    }
-  }
-
-  function setInvitationFailure() {
-    invitationStatus.value = {
-      text: 'Organization not found with that invitation code.',
-      status: 'not-found',
-    };
-  }
 </script>
 
 <template>
@@ -88,36 +42,7 @@
               An organization is a company, business, or even a community, which manages one or more inventories.
             </p>
           </div>
-          <form class="md:w-1/3 space-y-3 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" @submit.prevent="joinOrganization">
-            <input
-              v-model="invitationCode"
-              placeholder="6-digit invitation code"
-              class="w-full bg-gray-100 dark:bg-gray-700 text-black dark:text-white placeholder-gray-500 appearance-none dark:placeholder-gray-400 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 focus:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-active-link"
-              pattern="[A-Za-z0-9]{6}"
-              title="6 characters long"
-              required
-            >
-            <p class="text-sm text-gray-400">
-              The invitation code is 6 characters long, composed of Latin letters and/or numbers.
-            </p>
-            <button
-              type="submit"
-              class="w-full px-3 py-2 text-white rounded bg-teal-500 hover:bg-teal-600 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
-              :disabled="!invitationCode || invitationCode.length === 0"
-            >
-              Join an organization
-            </button>
-            <p
-              v-if="invitationStatus.status" :class="{
-                'text-center mt-4': true,
-                'text-red-500': invitationStatus.status === 'not-found',
-                'text-green-500': invitationStatus.status === 'success',
-                'text-teal-500': invitationStatus.status === 'progress'
-              }"
-            >
-              {{ invitationStatus.text }}
-            </p>
-          </form>
+          <JoinOrganizationForm />
         </div>
 
         <div class="space-y-2">
