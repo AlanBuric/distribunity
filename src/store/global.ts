@@ -48,9 +48,9 @@ const useGlobalStore = defineStore('global', () => {
     function loadPreferredTheme() {
         const newTheme = useAuthStore().userProfile?.theme
           ?? getSavedTheme()
-          ?? window.matchMedia('(prefers-color-scheme: dark').matches
+          ?? (window.matchMedia('(prefers-color-scheme: dark').matches
             ? 'dark'
-            : 'light';
+            : 'light');
 
         setTheme(newTheme);
     }
