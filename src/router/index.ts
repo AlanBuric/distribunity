@@ -1,38 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { auth } from '@/firebase/init.js';
-
+import { auth, database } from '@/firebase/init.js';
 import 'vue-router';
 import { getCurrentUser } from 'vuefire';
+import { doc, getDoc } from 'firebase/firestore';
 
 declare module 'vue-router' {
   interface RouteMeta {
     title?: string
     requiresAuth?: boolean
+    requiresOrganizationAdmin?: boolean
     avoidIfAuthed?: RouteLocationRaw
   }
 }
 
 const DEFAULT_TITLE = 'Distribunity';
-
-/**
- * Website structure:
- * .
- * └── distribunity.com/
- *     ├── blog/
- *     │   ├── 1
- *     │   ├── 2
- *     │   └── ...
- *     ├── resources/
- *     │   ├── faq
- *     │   ├── legal
- *     │   └── contact
- *     ├── login
- *     ├── signup
- *     ├── dashboard
- *     └── organization/:id
- *         ├── .
- *         └── inventory
- */
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,7 +40,7 @@ const router = createRouter({
               name: 'resources',
               component: () => import('@/views/home/resources/FAQView.vue'),
               meta: {
-                title: 'Distribunity: Resources',
+                title: 'Distribunity: resources',
               },
             },
             {
@@ -67,7 +48,7 @@ const router = createRouter({
               name: 'legal',
               component: () => import('@/views/home/resources/LegalView.vue'),
               meta: {
-                title: 'Distribunity: Legal',
+                title: 'Distribunity: legal',
               },
             },
             {
@@ -76,7 +57,7 @@ const router = createRouter({
               name: 'impressum',
               component: () => import('@/views/home/resources/ImpressumView.vue'),
               meta: {
-                title: 'Distribunity: Impressum',
+                title: 'Distribunity: impressum',
               },
             },
           ],
@@ -86,7 +67,7 @@ const router = createRouter({
           name: 'blog',
           component: () => import('@/views/home/BlogView.vue'),
           meta: {
-            title: 'Distribunity: Posts',
+            title: 'Distribunity: posts',
           },
         },
         {
@@ -94,7 +75,7 @@ const router = createRouter({
           name: 'login',
           component: () => import('@/views/home/LoginView.vue'),
           meta: {
-            title: 'Distribunity: Login',
+            title: 'Distribunity: login',
             avoidIfAuthed: {
               name: 'home',
             },
@@ -105,7 +86,7 @@ const router = createRouter({
           name: 'signup',
           component: () => import('@/views/home/SignupView.vue'),
           meta: {
-            title: 'Distribunity: Signup',
+            title: 'Distribunity: signup',
             avoidIfAuthed: {
               name: 'dashboard',
             },
@@ -127,11 +108,21 @@ const router = createRouter({
       },
     },
     {
+      path: '/organization/:id',
+      name: 'organization-settings',
+      component: () => import('@/pages/OrganizationAdminPage.vue'),
+      meta: {
+        title: 'Distribunity: organization settings',
+        requiresAuth: true,
+        requiresOrganizationAdmin: true,
+      },
+    },
+    {
       path: '/organization/:id/inventories',
       name: 'organization-inventories',
       component: () => import('@/pages/InventoryPage.vue'),
       meta: {
-        title: 'Distribunity: Organization inventories',
+        title: 'Distribunity: organization inventories',
         requiresAuth: true,
       },
     },
@@ -140,7 +131,7 @@ const router = createRouter({
       name: 'settings',
       component: () => import('@/pages/UserSettingsPage.vue'),
       meta: {
-        title: 'Distribunity: Settings',
+        title: 'Distribunity: settings',
         requiresAuth: true,
       },
     },
@@ -168,6 +159,18 @@ router.beforeEach(async (to) => {
           redirect: to.fullPath,
         },
       };
+    } else if (to.meta.requiresOrganizationAdmin) {
+      const organizationId = to.params.id;
+
+      if (typeof organizationId == 'string') {
+        const organization = await getDoc(doc(database, 'organizations', organizationId));
+
+        if (organization.data()?.owner.id != currentUser.uid) {
+          return {
+            path: '/dashboard',
+          };
+        }
+      }
     }
   } else if (to.meta.avoidIfAuthed) {
     const currentUser = await getCurrentUser();

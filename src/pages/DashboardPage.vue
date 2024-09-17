@@ -17,8 +17,10 @@
     @close-form="isOrganizationFormOpen = false"
   />
   <div class="flex flex-col h-full">
-    <NavigationBar :hide-blog="true" class="flex-initial" />
-    <main class="flex-grow flex flex-col items-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4 py-4">
+    <div class="flex-initial shadow-md z-10 flex justify-center w-full bg-white dark:bg-gray-800">
+      <NavigationBar class="max-w-screen-2xl w-full" />
+    </div>
+    <main class="flex-grow flex flex-col items-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4 py-6">
       <div class="max-w-7xl space-y-6">
         <div class="space-y-2">
           <h1 class="text-3xl font-semibold text-center">
@@ -60,7 +62,7 @@
               <OrganizationCard v-for="organization in organizations" :key="organization" :organization-string-ref="organization" />
 
               <template #fallback>
-                <LoadingAnimation />
+                <LoadingAnimation class="w-20" />
               </template>
             </Suspense>
           </Transition>

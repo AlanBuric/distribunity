@@ -5,7 +5,7 @@ const currencyFormatter = new Intl.NumberFormat(undefined, { style: 'currency', 
 
 const itemColumnRegistry: Record<ColumnType, ColumnFunction> = {
   [ColumnType.ICON_URL]: item => item.iconURL,
-  [ColumnType.ATTRIBUTES]: item => item.attributes?.map(attr => attr.name).join(', ').substring(0, 16) ?? '',
+  [ColumnType.ATTRIBUTES]: item => item.attributes?.map(attr => typeof attr == 'string' ? attr : attr.name).join(', ').substring(0, 16) ?? '',
   [ColumnType.TOTAL_PRICE]: item => currencyFormatter.format(item.unitPrice * item.quantity),
   [ColumnType.NAME]: item => item.name,
   [ColumnType.QUANTITY]: item => item.quantity + '',

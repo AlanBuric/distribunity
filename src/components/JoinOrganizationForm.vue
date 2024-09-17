@@ -53,14 +53,13 @@
   <form class="md:w-1/3 space-y-3 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md" @submit.prevent="joinOrganization">
     <input
       v-model="invitationCode"
-      placeholder="6-digit invitation code"
+      placeholder="Invitation code"
       class="w-full bg-gray-100 dark:bg-gray-700 text-black dark:text-white placeholder-gray-500 appearance-none dark:placeholder-gray-400 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 focus:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-active-link"
-      pattern="[A-Za-z0-9]{6}"
-      title="6 characters long"
+      pattern="[A-Za-z0-9]{6,}"
       required
     >
     <p class="text-sm text-gray-400">
-      The invitation code is 6 characters long, composed of Latin letters and/or numbers.
+      The invitation code is at least 6 characters long, composed of Latin letters and/or numbers, usually given to you by an organization manager.
     </p>
     <button
       type="submit"

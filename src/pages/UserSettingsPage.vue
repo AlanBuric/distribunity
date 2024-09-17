@@ -5,17 +5,17 @@
   import { EmailAuthProvider, reauthenticateWithCredential, reauthenticateWithPopup } from 'firebase/auth';
   import { GoogleAuthProvider } from 'firebase/auth/web-extension';
   import { deleteDoc, doc } from 'firebase/firestore';
-  import { ref } from 'vue';
+  import { computed, ref } from 'vue';
   import { useRouter } from 'vue-router';
 
-  const authStore = useAuthStore();
+  const userProfile = computed(() => useAuthStore().userProfile);
   const router = useRouter();
 
   const newEmail = ref(auth.currentUser?.email);
   const newPassword = ref('');
 
-  // const theme = ref(authStore.userProfile?.theme);
-  // const language = ref(authStore.userProfile?.language);
+  // const theme = ref(userProfile?.theme);
+  // const language = ref(userProfile?.language);
 
   const emailConfirmation = ref('');
   const passwordConfirmation = ref('');
@@ -106,10 +106,12 @@
 </script>
 
 <template>
-  <div v-if="authStore.userProfile" class="flex flex-col h-full">
-    <NavigationBar class="flex-initial" />
-    <div class="flex-1 items-center flex flex-col p-8 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200">
-      <h1 class="text-2xl font-semibold mb-4">
+  <div v-if="userProfile" class="flex flex-col h-full">
+    <div class="flex-initial shadow-md z-10 flex justify-center w-full bg-white dark:bg-gray-800">
+      <NavigationBar class="max-w-screen-2xl w-full" />
+    </div>
+    <div class="flex-1 items-center flex flex-col p-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200">
+      <h1 class="text-3xl font-semibold mb-4">
         User Settings
       </h1>
 
@@ -126,7 +128,7 @@
               <label class="block mb-2">First name</label>
               <input
                 type="text"
-                v-model="authStore.userProfile.firstName"
+                v-model="userProfile.firstName"
                 class="px-3 py-2 border border-gray-500 rounded w-56 dark:bg-gray-700 dark:text-gray-200"
               >
             </div>
@@ -135,7 +137,7 @@
               <label class="block mb-2">Last name</label>
               <input
                 type="text"
-                v-model="authStore.userProfile.lastName"
+                v-model="userProfile.lastName"
                 class="px-3 py-2 border border-gray-500 rounded w-56 dark:bg-gray-700 dark:text-gray-200"
               >
             </div>
@@ -143,7 +145,7 @@
             <div class="mb-4">
               <label class="block mb-2">Language</label>
               <select
-                v-model="authStore.userProfile.language"
+                v-model="userProfile.language"
                 class="px-3 py-2 border border-gray-500 rounded w-56 dark:bg-gray-700 dark:text-gray-200"
               >
                 <option value="en_us">

@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import { auth, database } from '@/firebase/init';
-  import { arrayUnion, collection, doc, writeBatch } from 'firebase/firestore';
+  import { arrayUnion, doc, writeBatch } from 'firebase/firestore';
   import { ref } from 'vue';
   import Popup from '../ModalPopup.vue';
   import { filterCountriesByName } from '@/scripts/country-search';
-  import type { CountryData, RestCountriesCountry } from '@/types/types';
+  import { type CountryData, type RestCountriesCountry } from '@/types/types';
+  import { firestoreAutoId } from '@/scripts/firebase-utilities';
 
   const emit = defineEmits(['closeForm']);
   const countrySearchInput = ref<string>('');
@@ -48,21 +49,21 @@
 
     try {
       const batch = writeBatch(database);
-      const newOrganizationRef = doc(collection(database, 'organizations'));
-      const userRef = doc(database, 'users', auth.currentUser.uid);
+      const organizationId = firestoreAutoId();
+      const newOrganizationRef = doc(database, 'organizations', organizationId);
+      const ownerRef = doc(database, 'users', auth.currentUser.uid);
 
       batch.set(newOrganizationRef, {
         name: name.value,
-        owner: userRef,
-        members: [userRef],
-        folders: [],
-        roles: [],
+        owner: ownerRef,
         invites: [],
         countryCode: selectedCountry.value.countryCode,
         country: selectedCountry.value.country,
       });
 
-      batch.update(userRef, {
+      batch.set(doc(database, 'organizations', organizationId, 'members', auth.currentUser.uid), { roles: [] });
+
+      batch.update(ownerRef, {
         organizations: arrayUnion(newOrganizationRef),
       });
 

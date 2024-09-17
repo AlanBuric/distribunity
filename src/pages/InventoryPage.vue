@@ -6,11 +6,12 @@
   import Toolbar from '@/components/work/WorkToolbar.vue';
   import type { CountableItem, Inventory, Organization, WithId } from '@/types/types';
   import { useCollection } from 'vuefire';
-  import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, writeBatch } from 'firebase/firestore';
+  import { addDoc, collection, deleteDoc, doc, getDoc } from 'firebase/firestore';
   import { database } from '@/firebase/init';
   import { RouterLink, useRoute } from 'vue-router';
   import ItemCreator from '@/components/work/ItemCreator.vue';
   import ItemViewer from '@/components/work/ItemViewer.vue';
+  import { deleteInventoryRecursively } from '@/scripts/firebase-utilities';
 
   const unsavedChangesMessage = 'You have unsaved changes. Please save or discard the current item being edited before selecting a new item.';
   type ItemPanel = 'viewer' | 'editor' | 'creator';
@@ -49,19 +50,7 @@
       selectedInventoryIndex.value = undefined;
       activeItemPanel.value = undefined;
 
-      const batch = writeBatch(database);
-
-      const itemsRef = collection(database, 'organizations', organizationId, 'inventories', inventory.id, 'items');
-      const itemsSnapshot = await getDocs(itemsRef);
-
-      itemsSnapshot.forEach((itemDoc) => {
-        const itemDocRef = doc(database, 'organizations', organizationId, 'inventories', inventory.id, 'items', itemDoc.id);
-        batch.delete(itemDocRef);
-      });
-
-      batch.delete(doc(database, 'organizations', organizationId, 'inventories', inventory.id));
-
-      await batch.commit();
+      await deleteInventoryRecursively(organizationId, inventory.id);
     }
   }
 

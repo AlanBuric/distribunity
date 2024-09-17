@@ -102,6 +102,8 @@
       class="w-full p-2 mt-2 mb-4 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
       type="text"
       name="firstName"
+      minlength="2"
+      maxlength="40"
       placeholder="e.g. Amelia"
       autocomplete="given-name"
       required
@@ -115,6 +117,8 @@
       class="w-full p-2 mt-2 mb-4 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
       type="text"
       name="lastName"
+      minlength="2"
+      maxlength="40"
       placeholder="e.g. Wilson"
       autocomplete="family-name"
     >
@@ -140,6 +144,7 @@
       class="w-full p-2 mt-2 mb-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
       type="password"
       name="password"
+      minlength="6"
       placeholder="New password"
       autocomplete="new-password"
       required

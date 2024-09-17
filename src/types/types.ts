@@ -5,7 +5,7 @@ export type Named = {
 };
 
 export type WithId = {
-  id: string
+  readonly id: string
 };
 
 export type Address = {
@@ -21,20 +21,29 @@ export type Delivery = {
   items: CountableItem[]
 };
 
-export type Permission =
-  | 'organization.delete'
-  | 'organization.edit'
-  | 'organization.member.remove'
-  | 'organization.audit-log'
-  | 'organization.member.invite'
-  | 'inventory.create'
-  | 'inventory.stockTaking'
-  | 'inventory.edit'
-  | 'inventory.delete'
-  | 'item.edit'
-  | 'item.delete'
-  | 'inventory.history'
-  | 'inventory.stats';
+export const ALL_PERMISSIONS = [
+  'organization.delete',
+  'organization.edit',
+  'organization.roles.view',
+  'organization.roles.create',
+  'organization.roles.delete',
+  'organization.roles.update',
+  'organization.members.remove',
+  'organization.audit-log',
+  'organization.members.invite',
+  'inventory.create',
+  'inventory.stockTaking',
+  'inventory.edit',
+  'inventory.delete',
+  'inventory.history',
+  'inventory.stats',
+  'item.create',
+  'item.edit',
+  'item.delete',
+  'item.view',
+] as const;
+
+export type Permission = typeof ALL_PERMISSIONS[number];
 
 export type OrganizationRole = Named & {
   permissions: Permission[]
@@ -48,9 +57,8 @@ export type User = {
   organizations: string[]
 };
 
-export type Member = User & {
-  profilePictureURLOverride: string | undefined
-  roles: OrganizationRole[]
+export type Member = {
+  roles: string[]
 };
 
 export type Item = Named & {
@@ -85,9 +93,7 @@ export type CountryData = {
 
 export type Organization = Named & CountryData & {
   owner: DocumentReference<User>
-  members: DocumentReference[]
-  roles: OrganizationRole[]
-  inventories: string[]
+  invites: string[]
 };
 
 export type SettingsSection = Named & {

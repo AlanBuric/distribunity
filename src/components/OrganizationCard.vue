@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import { database, auth } from '@/firebase/init';
+  import { deleteInventoryRecursively } from '@/scripts/firebase-utilities';
   import useAuthStore from '@/store/auth';
   import type { Organization, WithId } from '@/types/types';
-  import { getDoc, doc, updateDoc, arrayRemove, runTransaction } from 'firebase/firestore';
+  import { getDoc, doc, updateDoc, arrayRemove, runTransaction, collection, getDocs } from 'firebase/firestore';
 
   const props = defineProps<{
     organizationStringRef: string
@@ -12,7 +13,6 @@
   const orgRef = doc(database, props.organizationStringRef);
   const orgSnapshot = await getDoc(orgRef);
   const orgData = orgSnapshot.data() as Organization;
-
   const organization: Organization & WithId = { ...orgData, id: orgSnapshot.id };
 
   async function leaveOrganization() {
@@ -32,16 +32,24 @@
       return;
     }
 
+    const orgRef = doc(database, 'organizations', organization.id);
+    const inventoriesRef = collection(database, 'organizations', organization.id, 'inventories');
+    const membersRef = collection(database, 'organizations', organization.id, 'members');
+
     try {
       await runTransaction(database, async (transaction) => {
-        const orgSnapshot = await transaction.get(orgRef);
+        const inventorySnapshots = await getDocs(inventoriesRef);
+        inventorySnapshots.forEach(async (inventoryDoc) => {
+          await deleteInventoryRecursively(organization.id, inventoryDoc.id);
+        });
 
-        if (!orgSnapshot.exists()) {
-          throw 'Organization being deleted doesn\'t exist';
-        }
+        (await getDocs(membersRef)).forEach((memberDoc) => {
+          const userRef = doc(database, 'users', memberDoc.id);
 
-        const data = orgSnapshot.data() as Organization;
-        data.members.forEach(memberRef => transaction.update(memberRef, { organizations: arrayRemove(orgRef) }));
+          transaction.update(userRef, {
+            organizations: arrayRemove(orgRef),
+          });
+        });
 
         transaction.delete(orgRef);
       });
@@ -59,19 +67,20 @@
     <h6 class="text-lg font-medium text-gray-600 dark:text-gray-400">
       {{ organization.country }}
     </h6>
-    <h6 class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-      {{ organization.inventories?.length ?? 0 }} inventories, {{ organization.members.length }} members, {{ organization.roles.length }} roles
-    </h6>
 
     <div class="mt-4 flex space-x-2">
       <RouterLink :to="`/organization/${organization.id}/inventories`" class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105">
         Open
       </RouterLink>
-      <RouterLink :to="`/organization/${organization.id}`" class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105">
-        Settings
+      <RouterLink
+        :to="`/organization/${organization.id}`"
+        v-if="organization.owner.id === auth.currentUser?.uid"
+        class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105"
+      >
+        Admin page
       </RouterLink>
       <button
-        v-if="organization.owner?.id === auth.currentUser?.uid"
+        v-if="organization.owner.id === auth.currentUser?.uid"
         @click="deleteOrganization()"
         class="text-red-600 hover:text-red-800 text-sm font-semibold px-2 py-1 hover:shadow-md transition-shadow transform hover:scale-105"
       >
