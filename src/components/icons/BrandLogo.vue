@@ -1,5 +1,5 @@
 <!-- Note: both width and height properties need to be overriden when necessary. -->
-<!-- Functional header: alt="Distribunity logo, white letter S inside an aquamarine hexagon" viewBox="0 -8 125 150" -->
+<!-- Functional header: alt="Distribunity logo, white letter D inside an aquamarine hexagon" viewBox="0 -8 125 150" -->
 <template>
   <svg
     width="100px"
