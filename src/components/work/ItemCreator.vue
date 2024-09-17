@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { database } from '@/firebase/init';
-  import type { CountableItem, Inventory } from '@/types/types';
+  import type { CountableItem, Inventory } from '@/types';
   import { addDoc, collection } from 'firebase/firestore';
   import { ref } from 'vue';
 

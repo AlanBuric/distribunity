@@ -4,7 +4,7 @@
   import WorkNavigationBar from '@/components/work/WorkNavigationBar.vue';
   import { ref } from 'vue';
   import Toolbar from '@/components/work/WorkToolbar.vue';
-  import type { CountableItem, Inventory, Organization, WithId } from '@/types/types';
+  import type { CountableItem, Inventory, Organization, WithId } from '@/types';
   import { useCollection } from 'vuefire';
   import { addDoc, collection, deleteDoc, doc, getDoc } from 'firebase/firestore';
   import { database } from '@/firebase/init';
@@ -125,7 +125,7 @@
         Organization inventory explorer
       </h2>
       <h2 class="mt-1 text-lg font-semibold dark:text-gray-200">
-        <RouterLink :to="`/organizations/${organizationId}`" class="underline">
+        <RouterLink :to="`/work/organizations/${organizationId}`" class="underline">
           {{ organization?.name ?? "Unknown organization" }}
         </RouterLink>
       </h2>
@@ -182,11 +182,11 @@
       <div class="flex flex-1 gap-3 mx-2 mt-2 content-stretch">
         <main class="flex-1 bg-white dark:bg-gray-800 rounded-t-lg">
           <h2 class="p-3 text-semibold text-gray-500 dark:text-gray-400">
-            <RouterLink to="/dashboard" class="underline" title="Visit this organization's dashboard">
+            <RouterLink to="/work/dashboard" class="underline" title="Visit this organization's dashboard">
               Organizations
-            </RouterLink> > <RouterLink :to="`/organization/${organizationId}`" class="underline" title="Visit this organization's admin page">
+            </RouterLink> > <RouterLink :to="`/work/organization/${organizationId}`" class="underline" title="Visit this organization's admin page">
               {{ organization?.name ?? "Unknown" }}
-            </RouterLink> > <RouterLink :to="`/organization/${organizationId}/inventories`" class="underline" title="You're already here">
+            </RouterLink> > <RouterLink :to="`/work/organization/${organizationId}/inventories`" class="underline" title="You're already here">
               Inventories
             </RouterLink> <span v-if="getSelectedInventory()">> {{ getSelectedInventory()!.name }}</span>
           </h2>

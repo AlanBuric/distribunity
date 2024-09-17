@@ -15,7 +15,7 @@
 
     signInWithEmailAndPassword(auth, email.value, password.value)
       .then(() => {
-        router.push('/dashboard');
+        router.push('/work/dashboard');
       })
       .catch((error) => {
         switch (error.code) {

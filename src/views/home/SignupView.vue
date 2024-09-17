@@ -111,7 +111,7 @@
           state: 'success',
         };
 
-        router.push({ path: '/dashboard' });
+        router.push({ path: '/work/dashboard' });
       } catch (error) {
         handleUserRegistrationError(error);
       }

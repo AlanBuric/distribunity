@@ -1,5 +1,5 @@
 import { auth, database } from '@/firebase/init';
-import type { User } from '@/types/types';
+import type { User } from '@/types';
 import { doc, DocumentReference } from 'firebase/firestore';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';

@@ -4,7 +4,7 @@
   import { ref } from 'vue';
   import Popup from '../ModalPopup.vue';
   import { filterCountriesByName } from '@/scripts/country-search';
-  import { type CountryData, type RestCountriesCountry } from '@/types/types';
+  import { type CountryData, type RestCountriesCountry } from '@/types';
   import { firestoreAutoId } from '@/scripts/firebase-utilities';
 
   const emit = defineEmits(['closeForm']);

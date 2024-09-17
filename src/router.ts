@@ -22,7 +22,7 @@ const router = createRouter({
       path: '/',
       alias: ['/home'],
       name: 'home-view',
-      component: () => import('@/layout/HomeLayout.vue'),
+      component: () => import('@/pages/HomePage.vue'),
       children: [
         {
           path: '',
@@ -95,44 +95,54 @@ const router = createRouter({
       ],
     },
     {
-      path: '/organization/:id/',
+      path: '/work/',
+      name: 'work',
+      component: () => import('@/pages/CommonAuthPage.vue'),
+      meta: {
+        requiresAuth: true,
+      },
       children: [
         {
-          path: '',
-          name: 'organization-settings',
-          component: () => import('@/pages/OrganizationAdminPage.vue'),
+          path: 'dashboard',
+          name: 'dashboard',
+          component: () => import('@/views/auth/DashboardView.vue'),
           meta: {
-            title: 'Distribunity: organization settings',
+            title: 'Distribunity: Dashboard',
             requiresAuth: true,
-            requiresOrganizationAdmin: true,
           },
         },
         {
-          path: 'inventories',
-          name: 'organization-inventories',
-          component: () => import('@/pages/InventoryPage.vue'),
+          path: 'settings',
+          name: 'settings',
+          component: () => import('@/views/auth/UserSettingsView.vue'),
           meta: {
-            title: 'Distribunity: organization inventories',
+            title: 'Distribunity: settings',
             requiresAuth: true,
           },
+        },
+        {
+          path: 'organization/:id/',
+          children: [
+            {
+              path: '',
+              name: 'organization-settings',
+              component: () => import('@/views/auth/OrganizationAdminView.vue'),
+              meta: {
+                title: 'Distribunity: organization settings',
+                requiresAuth: true,
+                requiresOrganizationAdmin: true,
+              },
+            },
+          ],
         },
       ],
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('@/pages/DashboardPage.vue'),
+      path: '/work/organization/:id/inventories',
+      name: 'organization-inventories',
+      component: () => import('@/pages/InventoryPage.vue'),
       meta: {
-        title: 'Distribunity: Dashboard',
-        requiresAuth: true,
-      },
-    },
-    {
-      path: '/settings',
-      name: 'settings',
-      component: () => import('@/pages/UserSettingsPage.vue'),
-      meta: {
-        title: 'Distribunity: settings',
+        title: 'Distribunity: organization inventories',
         requiresAuth: true,
       },
     },
@@ -172,7 +182,7 @@ router.beforeEach(async (to) => {
 
         if (organization.data()?.owner.id != currentUser.uid) {
           return {
-            path: '/dashboard',
+            path: '/work/dashboard',
           };
         }
       }

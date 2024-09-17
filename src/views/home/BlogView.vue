@@ -1,9 +1,9 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import { useRoute } from 'vue-router';
-  import BlogError from '@/components/blog/BlogError.vue';
-  import BlogPage from '@/components/blog/BlogPage.vue';
-  import { type BlogPost } from '@/types/types';
+  import BlogError from '@/components/home/blog/BlogError.vue';
+  import BlogPage from '@/components/home/blog/BlogPage.vue';
+  import { type BlogPost } from '@/types';
 
   const route = useRoute();
 

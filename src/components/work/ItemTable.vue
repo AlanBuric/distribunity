@@ -1,6 +1,6 @@
 <script lang="ts" setup> import { getItemColumnValue } from '@/scripts/items';
   import { getPrettyEnumName } from '@/scripts/shared';
-  import { ColumnType, type CountableItem, type WithId } from '@/types/types';
+  import { ColumnType, type CountableItem, type WithId } from '@/types';
   import { CollectionReference } from 'firebase/firestore';
   import { useCollection } from 'vuefire';
 

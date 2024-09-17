@@ -69,13 +69,13 @@
       <template v-else>
         <RouterLink
           class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
-          to="/dashboard"
+          to="/work/dashboard"
         >
           Dashboard
         </RouterLink>
         <RouterLink
           class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
-          to="/settings"
+          to="/work/settings"
         >
           Settings
         </RouterLink>

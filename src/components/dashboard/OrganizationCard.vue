@@ -2,7 +2,7 @@
   import { database, auth } from '@/firebase/init';
   import { deleteInventoryRecursively } from '@/scripts/firebase-utilities';
   import useAuthStore from '@/store/auth';
-  import type { Organization, WithId } from '@/types/types';
+  import type { Organization, WithId } from '@/types';
   import { getDoc, doc, updateDoc, arrayRemove, runTransaction, collection, getDocs } from 'firebase/firestore';
 
   const props = defineProps<{
@@ -69,11 +69,11 @@
     </h6>
 
     <div class="mt-4 flex space-x-2">
-      <RouterLink :to="`/organization/${organization.id}/inventories`" class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105">
+      <RouterLink :to="`/work/organization/${organization.id}/inventories`" class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105">
         Open
       </RouterLink>
       <RouterLink
-        :to="`/organization/${organization.id}`"
+        :to="`/work/organization/${organization.id}`"
         v-if="organization.owner.id === auth.currentUser?.uid"
         class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105"
       >

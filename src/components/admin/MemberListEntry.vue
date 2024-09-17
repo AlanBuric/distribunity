@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { database } from '@/firebase/init';
-  import type { Member, User, WithId } from '@/types/types';
+  import type { Member, User, WithId } from '@/types';
   import { doc, getDoc } from 'firebase/firestore';
 
   defineEmits<{ removeMember: [id: string] }>();

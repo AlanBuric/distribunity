@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import type { BlogPost } from '@/types/types';
+  import type { BlogPost } from '@/types';
 
   const props = defineProps<{ posts: BlogPost[] }>();
 </script>

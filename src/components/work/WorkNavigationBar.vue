@@ -13,7 +13,7 @@
       Help
     </RouterLink>
     <RouterLink
-      to="/settings"
+      to="/work/settings"
       class="text-lg text-gray-700 dark:text-gray-400 hover:text-active-link dark:hover:text-active-link"
     >
       Settings

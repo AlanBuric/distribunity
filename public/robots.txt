@@ -1,4 +1,2 @@
 User-agent: *
-Disallow: /dashboard/
-Disallow: /organization/
-Disallow: /settings/
+Disallow: /work/

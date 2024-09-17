@@ -1,4 +1,4 @@
-import { ColumnType, type CountableItem } from '@/types/types';
+import { ColumnType, type CountableItem } from '@/types';
 
 type ColumnFunction = (item: CountableItem) => string;
 const currencyFormatter = new Intl.NumberFormat(undefined, { style: 'currency', currency: 'EUR' });

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import type { BlogPost } from '@/types/types';
+  import type { BlogPost } from '@/types';
   import PostList from './PostList.vue';
   import { useRoute } from 'vue-router';
 
