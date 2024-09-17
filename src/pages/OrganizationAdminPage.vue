@@ -2,7 +2,7 @@
   import NavigationBar from '@/components/home/NavigationBar.vue';
   import { auth, database } from '@/firebase/init';
   import { ALL_PERMISSIONS, type Member, type Organization, type OrganizationRole } from '@/types/types';
-  import { doc, updateDoc, arrayRemove, arrayUnion, collection, addDoc, deleteDoc } from 'firebase/firestore';
+  import { doc, updateDoc, arrayRemove, arrayUnion, collection, addDoc, deleteDoc, writeBatch } from 'firebase/firestore';
   import { useRoute } from 'vue-router';
   import { useDocument, useCollection } from 'vuefire';
   import { ref } from 'vue';
@@ -20,8 +20,13 @@
   const newRoleName = ref('');
   const newInviteCode = ref('');
 
-  async function removeMember(memberId: string) {
-    deleteDoc(doc(membersCollRef, memberId));
+  function removeMember(memberId: string) {
+    const batch = writeBatch(database);
+
+    batch.delete(doc(membersCollRef, memberId));
+    batch.update(doc(database, 'users', memberId), { organization: arrayRemove(organizationDocRef) });
+
+    batch.commit();
   }
 
   function createInviteCode() {
