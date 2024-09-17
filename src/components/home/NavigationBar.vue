@@ -1,9 +1,11 @@
 <script lang="ts" setup>
   import { auth } from '@/firebase/init';
   import ThemeSwitch from '../ThemeSwitch.vue';
-  import router from '@/router';
+  import { useRouter } from 'vue-router';
 
   defineProps<{ hideBlog?: boolean }>();
+
+  const router = useRouter();
 
   function logoutAndRefresh() {
     auth.signOut().finally(() => router.go(0));

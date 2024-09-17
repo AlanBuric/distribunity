@@ -1,39 +1,51 @@
 <script lang="ts" setup>
   import { ref, watch } from 'vue';
-  import { getPasswordStrength, type PasswordStrength } from '@/scripts/signup';
+  import { getPasswordStrength, type PasswordStrength } from '@/scripts/password-policy';
   import { createUserWithEmailAndPassword } from 'firebase/auth';
   import { auth, database } from '@/firebase/init';
   import { setDoc, doc } from 'firebase/firestore';
-  import router from '@/router';
+  import { useRouter } from 'vue-router';
 
-  const PASSWORDS_MATCH = {
-    message: 'Passwords match.',
-    className: 'text-green-400',
-  };
-
-  const PASSWORDS_DONT_MATCH = {
-    message: 'Confirmation password doesn\'t match the password.',
-    className: 'text-red-400',
-  };
+  const router = useRouter();
 
   const firstName = ref('');
   const lastName = ref('');
   const email = ref('');
   const password = ref('');
   const confirmPassword = ref('');
-  const passwordStrength = ref<PasswordStrength>({ title: 'Weak', strength: 1 });
-  const passwordsMatch = ref();
-  const isWaitingForResponse = ref(false);
+  const passwordStrength = ref<PasswordStrength>(getPasswordStrength('a'));
+  const passwordsMatch = ref<{
+    feedback: string
+    classList: string
+    matches: boolean
+  } | undefined>();
+  const loginStateMessage = ref<{
+    message: string
+    state: 'processing' | 'success' | 'failure'
+  }>();
+  const formIssues = ref<string[]>([]);
 
   watch(password, (newPassword) => {
-    passwordStrength.value = getPasswordStrength(newPassword ?? '');
+    passwordStrength.value = getPasswordStrength(newPassword);
   });
 
   watch([password, confirmPassword], ([newPassword, newConfirmPassword]) => {
-    passwordsMatch.value = newPassword != newConfirmPassword ? PASSWORDS_DONT_MATCH : PASSWORDS_MATCH;
+    if (newPassword == newConfirmPassword) {
+      passwordsMatch.value = {
+        feedback: 'Passwords match.',
+        classList: 'text-green-400',
+        matches: true,
+      };
+    } else {
+      passwordsMatch.value = {
+        feedback: 'Confirmation password doesn\'t match the password.',
+        classList: 'text-red-400',
+        matches: false,
+      };
+    }
   });
 
-  function getFormValidityFeedback() {
+  function getFormValidityIssues() {
     const issues: string[] = [];
 
     if (passwordStrength.value.strength == 2) {
@@ -53,43 +65,62 @@
     return issues;
   }
 
-  const formIssues = ref<string[]>([]);
+  function isAllowedToSubmit() {
+    return formIssues.value.length == 0 && passwordsMatch.value && loginStateMessage.value?.state != 'processing';
+  }
 
-  function handleSubmit() {
-    formIssues.value = getFormValidityFeedback();
+  function handleUserRegistrationError(error: any) {
+    if (error.code == 'auth/email-already-in-use') {
+      loginStateMessage.value = {
+        message: `The email ${email.value} is already in use.`,
+        state: 'failure',
+      };
+    } else {
+      loginStateMessage.value = {
+        message: 'Sorry, but we failed to create your user profile in our database. Please contact us for support; you can find our contacts at the bottom of the page.',
+        state: 'failure',
+      };
+    }
+  }
+
+  async function handleUserRegistration() {
+    formIssues.value = getFormValidityIssues();
 
     if (formIssues.value.length == 0) {
-      createUserWithEmailAndPassword(auth, email.value, password.value)
-        .then((userCredential) => {
-          formIssues.value = ['Firebase Auth user creation succeeded.'];
+      loginStateMessage.value = {
+        message: 'Creating your account...',
+        state: 'processing',
+      };
 
-          setDoc(doc(database, 'users', userCredential.user.uid), {
-            firstName: firstName.value,
-            lastName: lastName.value,
-            theme: 'dark',
-            language: 'en_us',
-            organizations: [],
-            joined: Date.now(),
-          })
-            .then(() => {
-              formIssues.value = ['Your user profile is ready.'];
-              router.push({ path: '/dashboard' });
-            })
-            .catch(() => {
-              formIssues.value = [
-                'Sorry, but we failed to create your user profile in our database. Please contact us for support; you can find our contacts at the bottom of the page.',
-              ];
-            });
-        })
-        .catch((error) => {
-          formIssues.value = [error.code, error.message];
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
+
+        loginStateMessage.value.message = 'User creation succeeded.';
+
+        await setDoc(doc(database, 'users', userCredential.user.uid), {
+          firstName: firstName.value,
+          lastName: lastName.value,
+          theme: 'dark',
+          language: 'en_us',
+          organizations: [],
+          joined: Date.now(),
         });
+
+        loginStateMessage.value = {
+          message: 'Your user profile is ready. If you\'re still seeing this message, refresh the page and visit the Dashboard.',
+          state: 'success',
+        };
+
+        router.push({ path: '/dashboard' });
+      } catch (error) {
+        handleUserRegistrationError(error);
+      }
     }
   }
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" class="w-full max-w-md my-5 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
+  <form @submit.prevent="handleUserRegistration" class="w-full max-w-sm bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
     <h2 class="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-gray-100">
       Create an account
     </h2>
@@ -99,7 +130,7 @@
     </label>
     <input
       v-model="firstName"
-      class="w-full p-2 mt-2 mb-4 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
+      class="w-full p-2 mt-2 mb-4 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-100 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
       type="text"
       name="firstName"
       minlength="2"
@@ -114,7 +145,7 @@
     </label>
     <input
       v-model="lastName"
-      class="w-full p-2 mt-2 mb-4 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
+      class="w-full p-2 mt-2 mb-4 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-100 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
       type="text"
       name="lastName"
       minlength="2"
@@ -128,7 +159,7 @@
     </label>
     <input
       v-model="email"
-      class="w-full p-2 mt-2 mb-4 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
+      class="w-full p-2 mt-2 mb-4 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-100 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
       type="email"
       name="email"
       placeholder="e.g. amelia.wilson@gmail.com"
@@ -141,7 +172,7 @@
     </label>
     <input
       v-model="password"
-      class="w-full p-2 mt-2 mb-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
+      class="w-full p-2 mt-2 mb-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-100 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
       type="password"
       name="password"
       minlength="6"
@@ -151,7 +182,7 @@
     >
 
     <p id="password-strength" class="mb-4 text-gray-600 dark:text-gray-400">
-      Password strength: {{ passwordStrength.title }}
+      Password strength: <span class="font-semibold text-gray-700 dark:text-gray-100">{{ passwordStrength.title }}</span>
     </p>
 
     <label for="password-confirm" class="block text-lg font-medium text-gray-700 dark:text-gray-300">
@@ -160,25 +191,35 @@
     <input
       id="password-confirm"
       v-model="confirmPassword"
-      class="w-full p-2 mt-2 mb-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
+      class="w-full p-2 mt-2 mb-4 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-100 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
       type="password"
       name="password-confirm"
       placeholder="Confirm password"
       autocomplete="off"
       required
-      :disabled="isWaitingForResponse"
     >
-    <p v-if="passwordsMatch" :class="['mb-4', passwordsMatch.className]">
-      {{ passwordsMatch.message }}
+    <p v-if="passwordsMatch" :class="['mb-4', passwordsMatch.classList]">
+      {{ passwordsMatch.feedback }}
     </p>
 
     <input
       type="submit"
       value="Sign up"
-      class="primary-btn w-full py-3 mt-6 bg-teal-500 text-white font-bold rounded-lg hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition"
+      class="fancy-button w-full"
+      :disabled="!isAllowedToSubmit()"
     >
 
-    <ul v-if="formIssues.length > 0" class="invalid-input mt-4 text-red-600">
+    <p
+      v-if="loginStateMessage" :class="{
+        'mt-4': true,
+        'text-yellow-400': loginStateMessage.state == 'processing',
+        'text-green-400': loginStateMessage.state == 'success',
+        'text-red-400': loginStateMessage.state == 'failure',
+      }"
+    >
+      {{ loginStateMessage.message }}
+    </p>
+    <ul v-else-if="!formIssues.length" class="mt-4 text-red-600">
       <li v-for="(issue, index) in formIssues" :key="index">
         {{ issue }}
       </li>

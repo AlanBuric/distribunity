@@ -3,8 +3,8 @@ const uppercaseRegEx = /[A-Z]/;
 const numberRegEx = /[0-9]/;
 const symbolRegEx = /[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/;
 
-const passwordStrengths = ['Weak', 'Moderate', 'Strong', 'Very Strong'];
-const passwordScale = 4;
+const passwordStrengths = ['Very Weak', 'Weak', 'Moderate', 'Strong', 'Very Strong'];
+const passwordScale = 6;
 
 function isVariedCase(text: string): boolean {
   return lowercaseRegEx.test(text) && uppercaseRegEx.test(text);

@@ -95,8 +95,28 @@ const router = createRouter({
       ],
     },
     {
-      path: '/blog',
-      redirect: '/blog?page=1',
+      path: '/organization/:id/',
+      children: [
+        {
+          path: '',
+          name: 'organization-settings',
+          component: () => import('@/pages/OrganizationAdminPage.vue'),
+          meta: {
+            title: 'Distribunity: organization settings',
+            requiresAuth: true,
+            requiresOrganizationAdmin: true,
+          },
+        },
+        {
+          path: 'inventories',
+          name: 'organization-inventories',
+          component: () => import('@/pages/InventoryPage.vue'),
+          meta: {
+            title: 'Distribunity: organization inventories',
+            requiresAuth: true,
+          },
+        },
+      ],
     },
     {
       path: '/dashboard',
@@ -108,25 +128,6 @@ const router = createRouter({
       },
     },
     {
-      path: '/organization/:id',
-      name: 'organization-settings',
-      component: () => import('@/pages/OrganizationAdminPage.vue'),
-      meta: {
-        title: 'Distribunity: organization settings',
-        requiresAuth: true,
-        requiresOrganizationAdmin: true,
-      },
-    },
-    {
-      path: '/organization/:id/inventories',
-      name: 'organization-inventories',
-      component: () => import('@/pages/InventoryPage.vue'),
-      meta: {
-        title: 'Distribunity: organization inventories',
-        requiresAuth: true,
-      },
-    },
-    {
       path: '/settings',
       name: 'settings',
       component: () => import('@/pages/UserSettingsPage.vue'),
@@ -134,6 +135,10 @@ const router = createRouter({
         title: 'Distribunity: settings',
         requiresAuth: true,
       },
+    },
+    {
+      path: '/blog',
+      redirect: '/blog?page=1',
     },
     {
       path: '/:pathMatch(.*)*',
