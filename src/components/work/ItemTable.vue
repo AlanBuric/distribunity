@@ -1,12 +1,15 @@
-<script lang="ts" setup> import { getItemColumnValue } from '@/scripts/items';
+<script lang="ts" setup> import { database } from '@/firebase/init';
+  import { getItemColumnValue } from '@/scripts/items';
   import { getPrettyEnumName } from '@/scripts/shared';
   import { ColumnType, type Item, type WithId } from '@/types';
-  import { CollectionReference } from 'firebase/firestore';
+  import { collection, CollectionReference } from 'firebase/firestore';
+  import { computed } from 'vue';
   import { useCollection } from 'vuefire';
 
   defineEmits<{ editItem: [item: Item & WithId], deleteItem: [item: Item & WithId], selectItem: [item: Item & WithId], createNewItem: [] }>();
   const props = defineProps<{
-    itemsReference: CollectionReference
+    organizationId: string
+    selectedInventoryId: string
     selectedItemId: string | undefined
   }>();
   const columns = [ColumnType.ICON_URL, ColumnType.NAME, ColumnType.UNIT, ColumnType.QUANTITY, ColumnType.UNIT_PRICE, ColumnType.TOTAL_PRICE].map(enumName => ({
@@ -14,7 +17,8 @@
     name: getPrettyEnumName(enumName),
   }));
 
-  const items = useCollection<Item>(props.itemsReference);
+  const selectedItemsCollectionRef = computed(() => collection(database, 'organizations', props.organizationId, 'inventories', props.selectedInventoryId, 'items'));
+  const items = useCollection<Item>(selectedItemsCollectionRef);
 </script>
 
 <template>

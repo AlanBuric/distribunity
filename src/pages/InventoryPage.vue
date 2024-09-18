@@ -2,7 +2,7 @@
   import ItemEditor from '@/components/work/ItemEditor.vue';
   import ItemTable from '@/components/work/ItemTable.vue';
   import WorkNavigationBar from '@/components/work/WorkNavigationBar.vue';
-  import { ref } from 'vue';
+  import { computed, ref } from 'vue';
   import type { Item, Inventory, Organization, WithId } from '@/types';
   import { useCollection } from 'vuefire';
   import { addDoc, collection, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
@@ -27,6 +27,7 @@
   const selectedInventoryIndex = ref<number | undefined>(inventories.value.length > 0 ? 0 : undefined);
   const selectedItem = ref<Item & WithId | undefined>();
   const activeItemPanel = ref<ItemPanel | undefined>(undefined);
+  const selectedInventory = computed(() => selectedInventoryIndex.value != null ? inventories.value[selectedInventoryIndex.value] : undefined);
 
   function isEditingItemInPanel() {
     return activeItemPanel.value != 'viewer' && activeItemPanel.value != null;
@@ -108,9 +109,7 @@
   }
 
   function deleteItem(item: Item & WithId) {
-    const inventory = getSelectedInventory();
-
-    if (inventory == null) {
+    if (!selectedInventory.value) {
       console.warn('Selected inventory was found to be null.');
       return;
     }
@@ -119,17 +118,13 @@
 
     if (isSelectedItem && activeItemPanel.value == 'editor') {
       alert(unsavedChangesMessage);
-    } else if (confirm(`Are you sure you want to delete ${item.name} from ${inventory.name}?`)) {
+    } else if (confirm(`Are you sure you want to delete ${item.name} from ${selectedInventory.value.name}?`)) {
       if (isSelectedItem) {
         selectedItem.value = undefined;
       }
 
-      deleteDoc(doc(database, 'organizations', organizationId, 'inventories', inventory.id, 'items', item.id));
+      deleteDoc(doc(database, 'organizations', organizationId, 'inventories', selectedInventory.value.id, 'items', item.id));
     }
-  }
-
-  function getSelectedInventory() {
-    return selectedInventoryIndex.value != null ? inventories.value[selectedInventoryIndex.value] : undefined;
   }
 
   function selectInventory(index: number) {
@@ -182,11 +177,12 @@
               {{ organization?.name ?? "Unknown" }}
             </RouterLink> > <RouterLink :to="`/work/organization/${organizationId}/inventories`" class="underline" title="You're already here">
               Inventories
-            </RouterLink> <span v-if="getSelectedInventory()">> {{ getSelectedInventory()!.name }}</span>
+            </RouterLink> <span v-if="selectedInventory">> {{ selectedInventory.name }}</span>
           </h2>
           <ItemTable
-            v-if="getSelectedInventory()" id="inventory"
-            :items-reference="collection(database, 'organizations', organizationId, 'inventories', getSelectedInventory()!.id, 'items')"
+            v-if="selectedInventory" id="inventory"
+            :organization-id="organizationId"
+            :selected-inventory-id="selectedInventory.id"
             :selected-item-id="selectedItem?.id"
             @delete-item="deleteItem"
             @edit-item="selectItemForEditing"
@@ -204,9 +200,9 @@
           </p>
         </main>
         <ItemCreator
-          v-if="activeItemPanel == 'creator' && getSelectedInventory()"
+          v-if="activeItemPanel == 'creator' && selectedInventory"
           @close-form="closeItemForm"
-          :selected-inventory="getSelectedInventory()!"
+          :selected-inventory="selectedInventory"
           :organization-id="organizationId"
           class="flex-1"
         />
@@ -214,7 +210,7 @@
           v-else-if="activeItemPanel == 'editor' && selectedItem"
           @close-form="closeItemForm"
           :selected-item="selectedItem"
-          :selected-inventory="getSelectedInventory()!"
+          :selected-inventory="selectedInventory!"
           :organization-id="organizationId"
           class="flex-1"
         />
