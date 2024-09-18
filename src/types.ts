@@ -17,10 +17,11 @@ export const ALL_PERMISSIONS = [
   'organization.roles.update',
   'organization.members.remove',
   'organization.members.view',
-  'organization.audit-log',
-  'organization.members.invite',
-  'inventory.create',
+  'organization.invites.create',
+  'organization.invites.delete',
+  'organization.auditLog',
   'inventory.stockTaking',
+  'inventory.create',
   'inventory.view',
   'inventory.edit',
   'inventory.delete',
@@ -30,6 +31,7 @@ export const ALL_PERMISSIONS = [
   'item.edit',
   'item.delete',
   'item.view',
+  'item.quantity.edit',
 ] as const;
 
 export type Permission = typeof ALL_PERMISSIONS[number];
