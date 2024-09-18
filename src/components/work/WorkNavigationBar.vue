@@ -19,7 +19,7 @@
       Settings
     </RouterLink>
     <RouterLink
-      to="/dashboard"
+      to="/work/dashboard"
       class="text-lg text-gray-700 dark:text-gray-400 hover:text-active-link dark:hover:text-active-link"
     >
       Dashboard
