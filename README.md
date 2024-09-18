@@ -9,7 +9,8 @@ In this web application, registered users can create organizations (a generaliza
 --------------------
 **Kolegij:** [_Programsko inženjerstvo_](http://ntankovic.unipu.hr/pi)  
 **Mentor:** _doc. dr. sc. Nikola Tanković_  
-**Student:** _Alan Burić (TFPU)_  
+**Student:** _Alan Burić (TFPU)_
+
 --------------------
 ## Production
 
