@@ -33,17 +33,19 @@
   });
 
   watch([password, confirmPassword], ([newPassword, newConfirmPassword]) => {
+    const matches = newPassword == newConfirmPassword;
+
     if (newPassword == newConfirmPassword) {
       passwordsMatch.value = {
         feedback: 'Passwords match.',
         classList: 'text-green-400',
-        matches: true,
+        matches,
       };
     } else {
       passwordsMatch.value = {
         feedback: 'Confirmation password doesn\'t match the password.',
         classList: 'text-red-400',
-        matches: false,
+        matches,
       };
     }
   });
@@ -51,7 +53,7 @@
   function getFormValidityIssues() {
     const issues: string[] = [];
 
-    if (passwordStrength.value.strength == 2) {
+    if (passwordStrength.value.strength <= 2) {
       issues.push(
         'Your password is too weak. Use lowercase and uppercase letters, numbers and symbols',
       );
@@ -61,7 +63,7 @@
       issues.push('Your password is too short, it needs to be at least 6 characters long');
     }
 
-    if (confirmPassword.value != password.value) {
+    if (!passwordsMatch.value?.matches) {
       issues.push('Your passwords don\'t match');
     }
 
