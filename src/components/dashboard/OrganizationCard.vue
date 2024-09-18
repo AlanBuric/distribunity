@@ -12,8 +12,7 @@
 
   const orgRef = doc(database, props.organizationStringRef);
   const orgSnapshot = await getDoc(orgRef);
-  const orgData = orgSnapshot.data() as Organization;
-  const organization: Organization & WithId = { ...orgData, id: orgSnapshot.id };
+  const organization: Organization & WithId = { ...(orgSnapshot.data() as Organization), id: orgSnapshot.id };
 
   async function leaveOrganization() {
     if (!confirm(`Are you sure you want to leave the organization ${organization.name}?`)) {
@@ -55,6 +54,7 @@
       });
     } catch (error) {
       console.error('An error was caught while trying to delete an organization', error);
+      alert(`Sorry, we were unable to delete the organization ${organization.name}. Please contact us to resolve this issue.`);
     }
   };
 </script>
@@ -70,7 +70,7 @@
 
     <div class="mt-4 flex space-x-2">
       <RouterLink :to="`/work/organization/${organization.id}/inventories`" class="text-sm bg-gray-200 text-gray-900 px-3 py-2 rounded-lg dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 hover:shadow-sm transition-shadow transform hover:scale-105">
-        Open
+        Go to inventories
       </RouterLink>
       <RouterLink
         :to="`/work/organization/${organization.id}`"

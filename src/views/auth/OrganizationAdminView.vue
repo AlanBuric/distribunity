@@ -23,7 +23,7 @@
     const batch = writeBatch(database);
 
     batch.delete(doc(membersCollRef, memberId));
-    batch.update(doc(database, 'users', memberId), { organization: arrayRemove(organizationDocRef) });
+    batch.update(doc(database, 'users', memberId), { organizations: arrayRemove(organizationDocRef) });
 
     batch.commit();
   }

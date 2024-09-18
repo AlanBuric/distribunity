@@ -28,4 +28,4 @@ export async function deleteInventoryRecursively(organizationId: string, invento
     batch.delete(doc(database, 'organizations', organizationId, 'inventories', inventoryId));
 
     await batch.commit();
-  }
+}

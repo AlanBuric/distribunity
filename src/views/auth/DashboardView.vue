@@ -47,7 +47,7 @@
           Joined organizations
         </h2>
         <p v-if="organizations" class="text-center text-lg text-gray-700 dark:text-gray-200">
-          Click an organization to open its inventories page.
+          Manage your organizations here.
         </p>
       </div>
 
