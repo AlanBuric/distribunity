@@ -18,8 +18,8 @@
 </script>
 
 <template>
-  <table class="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+  <table class="w-full table-fixed text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
       <tr>
         <th
           v-for="(columnName, index) in columns" :key="index" class="cursor-pointer px-3 py-2"
