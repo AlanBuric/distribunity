@@ -1,10 +1,10 @@
 <script lang="ts" setup> import { getItemColumnValue } from '@/scripts/items';
   import { getPrettyEnumName } from '@/scripts/shared';
-  import { ColumnType, type CountableItem, type WithId } from '@/types';
+  import { ColumnType, type Item, type WithId } from '@/types';
   import { CollectionReference } from 'firebase/firestore';
   import { useCollection } from 'vuefire';
 
-  defineEmits<{ editItem: [item: CountableItem & WithId], deleteItem: [item: CountableItem & WithId], selectItem: [item: CountableItem & WithId], createNewItem: [] }>();
+  defineEmits<{ editItem: [item: Item & WithId], deleteItem: [item: Item & WithId], selectItem: [item: Item & WithId], createNewItem: [] }>();
   const props = defineProps<{
     itemsReference: CollectionReference
     selectedItemId: string | undefined
@@ -14,7 +14,7 @@
     name: getPrettyEnumName(enumName),
   }));
 
-  const items = useCollection<CountableItem>(props.itemsReference);
+  const items = useCollection<Item>(props.itemsReference);
 </script>
 
 <template>

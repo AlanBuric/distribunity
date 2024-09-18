@@ -1,5 +1,5 @@
 <template>
   <main class="page-inner main-style">
-    <h1>Welcome to LegalView!</h1>
+    <h1>Legal</h1>
   </main>
 </template>

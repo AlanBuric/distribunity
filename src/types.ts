@@ -8,19 +8,6 @@ export type WithId = {
   readonly id: string
 };
 
-export type Address = {
-  country: string
-  postalCode: string
-  address: string
-};
-
-export type Delivery = {
-  fullName: string
-  deliveryService: string
-  address?: Address
-  items: CountableItem[]
-};
-
 export const ALL_PERMISSIONS = [
   'organization.delete',
   'organization.edit',
@@ -47,7 +34,7 @@ export const ALL_PERMISSIONS = [
 
 export type Permission = typeof ALL_PERMISSIONS[number];
 
-export type OrganizationRole = Named & {
+export type Role = Named & {
   permissions: Permission[]
 };
 
@@ -68,9 +55,6 @@ export type Item = Named & {
   unit: string
   attributes: (Record<string, string> | Record<string, number> | string)[]
   iconURL: string
-};
-
-export type CountableItem = Item & {
   quantity: number
 };
 
@@ -85,7 +69,7 @@ export enum ColumnType {
 }
 
 export type Inventory = Named & WithId & {
-  items: CountableItem[]
+  items: Item[]
 };
 
 export type CountryData = {

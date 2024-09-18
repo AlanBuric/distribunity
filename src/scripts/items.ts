@@ -1,6 +1,6 @@
-import { ColumnType, type CountableItem } from '@/types';
+import { ColumnType, type Item } from '@/types';
 
-type ColumnFunction = (item: CountableItem) => string;
+type ColumnFunction = (item: Item) => string;
 const currencyFormatter = new Intl.NumberFormat(undefined, { style: 'currency', currency: 'EUR' });
 
 const itemColumnRegistry: Record<ColumnType, ColumnFunction> = {
@@ -13,6 +13,6 @@ const itemColumnRegistry: Record<ColumnType, ColumnFunction> = {
   [ColumnType.UNIT_PRICE]: item => item.unitPrice + '',
 };
 
-export function getItemColumnValue(item: CountableItem, columnType: ColumnType | string) {
+export function getItemColumnValue(item: Item, columnType: ColumnType | string) {
   return itemColumnRegistry[columnType](item);
 }

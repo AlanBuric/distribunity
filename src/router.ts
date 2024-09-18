@@ -43,23 +43,6 @@ const router = createRouter({
                 title: 'Distribunity: resources',
               },
             },
-            {
-              path: 'legal',
-              name: 'legal',
-              component: () => import('@/views/home/resources/LegalView.vue'),
-              meta: {
-                title: 'Distribunity: legal',
-              },
-            },
-            {
-              path: 'impressum',
-              alias: 'imprint',
-              name: 'impressum',
-              component: () => import('@/views/home/resources/ImpressumView.vue'),
-              meta: {
-                title: 'Distribunity: impressum',
-              },
-            },
           ],
         },
         {

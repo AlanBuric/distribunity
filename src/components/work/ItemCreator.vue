@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { database } from '@/firebase/init';
-  import type { CountableItem, Inventory } from '@/types';
+  import type { Item, Inventory } from '@/types';
   import { addDoc, collection } from 'firebase/firestore';
   import { ref } from 'vue';
 
@@ -25,7 +25,7 @@
         return;
       }
 
-      const newItem: CountableItem = {
+      const newItem: Item = {
         name: name.value,
         quantity: quantity.value,
         unit: unit.value,
@@ -60,7 +60,6 @@
           placeholder="New item name"
           v-model="name"
           class="mt-1 p-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
-          required
         >
       </div>
 

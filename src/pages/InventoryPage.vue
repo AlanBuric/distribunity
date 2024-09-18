@@ -3,15 +3,16 @@
   import ItemTable from '@/components/work/ItemTable.vue';
   import WorkNavigationBar from '@/components/work/WorkNavigationBar.vue';
   import { ref } from 'vue';
-  import Toolbar from '@/components/work/WorkToolbar.vue';
-  import type { CountableItem, Inventory, Organization, WithId } from '@/types';
+  import type { Item, Inventory, Organization, WithId } from '@/types';
   import { useCollection } from 'vuefire';
   import { addDoc, collection, deleteDoc, doc, getDoc } from 'firebase/firestore';
   import { database } from '@/firebase/init';
   import { RouterLink, useRoute } from 'vue-router';
   import ItemCreator from '@/components/work/ItemCreator.vue';
   import ItemViewer from '@/components/work/ItemViewer.vue';
+  import InventoryTable from '@/components/work/InventoryTable.vue';
   import { deleteInventoryRecursively } from '@/scripts/firebase-utilities';
+  import WorkToolbar from '@/components/work/WorkToolbar.vue';
 
   const unsavedChangesMessage = 'You have unsaved changes. Please save or discard the current item being edited before selecting a new item.';
   type ItemPanel = 'viewer' | 'editor' | 'creator';
@@ -24,7 +25,7 @@
   getDoc(doc(database, 'organizations', organizationId)).then(organizationSnapshot => organization.value = organizationSnapshot.data() as Organization);
 
   const selectedInventoryIndex = ref<number | undefined>(inventories.value.length > 0 ? 0 : undefined);
-  const selectedItem = ref<CountableItem & WithId | undefined>();
+  const selectedItem = ref<Item & WithId | undefined>();
   const activeItemPanel = ref<ItemPanel | undefined>(undefined);
 
   function isEditingItemInPanel() {
@@ -58,7 +59,7 @@
     return inventories?.value.length > 0;
   }
 
-  function selectItemForViewing(item: CountableItem & WithId) {
+  function selectItemForViewing(item: Item & WithId) {
     if (isEditingItemInPanel()) {
       alert(unsavedChangesMessage);
     } else if (selectedInventoryIndex.value == null) {
@@ -69,7 +70,7 @@
     }
   }
 
-  function selectItemForEditing(item: CountableItem & WithId) {
+  function selectItemForEditing(item: Item & WithId) {
     if (isEditingItemInPanel()) {
       alert(unsavedChangesMessage);
     } else if (selectedInventoryIndex.value == null) {
@@ -90,7 +91,7 @@
     }
   }
 
-  function deleteItem(item: CountableItem & WithId) {
+  function deleteItem(item: Item & WithId) {
     const inventory = getSelectedInventory();
 
     if (inventory == null) {
@@ -114,6 +115,14 @@
   function getSelectedInventory() {
     return selectedInventoryIndex.value != null ? inventories.value[selectedInventoryIndex.value] : undefined;
   }
+
+  function selectInventory(index: number) {
+    if (isEditingItemInPanel()) {
+      alert(unsavedChangesMessage);
+    } else {
+      selectedInventoryIndex.value = index;
+    }
+  }
 </script>
 
 <template>
@@ -132,44 +141,11 @@
       <button @click.prevent="createNewInventory" class="cursor-pointer text-sm bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-md px-3 py-1 my-4 shadow-sm hover:bg-gray-300 dark:hover:bg-gray-800 focus:outline-none">
         New inventory
       </button>
-      <table v-if="hasInventories()" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" class="px-3 py-2">
-              Name
-            </th>
-            <th scope="col" class="px-3 py-2">
-              Items
-            </th>
-            <th scope="col" class="px-3 py-2">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(inventory, index) in inventories" :key="index"
-            :class="{
-              'hover:bg-gray-50 dark:hover:bg-gray-600': true, 'border-b dark:border-gray-700': index < inventories.length - 1,
-              'bg-white dark:bg-gray-800': index != selectedInventoryIndex,
-              'bg-gray-50 dark:bg-gray-600': index == selectedInventoryIndex
-            }"
-            @click.prevent="selectedInventoryIndex = index"
-          >
-            <td scope="row" class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              {{ inventory.name }}
-            </td>
-            <td scope="row" class="px-3 py-2">
-              {{ inventory.items.length }}
-            </td>
-            <td scope="row" class="px-3 py-2 space-x-1">
-              <button @click.prevent="deleteInventory(index)">
-                🗑️
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <InventoryTable
+        v-if="hasInventories()" :inventories="inventories"
+        :selected-inventory-index="selectedInventoryIndex"
+        @delete-inventory="deleteInventory" @select-inventory="selectInventory"
+      />
       <p v-else class="text-center text-gray-500 dark:text-gray-400 mt-2">
         Your organization currently has no inventories.<br>
         <button class="cursor-pointer underline" @click.prevent="createNewInventory">
@@ -178,7 +154,7 @@
       </p>
     </aside>
     <div class="flex flex-col flex-1 items-stretch">
-      <Toolbar @new-item="tryOpenItemCreator" :has-inventories="hasInventories()" class="flex-initial" />
+      <WorkToolbar @new-item="tryOpenItemCreator" :has-inventories="hasInventories()" class="flex-initial" />
       <div class="flex flex-1 gap-3 mx-2 mt-2 content-stretch">
         <main class="flex-1 bg-white dark:bg-gray-800 rounded-t-lg">
           <h2 class="p-3 text-semibold text-gray-500 dark:text-gray-400">

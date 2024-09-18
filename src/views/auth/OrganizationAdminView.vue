@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { auth, database } from '@/firebase/init';
-  import { ALL_PERMISSIONS, type Member, type Organization, type OrganizationRole } from '@/types';
+  import { ALL_PERMISSIONS, type Member, type Organization, type Role } from '@/types';
   import { doc, updateDoc, arrayRemove, arrayUnion, collection, addDoc, deleteDoc, writeBatch } from 'firebase/firestore';
   import { useRoute } from 'vue-router';
   import { useDocument, useCollection } from 'vuefire';
@@ -14,7 +14,7 @@
 
   const organization = useDocument<Organization>(organizationDocRef);
   const members = useCollection<Member>(membersCollRef);
-  const roles = useCollection<OrganizationRole>(rolesCollRef);
+  const roles = useCollection<Role>(rolesCollRef);
 
   const newRoleName = ref('');
   const newInviteCode = ref('');

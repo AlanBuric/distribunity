@@ -1,11 +1,11 @@
 <script lang="ts" setup>
   import { database } from '@/firebase/init';
-  import type { CountableItem, Inventory, WithId } from '@/types';
+  import type { Item, Inventory, WithId } from '@/types';
   import { doc, updateDoc } from 'firebase/firestore';
   import { ref } from 'vue';
 
   const emit = defineEmits<{ closeForm: [] }>();
-  const props = defineProps<{ selectedItem: CountableItem & WithId, selectedInventory: Inventory, organizationId: string }>();
+  const props = defineProps<{ selectedItem: Item & WithId, selectedInventory: Inventory, organizationId: string }>();
 
   const formAction = ref<string>();
 
@@ -32,7 +32,7 @@
 
   function submitItemSave() {
     if (formAction.value == 'save') {
-      const updatedItem: CountableItem = {
+      const updatedItem: Item = {
         name: name.value,
         quantity: quantity.value,
         unit: unit.value,

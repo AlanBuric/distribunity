@@ -1,5 +1,5 @@
 <template>
   <main class="page-inner main-style">
-    <h1>Welcome to ImpressumView!</h1>
+    <h1>Imprint</h1>
   </main>
 </template>

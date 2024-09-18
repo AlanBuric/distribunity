@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-  import type { CountableItem } from '@/types';
+  import type { Item } from '@/types';
 
   defineEmits<{ closeForm: [] }>();
-  const props = defineProps<{ selectedItem: CountableItem }>();
+  const props = defineProps<{ selectedItem: Item }>();
 </script>
 
 <template>
