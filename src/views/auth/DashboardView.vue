@@ -5,6 +5,7 @@
   import NewOrganizationFormPopup from '@/components/popup/NewOrganizationFormPopup.vue';
   import useAuthStore from '@/store/auth';
   import { computed, ref } from 'vue';
+  import { auth } from '@/firebase/init';
 
   const organizations = computed(() => useAuthStore().userProfile?.organizations);
   const isOrganizationFormOpen = ref(false);
@@ -19,7 +20,7 @@
     <div class="max-w-7xl space-y-6">
       <div class="space-y-2">
         <h1 class="text-3xl font-semibold text-center">
-          Your organizations
+          Hello, {{ auth.currentUser?.displayName }}, these are your organizations
         </h1>
 
         <h2 class="text-xl font-semibold text-center text-gray-800 dark:text-gray-200">

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import { ref, watch } from 'vue';
   import { getPasswordStrength, type PasswordStrength } from '@/scripts/password-policy';
-  import { createUserWithEmailAndPassword } from 'firebase/auth';
+  import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
   import { auth, database } from '@/firebase/init';
   import { setDoc, doc } from 'firebase/firestore';
   import { useRouter } from 'vue-router';
@@ -115,6 +115,10 @@
           message: 'Your user profile is ready. If you\'re still seeing this message, refresh the page and visit the Dashboard.',
           state: 'success',
         };
+
+        updateProfile(userCredential.user, {
+          displayName: `${firstName.value} ${lastName.value}`,
+        });
 
         router.push({ path: '/work/dashboard' });
       } catch (error) {
