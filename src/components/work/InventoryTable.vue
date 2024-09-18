@@ -8,6 +8,7 @@
   defineEmits<{
     deleteInventory: [index: number]
     selectInventory: [index: number]
+    renameInventory: [index: number]
   }>();
 </script>
 
@@ -36,7 +37,11 @@
         }"
         @click.prevent="$emit('selectInventory', index)"
       >
-        <td scope="row" class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        <td
+          scope="row"
+          @dblclick="$emit('renameInventory', index)"
+          class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >
           {{ inventory.name }}
         </td>
         <td scope="row" class="px-3 py-2">

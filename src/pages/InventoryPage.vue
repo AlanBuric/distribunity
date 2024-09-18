@@ -5,7 +5,7 @@
   import { ref } from 'vue';
   import type { Item, Inventory, Organization, WithId } from '@/types';
   import { useCollection } from 'vuefire';
-  import { addDoc, collection, deleteDoc, doc, getDoc } from 'firebase/firestore';
+  import { addDoc, collection, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
   import { database } from '@/firebase/init';
   import { RouterLink, useRoute } from 'vue-router';
   import ItemCreator from '@/components/work/ItemCreator.vue';
@@ -14,7 +14,7 @@
   import { deleteInventoryRecursively } from '@/scripts/firebase-utilities';
   import WorkToolbar from '@/components/work/WorkToolbar.vue';
 
-  const unsavedChangesMessage = 'You have unsaved changes. Please save or discard the current item being edited before selecting a new item.';
+  const unsavedChangesMessage = 'You have unsaved changes. Please save or discard the current item being edited before selecting a new inventory or item.';
   type ItemPanel = 'viewer' | 'editor' | 'creator';
 
   const organizationId = useRoute().params.id as string;
@@ -44,14 +44,29 @@
     }
   }
 
-  async function deleteInventory(index: number) {
+  function deleteInventory(index: number) {
+    if (isEditingItemInPanel()) {
+      alert(unsavedChangesMessage);
+      return;
+    }
+
     const inventory = inventories.data.value[index];
 
-    if (confirm(`Are you sure you want to delete inventory ${inventory.name}?`)) {
+    if (inventory && confirm(`Are you sure you want to delete inventory ${inventory.name}?`)) {
       selectedInventoryIndex.value = undefined;
       activeItemPanel.value = undefined;
 
-      await deleteInventoryRecursively(organizationId, inventory.id);
+      deleteInventoryRecursively(organizationId, inventory.id);
+    }
+  }
+
+  async function renameInventory(index: number) {
+    const inventory = inventories.data.value[index];
+
+    if (inventory) {
+      const newName = prompt(`What should the new name of inventory ${inventory.name} be?`);
+
+      updateDoc(doc(database, 'organizations', organizationId, 'inventories', inventory.id), { name: newName });
     }
   }
 
@@ -144,7 +159,9 @@
       <InventoryTable
         v-if="hasInventories()" :inventories="inventories"
         :selected-inventory-index="selectedInventoryIndex"
-        @delete-inventory="deleteInventory" @select-inventory="selectInventory"
+        @delete-inventory="deleteInventory"
+        @select-inventory="selectInventory"
+        @rename-inventory="renameInventory"
       />
       <p v-else class="text-center text-gray-500 dark:text-gray-400 mt-2">
         Your organization currently has no inventories.<br>
