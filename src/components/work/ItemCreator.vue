@@ -46,10 +46,12 @@
 </script>
 
 <template>
-  <aside class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+  <aside class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4 flex flex-col">
     <h1 class="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-200">
       Create a new item > {{ name }}
     </h1>
+
+    <img v-if="iconURL" :src="iconURL" class="w-48 shadow-md border-gray-300 rounded-md">
 
     <form @submit.prevent="submitItemCreation" class="flex flex-col space-y-4">
       <div class="flex flex-col">

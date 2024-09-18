@@ -52,10 +52,12 @@
 </script>
 
 <template>
-  <aside class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+  <aside class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4 flex flex-col">
     <h1 class="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-200">
       Item editor > {{ name }}
     </h1>
+
+    <img v-if="iconURL" :src="iconURL" class="max-w-48 shadow-md border-gray-300 rounded-md">
 
     <form @submit.prevent="submitItemSave" class="flex flex-col space-y-4">
       <div class="flex flex-col">
@@ -99,6 +101,17 @@
           id="quantity"
           min="0"
           v-model="quantity"
+          class="mt-1 p-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
+        >
+      </div>
+
+      <div class="flex flex-col">
+        <label for="photo-url" class="text-sm font-medium text-gray-700 dark:text-gray-300">Photo link</label>
+        <input
+          type="url"
+          id="photo-url"
+          v-model="iconURL"
+          placeholder="e.g. https://i.imgur.com/jeBUkmj.png"
           class="mt-1 p-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
         >
       </div>

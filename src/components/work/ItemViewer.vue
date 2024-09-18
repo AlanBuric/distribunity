@@ -11,7 +11,7 @@
       Item details: {{ props.selectedItem.name }}
     </h1>
 
-    <img v-if="selectedItem.iconURL.length > 0" :src="selectedItem.iconURL" class="w-48 shadow-md border-gray-300 rounded-md">
+    <img v-if="selectedItem.iconURL" :src="selectedItem.iconURL" class="max-w-48 shadow-md border-gray-300 rounded-md">
 
     <div class="flex flex-col">
       <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Item Name</span>
@@ -23,7 +23,7 @@
     <div class="flex flex-col">
       <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Unit</span>
       <p class="mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-gray-800 dark:text-gray-300">
-        {{ props.selectedItem.unit }}
+        {{ props.selectedItem.unit ? props.selectedItem.unit : '(None)' }}
       </p>
     </div>
 

@@ -42,16 +42,18 @@
           }"
         >
           <td v-for="column in columns" :key="column.enumName" class="px-3 py-2">
-            <img v-if="column.enumName == ColumnType.ICON_URL" :src="getItemColumnValue(item, column.enumName)" class="shadow-md border-gray-300 rounded-md">
+            <img v-if="column.enumName == ColumnType.ICON_URL" :src="getItemColumnValue(item, column.enumName)" class="max-w-[60%] shadow-md border-gray-300 rounded-md">
             <span v-else>{{ getItemColumnValue(item, column.enumName) }}</span>
           </td>
-          <td class="px-3 py-2 space-x-1">
-            <button @click.prevent.stop="$emit('editItem', item)">
-              Edit ✏️
-            </button>
-            <button @click.prevent.stop="$emit('deleteItem', item)">
-              Delete🗑️
-            </button>
+          <td class="px-3 py-2">
+            <div class="space-y-1 flex flex-col items-start">
+              <button @click.prevent.stop="$emit('editItem', item)">
+                Edit ✏️
+              </button>
+              <button @click.prevent.stop="$emit('deleteItem', item)">
+                Delete🗑️
+              </button>
+            </div>
           </td>
         </tr>
       </template>

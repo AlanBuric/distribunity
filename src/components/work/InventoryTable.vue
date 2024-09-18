@@ -20,9 +20,6 @@
           Name
         </th>
         <th scope="col" class="px-3 py-2">
-          Items
-        </th>
-        <th scope="col" class="px-3 py-2">
           Actions
         </th>
       </tr>
@@ -45,12 +42,14 @@
           {{ inventory.name }}
         </td>
         <td scope="row" class="px-3 py-2">
-          {{ inventory.items.length }}
-        </td>
-        <td scope="row" class="px-3 py-2 space-x-1">
-          <button @click.prevent="$emit('deleteInventory', index)">
-            🗑️
-          </button>
+          <div class="space-y-1 flex flex-col items-start">
+            <button @click.prevent.stop="$emit('renameInventory', index)">
+              Rename ✏️
+            </button>
+            <button @click.prevent.stop="$emit('deleteInventory', index)">
+              Delete 🗑️
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>

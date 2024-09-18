@@ -33,6 +33,7 @@
   }
 
   function closeItemForm() {
+    selectedItem.value = undefined;
     activeItemPanel.value = undefined;
   }
 
@@ -53,9 +54,7 @@
     const inventory = inventories.data.value[index];
 
     if (inventory && confirm(`Are you sure you want to delete inventory ${inventory.name}?`)) {
-      selectedInventoryIndex.value = undefined;
-      activeItemPanel.value = undefined;
-
+      closeItemForm();
       deleteInventoryRecursively(organizationId, inventory.id);
     }
   }
@@ -66,7 +65,9 @@
     if (inventory) {
       const newName = prompt(`What should the new name of inventory ${inventory.name} be?`);
 
-      updateDoc(doc(database, 'organizations', organizationId, 'inventories', inventory.id), { name: newName });
+      if (newName) {
+        updateDoc(doc(database, 'organizations', organizationId, 'inventories', inventory.id), { name: newName });
+      }
     }
   }
 
