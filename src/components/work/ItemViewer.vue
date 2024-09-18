@@ -23,7 +23,7 @@
     <div class="flex flex-col">
       <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Unit</span>
       <p class="mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-gray-800 dark:text-gray-300">
-        {{ props.selectedItem.unit ? props.selectedItem.unit : '(None)' }}
+        {{ props.selectedItem.unit || '(None)' }}
       </p>
     </div>
 
@@ -38,6 +38,13 @@
       <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Quantity</span>
       <p class="mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-gray-800 dark:text-gray-300">
         {{ props.selectedItem.quantity }}
+      </p>
+    </div>
+
+    <div class="flex flex-col">
+      <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Photo link</span>
+      <p class="mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-gray-800 dark:text-gray-300">
+        {{ props.selectedItem.iconURL || "(None)" }}
       </p>
     </div>
 
