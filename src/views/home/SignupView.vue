@@ -6,6 +6,16 @@
   import { setDoc, doc } from 'firebase/firestore';
   import { useRouter } from 'vue-router';
 
+  type LoginStateMessage = {
+    message: string
+    state: 'processing' | 'success' | 'failure'
+  };
+  type PasswordsMatchState = {
+    feedback: string
+    classList: string
+    matches: boolean
+  };
+
   const router = useRouter();
 
   const firstName = ref('');
@@ -14,15 +24,8 @@
   const password = ref('');
   const confirmPassword = ref('');
   const passwordStrength = ref<PasswordStrength>(getPasswordStrength('a'));
-  const passwordsMatch = ref<{
-    feedback: string
-    classList: string
-    matches: boolean
-  } | undefined>();
-  const loginStateMessage = ref<{
-    message: string
-    state: 'processing' | 'success' | 'failure'
-  }>();
+  const passwordsMatch = ref<PasswordsMatchState | undefined>();
+  const loginStateMessage = ref<LoginStateMessage>();
   const formIssues = ref<string[]>([]);
 
   watch(password, (newPassword) => {

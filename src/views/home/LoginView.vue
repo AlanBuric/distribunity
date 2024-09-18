@@ -10,7 +10,7 @@
   const loginError = ref<string>();
   const isWaitingForResponse = ref(false);
 
-  function handleSubmit() {
+  function handleLoginSubmit() {
     loginError.value = undefined;
 
     signInWithEmailAndPassword(auth, email.value, password.value)
@@ -31,7 +31,7 @@
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" class="w-full max-w-sm bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
+  <form @submit.prevent="handleLoginSubmit" class="w-full max-w-sm bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
     <h2 class="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-gray-100">
       Welcome back!
     </h2>
@@ -53,7 +53,7 @@
       class="w-full p-2 mt-2 mb-6 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-100 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
       type="password"
       name="password"
-      placeholder="New password"
+      placeholder="Your password"
       autocomplete="current-password"
       required
     >

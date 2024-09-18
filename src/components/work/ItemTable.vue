@@ -46,11 +46,11 @@
             <span v-else>{{ getItemColumnValue(item, column.enumName) }}</span>
           </td>
           <td class="px-3 py-2 space-x-1">
-            <button @click.prevent.stop="$emit('deleteItem', item)">
-              🗑️
-            </button>
             <button @click.prevent.stop="$emit('editItem', item)">
-              ✏️
+              Edit ✏️
+            </button>
+            <button @click.prevent.stop="$emit('deleteItem', item)">
+              Delete🗑️
             </button>
           </td>
         </tr>
