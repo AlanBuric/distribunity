@@ -116,9 +116,9 @@
           state: 'success',
         };
 
-        updateProfile(userCredential.user, {
+        await updateProfile(userCredential.user, {
           displayName: `${firstName.value} ${lastName.value}`,
-        });
+        }).catch(console.error);
 
         router.push({ path: '/work/dashboard' });
       } catch (error) {
