@@ -86,7 +86,7 @@ const router = createRouter({
       },
       children: [
         {
-          path: 'dashboard',
+          path: '',
           name: 'dashboard',
           component: () => import('@/views/auth/DashboardView.vue'),
           meta: {
@@ -165,7 +165,7 @@ router.beforeEach(async (to) => {
 
         if (organization.data()?.owner.id != currentUser.uid) {
           return {
-            path: '/work/dashboard',
+            path: '/work',
           };
         }
       }

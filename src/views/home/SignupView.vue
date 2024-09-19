@@ -120,7 +120,7 @@
           displayName: `${firstName.value} ${lastName.value}`,
         }).catch(console.error);
 
-        router.push({ path: '/work/dashboard' });
+        router.push({ path: '/work' });
       } catch (error) {
         handleUserRegistrationError(error);
       }

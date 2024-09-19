@@ -171,7 +171,7 @@
       <div class="flex flex-1 gap-3 mx-2 mt-2 content-stretch">
         <main class="flex-1 bg-white dark:bg-gray-800 rounded-t-lg">
           <h2 class="p-3 text-semibold text-gray-500 dark:text-gray-400">
-            <RouterLink to="/work/dashboard" class="underline" title="Visit this organization's dashboard">
+            <RouterLink to="/work" class="underline" title="Visit this organization's dashboard">
               Organizations
             </RouterLink> > <RouterLink :to="`/work/organization/${organizationId}`" class="underline" title="Visit this organization's admin page">
               {{ organization?.name ?? "Unknown" }}
