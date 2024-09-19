@@ -94,7 +94,6 @@
     const providerId = user.providerData[0]?.providerId;
 
     if (providerId === 'password') {
-      const email = user.email;
       const credential = EmailAuthProvider.credential(emailConfirmation.value, passwordConfirmation.value);
       return reauthenticateWithCredential(user, credential);
     } else if (providerId === 'google.com') {

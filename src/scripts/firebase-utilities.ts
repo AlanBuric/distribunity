@@ -1,6 +1,6 @@
 import { database } from '@/firebase/init';
 import type { Organization, WithId } from '@/types';
-import { writeBatch, collection, getDocs, doc, runTransaction, arrayRemove, getDoc } from 'firebase/firestore';
+import { writeBatch, collection, getDocs, doc, runTransaction, arrayRemove } from 'firebase/firestore';
 
 export function firestoreAutoId(): string {
     const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

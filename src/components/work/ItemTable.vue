@@ -2,7 +2,7 @@
   import { getItemColumnValue } from '@/scripts/items';
   import { getPrettyEnumName } from '@/scripts/shared';
   import { ColumnType, type Item, type WithId } from '@/types';
-  import { collection, CollectionReference } from 'firebase/firestore';
+  import { collection } from 'firebase/firestore';
   import { computed } from 'vue';
   import { useCollection } from 'vuefire';
 
