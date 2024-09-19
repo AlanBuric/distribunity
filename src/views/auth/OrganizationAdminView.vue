@@ -14,8 +14,8 @@
   const membersCollRef = collection(organizationDocRef, 'members');
   const rolesCollRef = collection(organizationDocRef, 'roles');
 
-  const organization = useDocument<Organization>(organizationDocRef);
-  const members = useCollection<Member>(membersCollRef);
+  const organization = useDocument<Organization>(organizationDocRef, { maxRefDepth: 0 });
+  const members = useCollection<Member>(membersCollRef, { maxRefDepth: 0 });
   const roles = useCollection<Role>(rolesCollRef);
 
   const newRoleName = ref('');
@@ -82,11 +82,11 @@
   }
 
   function addRoleToMember(roleId: string, memberId: string) {
-    updateDoc(doc(membersCollRef, memberId), { roles: arrayUnion(roleId) });
+    updateDoc(doc(membersCollRef, memberId), { roles: arrayUnion(doc(rolesCollRef, roleId)) });
   }
 
   function removeRoleFromMember(roleId: string, memberId: string) {
-    updateDoc(doc(membersCollRef, memberId), { roles: arrayRemove(roleId) });
+    updateDoc(doc(membersCollRef, memberId), { roles: arrayRemove(doc(rolesCollRef, roleId)) });
   }
 </script>
 
@@ -103,8 +103,8 @@
         </h2>
         <MemberList
           v-if="members.length"
-          :members="members"
           class="w-full"
+          :members="members"
           :roles="roles"
           @remove-member="removeMember"
           @add-role-to-member="addRoleToMember"

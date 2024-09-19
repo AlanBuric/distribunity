@@ -35,6 +35,11 @@
     return map;
   }
 
+  function getRoleIdFromRoleRef(roleRef: string) {
+    const array = roleRef.split('/');
+    return array[array.length - 1];
+  }
+
   const userMapping = createUserMapping(await fetchUserData(props.members.map(member => member.id)));
   const roleMapping = createRoleMapping(props.roles);
 </script>
@@ -74,8 +79,8 @@
           }"
         >
           <div v-if="member.roles.length" class="flex flex-wrap gap-2">
-            <RemovableChip v-for="roleId in member.roles" :key="roleId" @click-action="$emit('removeRoleFromMember', roleId, member.id)">
-              {{ roleMapping[roleId].name }}
+            <RemovableChip v-for="roleRef in member.roles" :key="getRoleIdFromRoleRef(roleRef)" @click-action="$emit('removeRoleFromMember', getRoleIdFromRoleRef(roleRef), member.id)">
+              {{ roleMapping[getRoleIdFromRoleRef(roleRef)].name }}
             </RemovableChip>
           </div>
           <span v-else>
@@ -88,7 +93,7 @@
               <select name="role-to-add" id="role-to-add" class="px-2 py-1 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:outline-none">
                 <option
                   v-for="role in roles" :key="role.id" :value="role.id"
-                  :disabled="member.roles.includes(role.id)"
+                  :disabled="!!member.roles.find(roleRef => getRoleIdFromRoleRef(roleRef) == role.id)"
                 >
                   {{ role.name }}
                 </option>
