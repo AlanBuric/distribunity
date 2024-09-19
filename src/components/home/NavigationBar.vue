@@ -23,17 +23,17 @@
         Home
       </RouterLink>
       <RouterLink
+        class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
+        to="/resources"
+      >
+        Resources
+      </RouterLink>
+      <RouterLink
         v-if="!hideBlog"
         class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
         :to="{ name: 'blog', query: { page: 1 } }"
       >
         Blog
-      </RouterLink>
-      <RouterLink
-        class="text-lg font-medium text-gray-700 dark:text-gray-300 dark:hover:text-active-link"
-        to="/resources"
-      >
-        Resources
       </RouterLink>
     </div>
 

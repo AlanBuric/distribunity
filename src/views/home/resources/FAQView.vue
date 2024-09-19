@@ -1,117 +1,76 @@
-<script lang="ts" setup>
-  import { ref } from 'vue';
-
+<script setup lang="ts">
   const content = [
     {
       question: 'What is Distribunity?',
-      answer: `<p>Distribunity is a <a href="https://en.wikipedia.org/wiki/Inventory_management_software"
-          target="_blank">inventory management
-          software</a> and digital <a href="https://en.wikipedia.org/wiki/Information_system"
-          target="_blank">information system</a> web application intended for inventory administrators and their
-        employees, providing features such as tracking
-        item counts, orders and sales of a real life inventory, statistics, update history, other format imports and
-        exports etc.
-        Its main features are:
-      </p>
-      <ul>
-        <li><b>role administration:</b> a main administrator of the business can invite other employees and grant them
-          limited and scoped permissions, which provides an excellent way of keeping the system secure</li>
-        <li><b>multiple inventories:</b> a business may have multiple locations where inventory is stored, and user
-          permissions can also be restricted to each of these</li>
-        <li><b></b></li>
-      </ul>`,
+      answer:
+        'Distribunity is a web application designed to manage and monitor the inventory of a company\'s warehouse. It simplifies tracking by maintaining a single source of truth for inventory data.',
     },
     {
-      question: 'Is Distribunity paid for?',
+      question: 'How does Distribunity differ from traditional methods?',
       answer:
-        '<p>Unfortunately for us, no. However, please do consider leaving a donation on our PayPal to keep this open-source and free software going.</p>',
+        'Distribunity prevents issues like redundant versions and data discrepancies by using a centralized database that synchronizes all updates in real-time.',
+    },
+    {
+      question: 'Who can benefit from Distribunity?',
+      answer:
+        'Distribunity is useful for businesses of all sizes, including warehouses, stores, online shops, and individuals managing personal household inventories.',
+    },
+    {
+      question: 'Is Distribunity free to use?',
+      answer:
+        'Yes, Distribunity is currently free to use. The application operates on Firebase’s free tier, which allows a limited number of requests per day. However, if the user base grows significantly, upgrading to a paid plan may be required to accommodate larger traffic.',
+    },
+    {
+      question: 'How do I use Distribunity?',
+      answer:
+        'To start using Distribunity, you need to create an account, after which you can create an organization and start managing your inventory. You can invite other users to your organization, assign roles, and set permissions for different levels of access.',
+    },
+    {
+      question: 'What features does Distribunity offer?',
+      answer:
+        'Distribunity provides CRUD operations on items and warehouses, real-time updates, user management, and role-based access control.',
+    },
+    {
+      question: 'Can I export or import data in Distribunity?',
+      answer:
+        'Currently, export/import functionality is planned but not yet available. In the future, users will be able to migrate data via CSV or Excel.',
+    },
+    {
+      question: 'Can Distribunity integrate with other systems?',
+      answer:
+        'Not yet, but future updates may include integration with external APIs and services for automated processes.',
+    },
+    {
+      question: 'What are the future plans for Distribunity?',
+      answer:
+        'Future updates may include integration with APIs, internationalization, advanced analytics, and more granular user role management.',
+    },
+    {
+      question: 'Where can I report issues for Distribunity?',
+      answer:
+        'Support is available through documentation and user guides on the website, you can contact the support team for further assistance, and report errors at our GitHub repository\'s Issues tab; find the links at the bottom of the page.',
     },
   ];
-
-  const visible = ref(Array.from({ length: content.length }, () => false));
-
-  function toggleAccordion(index: number) {
-    visible.value[index] = !visible.value[index];
-  }
 </script>
-
 <template>
-  <main class="max-w-screen-2xl w-full mx-auto p-8 flex flex-col items-center bg-gray-200 dark:bg-gray-800 rounded-lg">
-    <article>
-      <h2 class="text-xl font-thin text-gray-900 dark:text-gray-100 mb-2">
-        Frequently Asked Questions
-      </h2>
-      <section v-for="(item, index) in content" :key="index" class="expand-container bg-white dark:bg-gray-700">
-        <button class="accordion" @click="toggleAccordion(index)">
-          <h3 class="text-lg font-thin text-gray-900 dark:text-gray-100 mb-2">
-            <span :class="{ arrow: true, open: visible[index] }">❯</span> {{ item.question }}
-          </h3>
-        </button>
-        <div :class="{ 'expand-contract': true, expanded: visible[index], 'text-gray-800 dark:text-gray-200 mb-2': true }" v-html="item.answer" />
-      </section>
-      <h2 class="text-xl font-thin text-gray-900 dark:text-gray-100 mb-2">
-        Still having trouble?
-      </h2>
-      <button class="fancy-button" onclick="window.open('mailto:aburic1@unipu.student.hr');" style="margin-left: 0px">
-        Contact us
-      </button>
-    </article>
+  <main class="max-w-screen-xl w-full mx-auto p-8 flex flex-col items-center dark:bg-gray-800 bg-gray-100 text-gray-900 dark:text-white rounded-lg">
+    <header class="flex justify-between items-center px-6 py-4 border-b dark:border-gray-700">
+      <h1 class="text-3xl font-bold">
+        Distribunity FAQ
+      </h1>
+    </header>
+
+    <div class="px-6 py-8 w-full mx-auto">
+      <ol>
+        <li v-for="(faq, index) in content" :key="index" class="mb-8 list-decimal list-inside marker:text-xl">
+          <h2 class="text-xl font-semibold mb-2 inline-block">
+            {{ faq.question }}
+          </h2>
+          <p class="text-gray-700 dark:text-gray-300">
+            {{ faq.answer }}
+          </p>
+        </li>
+      </ol>
+    </div>
   </main>
 </template>
-
-<style scoped>
-  section {
-    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.27);
-    border-radius: 10px;
-    margin: 10px;
-  }
-
-  .arrow {
-    user-select: none;
-    transition: writing-mode 1s ease-out;
-  }
-
-  .open {
-    writing-mode: vertical-rl;
-  }
-
-  .dropdown {
-    writing-mode: vertical-lr;
-  }
-
-  .accordion {
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    border: none;
-    outline: none;
-    transition: 1s;
-    padding: 0px 15px;
-  }
-
-  .accordion:hover {
-    background-color: #ccc;
-  }
-
-  .expand-container {
-    overflow: hidden;
-  }
-
-  .expand-contract {
-    height: 0;
-    transition: all 1s;
-  }
-
-  .expand-contract > * {
-    margin: 0;
-  }
-
-  .expand-contract.expanded {
-    height: auto;
-    margin-top: 0;
-  }
-
-  .expand-contract.expanded > * {
-    margin: 10px;
-  }
-</style>
