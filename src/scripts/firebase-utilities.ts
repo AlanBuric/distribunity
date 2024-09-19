@@ -1,6 +1,6 @@
 import { database } from '@/firebase/init';
 import type { Organization, WithId } from '@/types';
-import { writeBatch, collection, getDocs, doc, runTransaction, arrayRemove } from 'firebase/firestore';
+import { writeBatch, collection, getDocs, doc, runTransaction, arrayRemove, getDoc } from 'firebase/firestore';
 
 export function firestoreAutoId(): string {
     const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -38,22 +38,31 @@ export async function deleteOrganization(organization: Organization & WithId) {
 
   const orgRef = doc(database, 'organizations', organization.id);
   const inventoriesRef = collection(database, 'organizations', organization.id, 'inventories');
-  const membersRef = collection(database, 'organizations', organization.id, 'members');
+  const membersCollectionRef = collection(database, 'organizations', organization.id, 'members');
+  const rolesCollectionRef = collection(database, 'organizations', organization.id, 'roles');
 
   try {
     await runTransaction(database, async (transaction) => {
       const inventorySnapshots = await getDocs(inventoriesRef);
-      inventorySnapshots.forEach(async (inventoryDoc) => {
-        await deleteInventoryRecursively(organization.id, inventoryDoc.id);
+
+      inventorySnapshots.forEach(async (inventorySnapshot) => {
+        await deleteInventoryRecursively(organization.id, inventorySnapshot.id);
       });
 
-      (await getDocs(membersRef)).forEach((memberDoc) => {
-        const userRef = doc(database, 'users', memberDoc.id);
+      const memberSnapshots = await getDocs(membersCollectionRef);
+
+      memberSnapshots.forEach((memberSnapshot) => {
+        const userRef = doc(database, 'users', memberSnapshot.id);
 
         transaction.update(userRef, {
           organizations: arrayRemove(orgRef),
         });
+        transaction.delete(memberSnapshot.ref);
       });
+
+      const roleSnapshots = await getDocs(rolesCollectionRef);
+
+      roleSnapshots.forEach(roleSnapshot => transaction.delete(roleSnapshot.ref));
 
       transaction.delete(orgRef);
     });
@@ -62,3 +71,8 @@ export async function deleteOrganization(organization: Organization & WithId) {
     alert(`Sorry, we were unable to delete the organization ${organization.name}. Please contact us to resolve this issue.`);
   }
 };
+
+export function getIdFromRefString(refString: string) {
+  const array = refString.split('/');
+  return array[array.length - 1];
+}

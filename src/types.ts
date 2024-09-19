@@ -14,24 +14,20 @@ export const ALL_PERMISSIONS = [
   'organization.roles.view',
   'organization.roles.create',
   'organization.roles.delete',
-  'organization.roles.update',
+  'organization.roles.updatePermissions',
   'organization.members.remove',
   'organization.members.view',
+  'organization.members.updateRoles',
   'organization.invites.create',
   'organization.invites.delete',
-  'organization.auditLog',
-  'inventory.stockTaking',
   'inventory.create',
   'inventory.view',
   'inventory.edit',
   'inventory.delete',
-  'inventory.history',
-  'inventory.stats',
   'item.create',
   'item.edit',
   'item.delete',
   'item.view',
-  'item.quantity.edit',
 ] as const;
 
 export type Permission = typeof ALL_PERMISSIONS[number];
@@ -40,7 +36,7 @@ export type Role = Named & {
   permissions: Permission[]
 };
 
-export type User = {
+export type VuefireUser = {
   firstName: string
   lastName: string
   theme: string
@@ -48,8 +44,22 @@ export type User = {
   organizations: string[]
 };
 
-export type Member = {
+export type User = {
+  firstName: string
+  lastName: string
+  theme: string
+  language: string
+  organizations: DocumentReference[]
+};
+
+export type MemberVuefire = {
+  id: string
   roles: string[]
+  joined: number
+};
+
+export type Member = {
+  roles: DocumentReference[]
   joined: number
 };
 

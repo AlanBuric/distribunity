@@ -74,3 +74,5 @@ export function getPrettyEnumName(enumName: string): string {
 
   return lower.split('_').map(capitalizeFirstLetter).join(' ');
 }
+
+export const NO_PERMISSIONS_MESSAGE = 'You don\'t have the permission to do that.';

@@ -36,7 +36,7 @@
       >
         <td
           scope="row"
-          @dblclick="$emit('renameInventory', index)"
+          @dblclick.prevent="$emit('renameInventory', index)"
           class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
         >
           {{ inventory.name }}

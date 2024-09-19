@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { auth, database } from '@/firebase/init.js';
+import { auth } from '@/firebase/init.js';
 import 'vue-router';
-import { getCurrentUser } from 'vuefire';
-import { doc, getDoc } from 'firebase/firestore';
+import useAuthStore from './store/auth';
+import { getIdFromRefString } from './scripts/firebase-utilities';
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -10,6 +10,7 @@ declare module 'vue-router' {
     requiresAuth?: boolean
     requiresOrganizationAdmin?: boolean
     avoidIfAuthed?: RouteLocationRaw
+    shouldLoadMember?: boolean
   }
 }
 
@@ -114,6 +115,7 @@ const router = createRouter({
                 title: 'Distribunity: organization settings',
                 requiresAuth: true,
                 requiresOrganizationAdmin: true,
+                shouldLoadMember: true,
               },
             },
           ],
@@ -127,6 +129,7 @@ const router = createRouter({
       meta: {
         title: 'Distribunity: organization inventories',
         requiresAuth: true,
+        shouldLoadMember: true,
       },
     },
     {
@@ -145,37 +148,33 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
+  const store = useAuthStore();
+
   await auth.authStateReady();
 
-  if (to.meta.requiresAuth) {
-    const currentUser = await getCurrentUser();
+  if (auth.currentUser?.uid) {
+    await store.loadUserProfile(auth.currentUser.uid);
 
-    if (!currentUser) {
-      return {
-        name: 'login',
-        query: {
-          redirect: to.fullPath,
-        },
-      };
-    } else if (to.meta.requiresOrganizationAdmin) {
-      const organizationId = to.params.id;
+    if (to.path.toLowerCase().includes('/work/organization')
+      && typeof to.params.id == 'string') {
+      await store.loadOrganizationData(to.params.id, auth.currentUser!.uid);
+    }
 
-      if (typeof organizationId == 'string') {
-        const organization = await getDoc(doc(database, 'organizations', organizationId));
-
-        if (organization.data()?.owner.id != currentUser.uid) {
+    if (to.meta.requiresOrganizationAdmin
+      && getIdFromRefString(store.currentOrganization!.owner.id) != auth.currentUser.uid) {
           return {
             path: '/work',
           };
-        }
-      }
+      } else if (to.meta.avoidIfAuthed && auth.currentUser?.uid) {
+        return to.meta.avoidIfAuthed;
     }
-  } else if (to.meta.avoidIfAuthed) {
-    const currentUser = await getCurrentUser();
-
-    if (currentUser) {
-      return to.meta.avoidIfAuthed;
-    }
+  } else if (to.meta.requiresAuth) {
+    return {
+      name: 'login',
+      query: {
+        redirect: to.fullPath,
+      },
+    };
   }
 });
 

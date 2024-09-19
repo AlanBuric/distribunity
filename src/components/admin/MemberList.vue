@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import { auth, database } from '@/firebase/init';
-  import type { Member, Role, User, WithId } from '@/types';
+  import type { MemberVuefire, Role, User, WithId } from '@/types';
   import { collection, documentId, getDocs, query, QuerySnapshot, where } from 'firebase/firestore';
   import RemovableChip from './RemovableChip.vue';
+  import { getIdFromRefString } from '@/scripts/firebase-utilities';
 
   defineEmits<{
     kickMember: [user: User & WithId]
@@ -10,7 +11,7 @@
     removeRoleFromMember: [roleId: string, memberId: string]
   }>();
   const props = defineProps<{
-    members: (Member & WithId)[]
+    members: MemberVuefire[]
     roles: (Role & WithId)[]
   }>();
 
@@ -33,11 +34,6 @@
     roles.forEach(role => map[role.id] = role);
 
     return map;
-  }
-
-  function getRoleIdFromRoleRef(roleRef: string) {
-    const array = roleRef.split('/');
-    return array[array.length - 1];
   }
 
   const userMapping = createUserMapping(await fetchUserData(props.members.map(member => member.id)));
@@ -79,8 +75,8 @@
           }"
         >
           <div v-if="member.roles.length" class="flex flex-wrap gap-2">
-            <RemovableChip v-for="roleRef in member.roles" :key="getRoleIdFromRoleRef(roleRef)" @click-action="$emit('removeRoleFromMember', getRoleIdFromRoleRef(roleRef), member.id)">
-              {{ roleMapping[getRoleIdFromRoleRef(roleRef)].name }}
+            <RemovableChip v-for="roleRef in member.roles" :key="getIdFromRefString(roleRef)" @click-action="$emit('removeRoleFromMember', getIdFromRefString(roleRef), member.id)">
+              {{ roleMapping[getIdFromRefString(roleRef)].name }}
             </RemovableChip>
           </div>
           <span v-else>
@@ -93,7 +89,7 @@
               <select name="role-to-add" id="role-to-add" class="px-2 py-1 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:outline-none">
                 <option
                   v-for="role in roles" :key="role.id" :value="role.id"
-                  :disabled="!!member.roles.find(roleRef => getRoleIdFromRoleRef(roleRef) == role.id)"
+                  :disabled="!!member.roles.find(roleRef => getIdFromRefString(roleRef) == role.id)"
                 >
                   {{ role.name }}
                 </option>

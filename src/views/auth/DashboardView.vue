@@ -3,11 +3,13 @@
   import JoinOrganizationForm from '@/components/dashboard/JoinOrganizationForm.vue';
   import OrganizationCard from '@/components/dashboard/OrganizationCard.vue';
   import NewOrganizationFormPopup from '@/components/popup/NewOrganizationFormPopup.vue';
-  import useAuthStore from '@/store/auth';
-  import { computed, ref } from 'vue';
-  import { auth } from '@/firebase/init';
+  import { ref } from 'vue';
+  import { auth, database } from '@/firebase/init';
+  import { useDocument } from 'vuefire';
+  import { doc } from 'firebase/firestore';
+  import { type VuefireUser } from '@/types';
 
-  const organizations = computed(() => useAuthStore().userProfile?.organizations);
+  const user = useDocument<VuefireUser>(doc(database, 'users', auth.currentUser!.uid), { maxRefDepth: 0 });
   const isOrganizationFormOpen = ref(false);
 </script>
 
@@ -47,15 +49,15 @@
         <h2 class="text-xl font-semibold text-center text-gray-800 dark:text-gray-200">
           Joined and owned organizations
         </h2>
-        <p v-if="organizations" class="text-center text-lg text-gray-700 dark:text-gray-200">
-          Manage your organizations here.
+        <p class="text-center text-lg text-gray-700 dark:text-gray-200">
+          {{ user?.organizations.length ? 'Manage your organizations here.' : 'You don\'t have any organizations. Consider creating one.' }}
         </p>
       </div>
 
       <div class="flex flex-wrap justify-center gap-6">
-        <Transition mode="out-in" v-if="organizations && organizations.length > 0">
+        <Transition mode="out-in" v-if="user?.organizations.length">
           <Suspense timeout="0">
-            <OrganizationCard v-for="organization in organizations" :key="organization" :organization-string-ref="organization" />
+            <OrganizationCard v-for="organization in user.organizations" :key="organization" :organization-string-ref="organization" />
 
             <template #fallback>
               <LoadingAnimation class="w-20" />

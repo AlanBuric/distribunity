@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { database } from '@/firebase/init';
-  import { ALL_PERMISSIONS, type Member, type Organization, type Role, type User, type WithId } from '@/types';
+  import { ALL_PERMISSIONS, type MemberVuefire, type Organization, type Role, type User, type WithId } from '@/types';
   import { doc, updateDoc, arrayRemove, arrayUnion, collection, addDoc, writeBatch } from 'firebase/firestore';
   import { useRoute } from 'vue-router';
   import { useDocument, useCollection } from 'vuefire';
@@ -8,6 +8,10 @@
   import MemberList from '@/components/admin/MemberList.vue';
   import { deleteOrganization } from '@/scripts/firebase-utilities';
   import RemovableChip from '@/components/admin/RemovableChip.vue';
+  import useAuthStore from '@/store/auth';
+  import { NO_PERMISSIONS_MESSAGE } from '@/scripts/shared';
+
+  const authStore = useAuthStore();
 
   const organizationId = useRoute().params.id as string;
   const organizationDocRef = doc(database, 'organizations', organizationId);
@@ -15,14 +19,16 @@
   const rolesCollRef = collection(organizationDocRef, 'roles');
 
   const organization = useDocument<Organization>(organizationDocRef, { maxRefDepth: 0 });
-  const members = useCollection<Member>(membersCollRef, { maxRefDepth: 0 });
+  const members = useCollection<MemberVuefire>(membersCollRef, { maxRefDepth: 0 });
   const roles = useCollection<Role>(rolesCollRef);
 
   const newRoleName = ref('');
   const newInviteCode = ref('');
 
   function removeMember(user: User & WithId) {
-    if (confirm(`Are you sure you want to kick ${user.firstName} ${user.lastName} from your organization?`)) {
+    if (!authStore.hasPermission('organization.invites.create')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+    } else if (confirm(`Are you sure you want to kick ${user.firstName} ${user.lastName} from your organization?`)) {
       const batch = writeBatch(database);
 
       batch.delete(doc(membersCollRef, user.id));
@@ -33,7 +39,10 @@
   }
 
   function createInviteCode() {
-    if (newInviteCode.value.length < 6) {
+    if (!authStore.hasPermission('organization.invites.create')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    } else if (newInviteCode.value.length < 6) {
       alert('Your invite code should be at least 6 characters long');
       return;
     }
@@ -46,13 +55,20 @@
   }
 
   function removeInviteCode(inviteCode: string) {
+    if (!authStore.hasPermission('organization.invites.delete')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
     updateDoc(organizationDocRef, {
       invites: arrayRemove(inviteCode),
     });
   }
 
   function createRole() {
-    if (newRoleName.value) {
+    if (!authStore.hasPermission('organization.roles.create')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+    } else if (newRoleName.value) {
       addDoc(rolesCollRef, {
         name: newRoleName.value,
         permissions: [],
@@ -63,29 +79,54 @@
   }
 
   function deleteRole(roleId: string) {
-    const batch = writeBatch(database);
+    if (!authStore.hasPermission('organization.roles.delete')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    } else if (confirm(`Are you sure you want to delete this role?`)) {
+      const batch = writeBatch(database);
 
-    batch.delete(doc(rolesCollRef, roleId));
-    members.value.forEach((member) => {
-      batch.update(doc(membersCollRef, member.id), { roles: arrayRemove(roleId) });
-    });
+      batch.delete(doc(rolesCollRef, roleId));
+      members.value.forEach((member) => {
+        batch.update(doc(membersCollRef, member.id), { roles: arrayRemove(roleId) });
+      });
 
-    batch.commit();
+      batch.commit();
+    }
   }
 
   function addPermission(roleId: string, permission: string) {
+    if (!authStore.hasPermission('organization.roles.updatePermissions')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
     updateDoc(doc(rolesCollRef, roleId), { permissions: arrayUnion(permission) });
   }
 
   function removePermission(roleId: string, permission: string) {
+    if (!authStore.hasPermission('organization.roles.updatePermissions')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
     updateDoc(doc(rolesCollRef, roleId), { permissions: arrayRemove(permission) });
   }
 
   function addRoleToMember(roleId: string, memberId: string) {
+    if (!authStore.hasPermission('organization.members.updateRoles')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
     updateDoc(doc(membersCollRef, memberId), { roles: arrayUnion(doc(rolesCollRef, roleId)) });
   }
 
   function removeRoleFromMember(roleId: string, memberId: string) {
+    if (!authStore.hasPermission('organization.members.updateRoles')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
     updateDoc(doc(membersCollRef, memberId), { roles: arrayRemove(doc(rolesCollRef, roleId)) });
   }
 </script>

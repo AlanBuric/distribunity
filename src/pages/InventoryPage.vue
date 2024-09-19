@@ -3,9 +3,9 @@
   import ItemTable from '@/components/work/ItemTable.vue';
   import WorkNavigationBar from '@/components/work/WorkNavigationBar.vue';
   import { computed, ref } from 'vue';
-  import type { Item, Inventory, Organization, WithId } from '@/types';
+  import type { Item, Inventory, WithId } from '@/types';
   import { useCollection } from 'vuefire';
-  import { addDoc, collection, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+  import { addDoc, collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
   import { database } from '@/firebase/init';
   import { RouterLink, useRoute } from 'vue-router';
   import ItemCreator from '@/components/work/ItemCreator.vue';
@@ -13,21 +13,22 @@
   import InventoryTable from '@/components/work/InventoryTable.vue';
   import { deleteInventoryRecursively } from '@/scripts/firebase-utilities';
   import WorkToolbar from '@/components/work/WorkToolbar.vue';
+  import useAuthStore from '@/store/auth';
+  import { NO_PERMISSIONS_MESSAGE } from '@/scripts/shared';
 
-  const unsavedChangesMessage = 'You have unsaved changes. Please save or discard the current item being edited before selecting a new inventory or item.';
+  const UNSAVED_CHANGES_MESSAGE = 'You have unsaved changes. Please save or discard the current item being edited before selecting a new inventory or item.';
   type ItemPanel = 'viewer' | 'editor' | 'creator';
 
+  const authStore = useAuthStore();
   const organizationId = useRoute().params.id as string;
   const inventoriesRef = collection(database, 'organizations', organizationId, 'inventories');
   const inventories = useCollection<Inventory>(inventoriesRef, { maxRefDepth: 3 });
-  const organization = ref<Organization | undefined>();
-
-  getDoc(doc(database, 'organizations', organizationId)).then(organizationSnapshot => organization.value = organizationSnapshot.data() as Organization);
 
   const selectedInventoryIndex = ref<number | undefined>(inventories.value.length > 0 ? 0 : undefined);
   const selectedItem = ref<Item & WithId | undefined>();
   const activeItemPanel = ref<ItemPanel | undefined>(undefined);
   const selectedInventory = computed(() => selectedInventoryIndex.value != null ? inventories.value[selectedInventoryIndex.value] : undefined);
+  const mayViewItems = authStore.hasPermission('item.view');
 
   function isEditingItemInPanel() {
     return activeItemPanel.value != 'viewer' && activeItemPanel.value != null;
@@ -39,6 +40,11 @@
   }
 
   function createNewInventory() {
+    if (!authStore.hasPermission('inventory.create')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
     const inventoryName = prompt('Enter your new inventory name:');
 
     if (inventoryName) {
@@ -47,8 +53,11 @@
   }
 
   function deleteInventory(index: number) {
-    if (isEditingItemInPanel()) {
-      alert(unsavedChangesMessage);
+    if (!authStore.hasPermission('inventory.delete')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    } else if (isEditingItemInPanel()) {
+      alert(UNSAVED_CHANGES_MESSAGE);
       return;
     }
 
@@ -61,6 +70,11 @@
   }
 
   async function renameInventory(index: number) {
+    if (!authStore.hasPermission('inventory.edit')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
     const inventory = inventories.data.value[index];
 
     if (inventory) {
@@ -77,8 +91,13 @@
   }
 
   function selectItemForViewing(item: Item & WithId) {
+    if (!mayViewItems) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
     if (isEditingItemInPanel()) {
-      alert(unsavedChangesMessage);
+      alert(UNSAVED_CHANGES_MESSAGE);
     } else if (selectedInventoryIndex.value == null) {
       alert('Select an inventory before creating a new item for it.');
     } else {
@@ -88,8 +107,13 @@
   }
 
   function selectItemForEditing(item: Item & WithId) {
+    if (!authStore.hasPermission('item.edit')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
     if (isEditingItemInPanel()) {
-      alert(unsavedChangesMessage);
+      alert(UNSAVED_CHANGES_MESSAGE);
     } else if (selectedInventoryIndex.value == null) {
       alert('Select an inventory before creating a new item for it.');
     } else {
@@ -99,8 +123,13 @@
   }
 
   function tryOpenItemCreator() {
+    if (!authStore.hasPermission('item.create')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
     if (isEditingItemInPanel()) {
-      alert(unsavedChangesMessage);
+      alert(UNSAVED_CHANGES_MESSAGE);
     } else if (selectedInventoryIndex.value == null) {
       alert('Select an inventory before creating a new item for it.');
     } else {
@@ -109,6 +138,11 @@
   }
 
   function deleteItem(item: Item & WithId) {
+    if (!authStore.hasPermission('item.delete')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
     if (!selectedInventory.value) {
       console.warn('Selected inventory was found to be null.');
       return;
@@ -117,7 +151,7 @@
     const isSelectedItem = item.id == selectedItem.value?.id;
 
     if (isSelectedItem && activeItemPanel.value == 'editor') {
-      alert(unsavedChangesMessage);
+      alert(UNSAVED_CHANGES_MESSAGE);
     } else if (confirm(`Are you sure you want to delete ${item.name} from ${selectedInventory.value.name}?`)) {
       if (isSelectedItem) {
         selectedItem.value = undefined;
@@ -129,7 +163,7 @@
 
   function selectInventory(index: number) {
     if (isEditingItemInPanel()) {
-      alert(unsavedChangesMessage);
+      alert(UNSAVED_CHANGES_MESSAGE);
     } else {
       selectedInventoryIndex.value = index;
     }
@@ -146,7 +180,7 @@
       </h2>
       <h2 class="mt-1 text-lg font-semibold dark:text-gray-200">
         <RouterLink :to="`/work/organizations/${organizationId}`" class="underline">
-          {{ organization?.name ?? "Unknown organization" }}
+          {{ authStore.currentOrganization?.name ?? "Unknown organization" }}
         </RouterLink>
       </h2>
       <button @click.prevent="createNewInventory" class="cursor-pointer text-sm bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-md px-3 py-1 my-4 shadow-sm hover:bg-gray-300 dark:hover:bg-gray-800 focus:outline-none">
@@ -174,7 +208,7 @@
             <RouterLink to="/work" class="underline" title="Visit this organization's dashboard">
               Organizations
             </RouterLink> > <RouterLink :to="`/work/organization/${organizationId}`" class="underline" title="Visit this organization's admin page">
-              {{ organization?.name ?? "Unknown" }}
+              {{ authStore.currentOrganization?.name ?? "Unknown" }}
             </RouterLink> > <RouterLink :to="`/work/organization/${organizationId}/inventories`" class="underline" title="You're already here">
               Inventories
             </RouterLink> <span v-if="selectedInventory">> {{ selectedInventory.name }}</span>

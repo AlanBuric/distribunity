@@ -1,14 +1,12 @@
 <script setup lang="ts">
   import { database, auth } from '@/firebase/init';
-  import { deleteInventoryRecursively, deleteOrganization } from '@/scripts/firebase-utilities';
-  import useAuthStore from '@/store/auth';
+  import { deleteOrganization } from '@/scripts/firebase-utilities';
   import type { Organization, WithId } from '@/types';
-  import { getDoc, doc, updateDoc, arrayRemove, runTransaction, collection, getDocs } from 'firebase/firestore';
+  import { getDoc, doc, updateDoc, arrayRemove } from 'firebase/firestore';
 
   const props = defineProps<{
     organizationStringRef: string
-  }
-  >();
+  }>();
 
   const orgRef = doc(database, props.organizationStringRef);
   const orgSnapshot = await getDoc(orgRef);
@@ -19,11 +17,7 @@
       return;
     }
 
-    const userProfileRef = useAuthStore().userProfileRef;
-
-    if (userProfileRef) {
-      await updateDoc(userProfileRef, { organizations: arrayRemove(orgRef) });
-    }
+    await updateDoc(doc(database, 'users', auth.currentUser!.uid), { organizations: arrayRemove(orgRef) });
   };
 </script>
 
