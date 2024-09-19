@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { database, auth } from '@/firebase/init';
-  import { deleteInventoryRecursively } from '@/scripts/firebase-utilities';
+  import { deleteInventoryRecursively, deleteOrganization } from '@/scripts/firebase-utilities';
   import useAuthStore from '@/store/auth';
   import type { Organization, WithId } from '@/types';
   import { getDoc, doc, updateDoc, arrayRemove, runTransaction, collection, getDocs } from 'firebase/firestore';
@@ -23,38 +23,6 @@
 
     if (userProfileRef) {
       await updateDoc(userProfileRef, { organizations: arrayRemove(orgRef) });
-    }
-  };
-
-  async function deleteOrganization() {
-    if (!confirm(`Are you sure you want to delete the organization ${organization.name}?`)) {
-      return;
-    }
-
-    const orgRef = doc(database, 'organizations', organization.id);
-    const inventoriesRef = collection(database, 'organizations', organization.id, 'inventories');
-    const membersRef = collection(database, 'organizations', organization.id, 'members');
-
-    try {
-      await runTransaction(database, async (transaction) => {
-        const inventorySnapshots = await getDocs(inventoriesRef);
-        inventorySnapshots.forEach(async (inventoryDoc) => {
-          await deleteInventoryRecursively(organization.id, inventoryDoc.id);
-        });
-
-        (await getDocs(membersRef)).forEach((memberDoc) => {
-          const userRef = doc(database, 'users', memberDoc.id);
-
-          transaction.update(userRef, {
-            organizations: arrayRemove(orgRef),
-          });
-        });
-
-        transaction.delete(orgRef);
-      });
-    } catch (error) {
-      console.error('An error was caught while trying to delete an organization', error);
-      alert(`Sorry, we were unable to delete the organization ${organization.name}. Please contact us to resolve this issue.`);
     }
   };
 </script>
@@ -81,7 +49,7 @@
       </RouterLink>
       <button
         v-if="organization.owner.id === auth.currentUser?.uid"
-        @click="deleteOrganization()"
+        @click="deleteOrganization(organization)"
         class="text-red-600 hover:text-red-800 text-sm font-semibold px-2 py-1 hover:shadow-md transition-shadow transform hover:scale-105"
       >
         Delete

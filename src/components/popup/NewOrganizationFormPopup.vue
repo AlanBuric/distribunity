@@ -61,7 +61,7 @@
         country: selectedCountry.value.country,
       });
 
-      batch.set(doc(database, 'organizations', organizationId, 'members', auth.currentUser.uid), { roles: [] });
+      batch.set(doc(database, 'organizations', organizationId, 'members', auth.currentUser.uid), { roles: [], joined: Date.now() });
 
       batch.update(ownerRef, {
         organizations: arrayUnion(newOrganizationRef),

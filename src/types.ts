@@ -50,6 +50,7 @@ export type User = {
 
 export type Member = {
   roles: string[]
+  joined: number
 };
 
 export type Item = Named & {

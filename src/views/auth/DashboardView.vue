@@ -20,7 +20,7 @@
     <div class="max-w-7xl space-y-6">
       <div class="space-y-2">
         <h1 class="text-3xl font-semibold text-center">
-          Hello, {{ auth.currentUser?.displayName }}, these are your organizations
+          Hello {{ auth.currentUser?.displayName }}, these are your organizations
         </h1>
 
         <h2 class="text-xl font-semibold text-center text-gray-800 dark:text-gray-200">
@@ -45,7 +45,7 @@
 
       <div class="space-y-2">
         <h2 class="text-xl font-semibold text-center text-gray-800 dark:text-gray-200">
-          Joined organizations
+          Joined and owned organizations
         </h2>
         <p v-if="organizations" class="text-center text-lg text-gray-700 dark:text-gray-200">
           Manage your organizations here.

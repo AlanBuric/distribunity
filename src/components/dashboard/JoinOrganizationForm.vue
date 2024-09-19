@@ -28,7 +28,7 @@
       const batch = writeBatch(database);
 
       batch.update(targetOrganization.ref, { invites: arrayRemove(invitationCode.value) });
-      batch.set(doc(targetOrganization.ref, 'members', auth.currentUser!.uid), { roles: [] });
+      batch.set(doc(targetOrganization.ref, 'members', auth.currentUser!.uid), { roles: [], joined: Date.now() });
       batch.update(doc(database, 'users', auth.currentUser!.uid), { organizations: arrayUnion(targetOrganization.ref) });
 
       await batch.commit();
