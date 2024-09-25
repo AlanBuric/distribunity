@@ -1,8 +1,10 @@
 # Distribunity
 
+![Distribunity logo, white stylized written capital letter D with aquamarine background](/src/assets/logo.svg)
+
 Software Engineering class project web application "Distribunity" is a software for inventory management built in Vue.js 3 Composition API and TypeScript with a Firebase backend.
 
-In this web application, registered users can create organizations (a generalization of businesses and companies), invite other users with invitation codes or join other organizations, manage inventories inside their organizations and manage items inside the inventories.
+In this web application, registered users can create organizations (a generalization of businesses and companies), invite other users with invitation codes or join other organizations, manage inventories inside their organizations and manage items inside the inventories; organization admins can manage their organizations' members, organizations' roles, roles' permissions and the roles assigned to the members.
 
 ## Software Engineering class
 
