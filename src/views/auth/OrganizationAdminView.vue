@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { database } from '@/firebase/init';
-  import { ALL_PERMISSIONS, type MemberVuefire, type Organization, type Role, type User, type WithId } from '@/types';
+  import { ALL_PERMISSIONS, type CountryData, type MemberVuefire, type Organization, type RestCountriesCountry, type Role, type User, type WithId } from '@/types';
   import { doc, updateDoc, arrayRemove, arrayUnion, collection, addDoc, writeBatch } from 'firebase/firestore';
   import { useRoute } from 'vue-router';
   import { useDocument, useCollection } from 'vuefire';
@@ -10,6 +10,7 @@
   import RemovableChip from '@/components/admin/RemovableChip.vue';
   import useAuthStore from '@/store/auth';
   import { NO_PERMISSIONS_MESSAGE } from '@/scripts/shared';
+  import { filterCountriesByName } from '@/scripts/country-search';
 
   const authStore = useAuthStore();
 
@@ -24,6 +25,42 @@
 
   const newRoleName = ref('');
   const newInviteCode = ref('');
+
+  await organization.promise.value;
+
+  const newName = ref(organization.value?.name);
+  const countrySearchInput = ref<string>(organization.value!.country);
+  const countryResults = ref<RestCountriesCountry[]>([]);
+  const selectedCountry = ref<CountryData | undefined>({
+    country: organization.value!.country,
+    countryCode: organization.value!.countryCode,
+  });
+
+  const organizationEditFeedback = ref<{ feedback: string, success: boolean }>();
+
+  async function saveOrganizationSettings() {
+    if (!authStore.hasPermission('organization.edit')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+    } else if (!selectedCountry.value) {
+      organizationEditFeedback.value = {
+        feedback: 'Please select a country.',
+        success: false,
+      };
+    } else {
+      await updateDoc(organizationDocRef, { ...selectedCountry.value, name: newName.value ?? organization.value?.name ?? 'Unknown organization' });
+
+      organizationEditFeedback.value = {
+        feedback: 'Organization settings have been changed.',
+        success: true,
+      };
+    }
+  }
+
+  async function searchCountries() {
+    countryResults.value = await filterCountriesByName(countrySearchInput.value);
+    // Reset the current input to empty string so that it defaults to the default disabled value.
+    selectedCountry.value = undefined;
+  };
 
   function removeMember(user: User & WithId) {
     if (!authStore.hasPermission('organization.invites.create')) {
@@ -129,6 +166,15 @@
 
     updateDoc(doc(membersCollRef, memberId), { roles: arrayRemove(doc(rolesCollRef, roleId)) });
   }
+
+  function deleteOrganizationWithValidation() {
+    if (!authStore.hasPermission('organization.delete')) {
+      alert(NO_PERMISSIONS_MESSAGE);
+      return;
+    }
+
+    deleteOrganization(organization.value!);
+  }
 </script>
 
 <template>
@@ -137,6 +183,89 @@
       <h1 class="text-3xl font-semibold text-center">
         Organization: {{ organization.name }}
       </h1>
+
+      <section class="w-full bg-white dark:bg-gray-800 shadow rounded-lg px-5 py-4">
+        <h2 class="text-2xl font-semibold mb-4">
+          Organization Information
+        </h2>
+
+        <form @submit.prevent="saveOrganizationSettings" class="flex flex-col space-y-4">
+          <div class="flex flex-col space-y-4">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Organization name
+              </label>
+              <input
+                id="name"
+                v-model="newName"
+                name="name"
+                type="text"
+                minlength="3"
+                required
+                placeholder="My Awesome Business"
+                class="mt-1 block w-full rounded-md px-3 py-2 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 shadow-sm dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 sm:text-sm"
+              >
+            </div>
+
+            <div>
+              <label for="country" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Country
+              </label>
+              <div class="flex flex-row space-x-2 mt-1">
+                <input
+                  v-model="countrySearchInput"
+                  name="country-search"
+                  placeholder="Search..."
+                  type="search"
+                  minlength="3"
+                  class="w-full rounded-md px-3 py-2 bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 shadow-sm dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 sm:text-sm"
+                >
+                <button
+                  type="button"
+                  for="country-search"
+                  @click.prevent.stop="searchCountries"
+                  class="bg-teal-500 text-sm text-white rounded-md px-4 py-2 shadow-sm hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 dark:bg-teal-400 dark:hover:bg-teal-500"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                Select your country from the list of results below.
+              </p>
+
+              <select
+                v-model="selectedCountry"
+                name="country"
+                id="country"
+                class="block w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 sm:text-sm"
+                required
+              >
+                <option
+                  disabled v-if="countryResults.length === 0"
+                  :value="{ countryCode: organization.countryCode, country: organization.country }"
+                >
+                  {{ organization.country }}
+                </option>
+                <template v-else>
+                  <option disabled :value="undefined">
+                    Please select a country
+                  </option>
+                  <option v-for="country in countryResults" :key="country.cca3" :value="{ countryCode: country.cca3, country: country.name.common }">
+                    {{ country.name.common }}
+                  </option>
+                </template>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="flex-initial px-3 py-2 bg-teal-500 text-white rounded" @click="saveOrganizationSettings">
+            Save settings
+          </button>
+        </form>
+      </section>
 
       <section class="w-full bg-white dark:bg-gray-800 shadow rounded-lg px-5 py-4">
         <h2 class="text-2xl font-semibold mb-4">
@@ -153,11 +282,11 @@
         />
       </section>
 
-      <section class="w-full bg-white dark:bg-gray-800 shadow rounded-lg px-5 py-4">
+      <section class="w-full bg-white dark:bg-gray-800 shadow rounded-lg px-5 py-4 space-y-3">
         <h2 class="text-2xl font-semibold mb-4">
           Invite codes
         </h2>
-        <form @submit.prevent="createInviteCode" class="flex space-x-4 mb-4">
+        <form @submit.prevent="createInviteCode" class="flex space-x-4">
           <input
             v-model="newInviteCode" minlength="6" placeholder="Enter new invite code"
             class="flex-1 bg-gray-100 dark:bg-gray-700 text-black dark:text-white placeholder-gray-500 appearance-none dark:placeholder-gray-400 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 focus:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-active-link"
@@ -251,7 +380,7 @@
           This action is irreversible.
         </p>
 
-        <button @click.prevent="deleteOrganization(organization)" class="mb-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 dark:hover:bg-red-800 transition">
+        <button @click.prevent="deleteOrganizationWithValidation" class="mb-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 dark:hover:bg-red-800 transition">
           Delete organization
         </button>
       </section>

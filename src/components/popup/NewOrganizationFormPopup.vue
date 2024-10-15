@@ -33,7 +33,7 @@
       };
 
       return;
-    } else if (selectedCountry.value == null) {
+    } else if (!selectedCountry.value) {
       organizationCreationFeedback.value = {
         feedback: 'Please select a country.',
         status: 'failure',
