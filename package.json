@@ -21,7 +21,7 @@
     "lightningcss": "1.27.0",
     "pinia": "2.2.4",
     "vue": "3.5.12",
-    "vue-i18n": "10.0.4",
+    "vue-i18n": "10.0.5",
     "vue-interact": "2.0.0",
     "vue-router": "4.4.5",
     "vuefire": "3.2.0"
